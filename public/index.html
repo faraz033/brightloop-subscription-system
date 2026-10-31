@@ -496,6 +496,100 @@
     .dark a.lnk {
       color: var(--brand);
     }
+
+    /* --------------------------------------------------
+       LANDING PAGE RESTYLING (POULO.SITE ALIGNMENT)
+       -------------------------------------------------- */
+    .bl-landing-wrapper {
+      background-color: var(--background) !important;
+      color: var(--foreground) !important;
+    }
+
+    .landing-section.hero-section {
+      background: #0a0a0a !important;
+      background-image: radial-gradient(ellipse 80% 40% at 50% 0%, #202f3f 0%, transparent 70%) !important;
+    }
+
+    .bl-navbar {
+      top: 14px !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+      width: calc(100% - 32px) !important;
+      max-width: 1150px !important;
+      border-radius: 9999px !important;
+      background: rgba(23, 23, 23, 0.8) !important;
+      backdrop-filter: blur(12px) !important;
+      -webkit-backdrop-filter: blur(12px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+      padding: 8px 18px !important;
+    }
+
+    .bl-nav-link {
+      color: #a1a1a1 !important;
+    }
+    .bl-nav-link:hover, .bl-nav-link.active {
+      color: #fafafa !important;
+    }
+    .bl-nav-link::after {
+      background: var(--brand) !important;
+    }
+
+    .btn-nav-login {
+      border-radius: 9999px !important;
+      border: 1px solid rgba(255, 255, 255, 0.15) !important;
+      color: #fafafa !important;
+    }
+    .btn-nav-login:hover {
+      background: #262626 !important;
+    }
+
+    .btn-primary-glow,
+    .btn-hero-primary {
+      background: var(--brand) !important;
+      color: #000000 !important;
+      font-weight: 700 !important;
+      border-radius: 9999px !important;
+      border: none !important;
+      box-shadow: 0 0 20px rgba(173, 250, 29, 0.35) !important;
+      transition: all 0.2s ease !important;
+    }
+    .btn-primary-glow:hover,
+    .btn-hero-primary:hover {
+      transform: translateY(-2px) scale(1.02) !important;
+      box-shadow: 0 0 30px rgba(173, 250, 29, 0.55) !important;
+      color: #000000 !important;
+    }
+
+    .btn-hero-secondary {
+      border-radius: 9999px !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      background: rgba(255, 255, 255, 0.04) !important;
+      color: #fafafa !important;
+    }
+    .btn-hero-secondary:hover {
+      background: #262626 !important;
+      color: #ffffff !important;
+    }
+
+    .hero-tag {
+      border: 1px solid rgba(173, 250, 29, 0.3) !important;
+      background: rgba(173, 250, 29, 0.08) !important;
+      color: var(--brand) !important;
+      border-radius: 9999px !important;
+    }
+
+    .gradient-text-purple {
+      background: none !important;
+      -webkit-text-fill-color: initial !important;
+      color: var(--brand) !important;
+    }
+
+    .logo-bolt-icon {
+      background: transparent !important;
+      color: var(--brand) !important;
+      box-shadow: none !important;
+    }
   </style>
 </head>
 

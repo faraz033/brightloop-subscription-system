@@ -510,4 +510,72 @@ app.get('/api/reports/summary', auth('admin', 'staff'), wrap(req => {
   return { active, revenue: r2(revenue), outstanding: r2(outstanding), overdue_count: overdueCount, overdue, mrr: r2(mrr) };
 }));
 
+/* ---------- CSV & Accounting Exports ---------- */
+const csvEsc = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+
+app.get('/api/reports/export/invoices', auth(), (req, res) => {
+  try {
+    const isCust = req.user.role === 'customer';
+    const where = isCust ? 'WHERE i.customer_id=?' : '';
+    const params = isCust ? [req.user.id] : [];
+    const rows = db.prepare(`SELECT i.*, u.name customer_name, u.email customer_email, s.number sub_number
+      FROM invoices i JOIN users u ON u.id=i.customer_id JOIN subscriptions s ON s.id=i.subscription_id
+      ${where} ORDER BY i.id DESC`).all(...params);
+    
+    const headers = ['Invoice Number', 'Subscription', 'Customer', 'Email', 'Period Start', 'Period End', 'Issue Date', 'Due Date', 'Subtotal', 'Discount', 'Tax', 'Total', 'Paid Amount', 'Balance', 'Status'];
+    const lines = [headers.join(',')];
+    for (const r of rows) {
+      lines.push([
+        csvEsc(r.number), csvEsc(r.sub_number), csvEsc(r.customer_name), csvEsc(r.customer_email),
+        csvEsc(r.period_start), csvEsc(r.period_end), csvEsc(r.issue_date), csvEsc(r.due_date),
+        r.subtotal.toFixed(2), r.discount_total.toFixed(2), r.tax_total.toFixed(2), r.total.toFixed(2),
+        r.paid_amount.toFixed(2), (r.total - r.paid_amount).toFixed(2), csvEsc(r.status)
+      ].join(','));
+    }
+    res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+    res.setHeader('Content-Disposition', 'attachment; filename="brightloop_invoices.csv"');
+    res.send(lines.join('\r\n'));
+  } catch (e) { res.status(e.status || 500).json({ error: e.message }); }
+});
+
+app.get('/api/reports/export/payments', auth('admin', 'staff'), (req, res) => {
+  try {
+    const rows = db.prepare(`SELECT p.*, i.number invoice_number, u.name customer_name
+      FROM payments p JOIN invoices i ON i.id=p.invoice_id JOIN users u ON u.id=i.customer_id
+      ORDER BY p.id DESC`).all();
+    const headers = ['Payment ID', 'Date', 'Invoice', 'Customer', 'Method', 'Amount', 'Note'];
+    const lines = [headers.join(',')];
+    for (const r of rows) {
+      lines.push([r.id, csvEsc(r.date), csvEsc(r.invoice_number), csvEsc(r.customer_name), csvEsc(r.method), r.amount.toFixed(2), csvEsc(r.note || '')].join(','));
+    }
+    res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+    res.setHeader('Content-Disposition', 'attachment; filename="brightloop_payments.csv"');
+    res.send(lines.join('\r\n'));
+  } catch (e) { res.status(e.status || 500).json({ error: e.message }); }
+});
+
+app.get('/api/reports/export/subscriptions', auth(), (req, res) => {
+  try {
+    const isCust = req.user.role === 'customer';
+    const where = isCust ? 'WHERE s.customer_id=?' : '';
+    const params = isCust ? [req.user.id] : [];
+    const rows = db.prepare(`SELECT s.*, u.name customer_name, p.name plan_name, p.billing_period,
+      (SELECT COALESCE(SUM(quantity*unit_price),0) FROM subscription_lines WHERE subscription_id=s.id) amount
+      FROM subscriptions s JOIN users u ON u.id=s.customer_id JOIN plans p ON p.id=s.plan_id
+      ${where} ORDER BY s.id DESC`).all(...params);
+    const headers = ['Subscription Number', 'Customer', 'Plan', 'Billing Period', 'Start Date', 'Expiry Date', 'Payment Terms', 'Status', 'Paused', 'Amount'];
+    const lines = [headers.join(',')];
+    for (const r of rows) {
+      lines.push([
+        csvEsc(r.number), csvEsc(r.customer_name), csvEsc(r.plan_name), csvEsc(r.billing_period),
+        csvEsc(r.start_date), csvEsc(r.expiry_date), csvEsc(r.payment_terms), csvEsc(r.status),
+        r.paused ? 'Yes' : 'No', r.amount.toFixed(2)
+      ].join(','));
+    }
+    res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+    res.setHeader('Content-Disposition', 'attachment; filename="brightloop_subscriptions.csv"');
+    res.send(lines.join('\r\n'));
+  } catch (e) { res.status(e.status || 500).json({ error: e.message }); }
+});
+
 app.listen(PORT, () => console.log(`Brightloop running → http://localhost:${PORT}  (admin@brightloop.com / Admin@12345)`));

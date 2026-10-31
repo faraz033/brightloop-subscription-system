@@ -53,5 +53,9 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   const clamp1 = (await call('/utils/add-period', 'POST', { date: '2026-01-31', period: 'monthly' })).j.next;
   const clamp2 = (await call('/utils/add-period', 'POST', { date: '2026-02-28', period: 'monthly', anchor_day: 31 })).j.next;
   ok(clamp1 === '2026-02-28' && clamp2 === '2026-03-31', `month-end date clamping verified: ${clamp1} -> ${clamp2}`);
+  // CSV Export verification
+  const csvRes = await fetch(B + '/api/reports/export/invoices', { headers: { Authorization: 'Bearer ' + admin } });
+  const csvText = await csvRes.text();
+  ok(csvRes.status === 200 && csvText.includes('Invoice Number,Subscription,Customer'), 'invoices CSV export generated');
   console.log(fails ? `\n${fails} FAILED` : '\nALL PASSED'); process.exit(fails ? 1 : 0);
 })();

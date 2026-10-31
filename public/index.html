@@ -1,0 +1,430 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Brightloop Subscriptions</title>
+  <style>
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      font: 14px system-ui, sans-serif;
+      background: #f5f6fa;
+      color: #222
+    }
+
+    header {
+      background: #1f2540;
+      color: #fff;
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      padding: 10px 20px;
+      flex-wrap: wrap
+    }
+
+    header nav {
+      display: flex;
+      gap: 12px;
+      flex: 1;
+      flex-wrap: wrap
+    }
+
+    header a {
+      color: #cfd6ff;
+      text-decoration: none
+    }
+
+    header a:hover {
+      color: #fff
+    }
+
+    main {
+      max-width: 1150px;
+      margin: 20px auto;
+      padding: 0 16px
+    }
+
+    h2 {
+      margin: 6px 0 14px
+    }
+
+    .muted {
+      color: #888
+    }
+
+    .box {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 1px 4px #0001;
+      max-width: 420px;
+      margin: 60px auto
+    }
+
+    .scroll {
+      overflow-x: auto;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 1px 4px #0001
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%
+    }
+
+    th,
+    td {
+      padding: 8px 10px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+      white-space: nowrap
+    }
+
+    th {
+      background: #fafbff;
+      font-size: 12px;
+      text-transform: uppercase;
+      color: #667
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+      background: #fff;
+      padding: 14px;
+      border-radius: 10px;
+      margin: 8px 0 16px;
+      box-shadow: 0 1px 4px #0001
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      font-size: 12px;
+      color: #556;
+      gap: 3px
+    }
+
+    input,
+    select {
+      padding: 7px;
+      border: 1px solid #ccd;
+      border-radius: 6px;
+      font-size: 14px
+    }
+
+    button {
+      background: #3b4bdb;
+      color: #fff;
+      border: 0;
+      border-radius: 6px;
+      padding: 7px 12px;
+      cursor: pointer;
+      margin: 2px
+    }
+
+    button:hover {
+      background: #2b39b5
+    }
+
+    button.sec {
+      background: #e5e8ff;
+      color: #223
+    }
+
+    button.red {
+      background: #d63b3b
+    }
+
+    .box input,
+    .box button {
+      width: 100%;
+      margin: 5px 0
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px
+    }
+
+    .card {
+      background: #fff;
+      padding: 16px;
+      border-radius: 10px;
+      box-shadow: 0 1px 4px #0001
+    }
+
+    .card small {
+      color: #778;
+      display: block
+    }
+
+    .card b {
+      font-size: 22px
+    }
+
+    .b {
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 12px;
+      background: #eee
+    }
+
+    .b.active,
+    .b.paid {
+      background: #d4f5dd
+    }
+
+    .b.confirmed {
+      background: #dbe7ff
+    }
+
+    .b.closed,
+    .b.cancelled {
+      background: #f5d4d4
+    }
+
+    .b.draft,
+    .b.quotation {
+      background: #fff3cd
+    }
+
+    .filters {
+      margin: 8px 0 12px
+    }
+
+    .toast {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      background: #1f2540;
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 8px;
+      z-index: 9
+    }
+
+    .toast.bad {
+      background: #c0392b
+    }
+
+    details {
+      margin-bottom: 8px
+    }
+
+    summary {
+      cursor: pointer;
+      color: #3b4bdb;
+      font-weight: 600
+    }
+
+    a.lnk {
+      color: #3b4bdb;
+      cursor: pointer
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    const $ = s => document.querySelector(s);
+    let token = localStorage.getItem('t'), user = JSON.parse(localStorage.getItem('u') || 'null');
+    const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const money = n => '₹' + Number(n || 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const badge = s => `<span class="b ${s}">${s}</span>`;
+    const yn = [['1', 'Yes'], ['0', 'No']];
+    async function api(path, method = 'GET', body) {
+      const r = await fetch('/api' + path, { method, headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: 'Bearer ' + token } : {}) }, body: body ? JSON.stringify(body) : undefined });
+      const j = await r.json().catch(() => ({}));
+      if (r.status === 401 && token) { logout(); }
+      if (!r.ok) throw new Error(j.error || r.statusText); return j;
+    }
+    function toast(m, bad) { const t = document.createElement('div'); t.className = 'toast' + (bad ? ' bad' : ''); t.textContent = m; document.body.appendChild(t); setTimeout(() => t.remove(), 3500) }
+    const run = async f => { try { await f() } catch (e) { toast(e.message, 1) } };
+    function table(cols, rows) {
+      if (!rows.length) return '<p class="muted">Nothing here yet.</p>';
+      return `<div class="scroll"><table><tr>${cols.map(c => `<th>${c[0]}</th>`).join('')}</tr>${rows.map(r => `<tr>${cols.map(c => `<td>${typeof c[1] === 'function' ? c[1](r) : esc(r[c[1]])}</td>`).join('')}</tr>`).join('')}</table></div>`;
+    }
+    function formHtml(id, fields) {
+      return `<form id="${id}" class="grid">${fields.map(f => `<label>${f.l}${f.t === 'select'
+        ? `<select name="${f.n}">${(f.o || []).map(o => `<option value="${esc(o[0])}">${esc(o[1])}</option>`).join('')}</select>`
+        : `<input name="${f.n}" type="${f.t || 'text'}" ${f.v !== undefined ? `value="${esc(f.v)}"` : ''} ${f.req ? 'required' : ''} ${f.t === 'number' ? 'step="any"' : ''}>`}</label>`).join('')}<label>&nbsp;<button>Save</button></label></form>`;
+    }
+    const formData = id => Object.fromEntries(new FormData($('#' + id)).entries());
+    const onSave = (id, fn) => { $('#' + id).onsubmit = e => { e.preventDefault(); run(() => fn(formData(id))) } };
+    const pager = (page, total, limit, fn) => `<p>${total} total · ${page > 1 ? `<a class="lnk" onclick="${fn}(${page - 1})">‹ Prev</a>` : ''} Page ${page} ${page * limit < total ? `<a class="lnk" onclick="${fn}(${page + 1})">Next ›</a>` : ''}</p>`;
+
+    /* ---------- auth screens ---------- */
+    function authScreen(mode = 'login') {
+      const rt = new URLSearchParams(location.search).get('reset');
+      if (rt) { mode = 'reset' }
+      const titles = { login: 'Log in', signup: 'Create account', forgot: 'Forgot password', reset: 'Set new password' };
+      $('#app').innerHTML = `<div class="box"><h2>Brightloop — ${titles[mode]}</h2><form id="af">
+  ${mode === 'signup' ? '<input name="name" placeholder="Full name" required>' : ''}
+  ${mode !== 'reset' ? '<input name="email" type="email" placeholder="Email" required>' : ''}
+  ${mode === 'login' || mode === 'signup' || mode === 'reset' ? '<input name="password" type="password" placeholder="Password" required>' : ''}
+  <button>${titles[mode]}</button></form>
+  ${mode === 'login' ? '<p><a class="lnk" onclick="authScreen(\'signup\')">Create account</a> · <a class="lnk" onclick="authScreen(\'forgot\')">Forgot password?</a></p>' : '<p><a class="lnk" onclick="history.replaceState(0,0,\'/\');authScreen(\'login\')">Back to login</a></p>'}
+  ${mode === 'signup' ? '<p class="muted">Password: 9+ chars, upper, lower, special character.</p>' : ''}</div>`;
+      $('#af').onsubmit = e => {
+        e.preventDefault(); run(async () => {
+          const d = Object.fromEntries(new FormData(e.target));
+          if (mode === 'forgot') { const r = await api('/auth/forgot', 'POST', d); toast(r.message); return }
+          if (mode === 'reset') { await api('/auth/reset', 'POST', { token: rt, password: d.password }); toast('Password updated, please log in'); history.replaceState(0, 0, '/'); return authScreen('login') }
+          const r = await api('/auth/' + mode, 'POST', d); token = r.token; user = r.user; localStorage.setItem('t', token); localStorage.setItem('u', JSON.stringify(user)); shell();
+        })
+      };
+    }
+    function logout() { token = null; user = null; localStorage.clear(); authScreen() }
+
+    /* ---------- shell ---------- */
+    const STAFF_NAV = [['dash', 'Dashboard'], ['subs', 'Subscriptions'], ['inv', 'Invoices'], ['pay', 'Payments'], ['prod', 'Products'], ['plan', 'Plans'], ['tax', 'Taxes'], ['disc', 'Discounts'], ['tpl', 'Templates']];
+    const NAV = { admin: [...STAFF_NAV, ['staff', 'Staff']], staff: STAFF_NAV, customer: [['subs', 'My Subscriptions'], ['inv', 'My Invoices']] };
+    const isAdmin = () => user.role === 'admin', isStaff = () => user.role !== 'customer';
+    function shell() {
+      $('#app').innerHTML = `<header><b>Brightloop</b><nav>${NAV[user.role].map(([k, l]) => `<a href="#" onclick="go('${k}');return false">${l}</a>`).join('')}</nav><span>${esc(user.name)} (${user.role}) · <a href="#" onclick="logout();return false">Logout</a></span></header><main id="main"></main>`;
+      go(NAV[user.role][0][0]);
+    }
+    const go = k => run(() => ({ dash, subs, inv, pay, prod, plan, tax, disc, tpl, staff })[k]());
+
+    /* ---------- dashboard ---------- */
+    async function dash(from = '', to = '') {
+      const s = await api(`/reports/summary?from=${from}&to=${to}`);
+      $('#main').innerHTML = `<h2>Finance overview</h2><div class="filters">Revenue from <input type="date" id="from" value="${from}"> to <input type="date" id="to" value="${to}"> <button onclick="run(()=>dash($('#from').value,$('#to').value))">Apply</button></div>
+  <div class="cards">${[['Active subscriptions', s.active], ['Monthly recurring revenue', money(s.mrr)], ['Revenue collected', money(s.revenue)], ['Outstanding', money(s.outstanding)], ['Overdue invoices', s.overdue_count]].map(([l, v]) => `<div class="card"><small>${l}</small><b>${v}</b></div>`).join('')}</div>
+  <h3>Overdue invoices (chase these)</h3>`+ table([['Invoice', 'number'], ['Customer', 'customer_name'], ['Due date', 'due_date'], ['Balance', r => money(r.total - r.paid_amount)]], s.overdue);
+    }
+
+    /* ---------- subscriptions ---------- */
+    const NEXT = { draft: 'quotation', quotation: 'confirmed', confirmed: 'active' };
+    const subAct = (id, p, body) => run(async () => { await api(`/subscriptions/${id}/${p}`, 'POST', body); toast('Updated'); subs(window._sp || 1, window._ss || '', window._sq || '') });
+    async function subs(page = 1, status = '', q = '') {
+      window._sp = page; window._ss = status; window._sq = q;
+      let html = `<h2>${isStaff() ? 'Subscriptions' : 'My subscriptions'}</h2>`, ctx = null;
+      if (isStaff()) {
+        const [cust, plans, tpls, prods] = await Promise.all([api('/users?role=customer'), api('/plans'), api('/templates'), api('/products')]);
+        const variants = prods.flatMap(p => p.variants.map(v => [v.id, `${p.name} – ${v.attribute}: ${v.value} (+${v.extra_price})`]));
+        html += `<details><summary>+ New quotation / subscription</summary>${formHtml('f', [
+          { n: 'customer_id', l: 'Customer', t: 'select', o: cust.map(c => [c.id, `${c.name} (${c.email})`]) },
+          { n: 'template_id', l: 'Start from template', t: 'select', o: [['', '— none —'], ...tpls.map(t => [t.id, t.name])] },
+          { n: 'plan_id', l: 'Plan', t: 'select', o: plans.map(p => [p.id, `${p.name} (${p.billing_period})`]) },
+          { n: 'start_date', l: 'Start date', t: 'date', req: 1 }, { n: 'expiry_date', l: 'Expiry (blank = plan end)', t: 'date' },
+          { n: 'payment_terms', l: 'Payment terms', t: 'select', o: [['Immediate', 'Immediate'], ['Net 15', 'Net 15'], ['Net 30', 'Net 30']] },
+          { n: 'product_id', l: 'Product (if no template)', t: 'select', o: [['', '—'], ...prods.map(p => [p.id, p.name])] },
+          { n: 'variant_id', l: 'Variant', t: 'select', o: [['', '—'], ...variants] }, { n: 'quantity', l: 'Quantity', t: 'number', v: 1 }])}</details>`;
+        ctx = 1;
+      }
+      const r = await api(`/subscriptions?page=${page}&status=${status}&q=${encodeURIComponent(q)}`);
+      html += `<div class="filters"><select id="fs" onchange="subs(1,this.value,$('#fq').value)">${['', 'draft', 'quotation', 'confirmed', 'active', 'closed'].map(s => `<option value="${s}" ${s === status ? 'selected' : ''}>${s || 'All statuses'}</option>`).join('')}</select> <input id="fq" placeholder="Search number / customer" value="${esc(q)}" onkeydown="if(event.key==='Enter')subs(1,$('#fs').value,this.value)"></div>`;
+      html += table([['Number', 'number'], ['Customer', 'customer_name'], ['Plan', 'plan_name'], ['Start', 'start_date'], ['Expiry', 'expiry_date'], ['Status', x => badge(x.status) + (x.paused ? ' ⏸' : '')], ['Amount / period', x => money(x.amount)],
+      ...(isStaff() ? [['Actions', x => [
+        NEXT[x.status] ? `<button onclick="subAct(${x.id},'status',{status:'${NEXT[x.status]}'})">→ ${NEXT[x.status]}</button>` : '',
+        x.status !== 'closed' && x.closable ? `<button class="red" onclick="subAct(${x.id},'status',{status:'closed'})">Close</button>` : '',
+        x.status === 'active' && x.pausable ? (x.paused ? `<button class="sec" onclick="subAct(${x.id},'resume')">Resume</button>` : `<button class="sec" onclick="subAct(${x.id},'pause')">Pause</button>`) : '',
+        ['active', 'closed'].includes(x.status) && x.renewable ? `<button class="sec" onclick="subAct(${x.id},'renew')">Renew</button>` : ''].join('')]] : [])], r.rows) + pager(page, r.total, 20, 'subs_p');
+      $('#main').innerHTML = html;
+      if (ctx) onSave('f', async d => {
+        const p = { customer_id: d.customer_id, plan_id: d.plan_id, start_date: d.start_date, expiry_date: d.expiry_date || null, payment_terms: d.payment_terms, template_id: d.template_id || null };
+        if (d.product_id) p.lines = [{ product_id: d.product_id, variant_id: d.variant_id || null, quantity: +d.quantity || 1 }];
+        const r = await api('/subscriptions', 'POST', p); toast('Created ' + r.number); subs();
+      });
+    }
+    const subs_p = p => subs(p, window._ss, window._sq);
+
+    /* ---------- invoices ---------- */
+    const invAct = (id, p, b) => run(async () => { await api(`/invoices/${id}/${p}`, 'POST', b); toast('Done'); inv(window._ip || 1, window._is || '', window._io || '', window._iq || '') });
+    const printInv = id => window.open(`/api/invoices/${id}/print?token=${token}`);
+    async function inv(page = 1, status = '', overdue = '', q = '') {
+      window._ip = page; window._is = status; window._io = overdue; window._iq = q;
+      const r = await api(`/invoices?page=${page}&status=${status}&overdue=${overdue}&q=${encodeURIComponent(q)}`);
+      let html = `<h2>${isStaff() ? 'Invoices' : 'My invoices'}</h2>`;
+      if (isStaff()) html += `<div class="filters"><button onclick="run(async()=>{const x=await api('/invoices/generate','POST',{});toast(x.created+' invoices created, '+x.skipped+' already existed, '+x.auto_closed+' plans auto-closed');inv()})">⚡ Generate due invoices</button></div>`;
+      html += `<div class="filters"><select onchange="inv(1,this.value,'',$('#iq').value)">${['', 'draft', 'confirmed', 'paid', 'cancelled'].map(s => `<option value="${s}" ${s === status ? 'selected' : ''}>${s || 'All statuses'}</option>`).join('')}</select>
+   <label style="display:inline"><input type="checkbox" ${overdue ? 'checked' : ''} onchange="inv(1,'',this.checked?1:'',$('#iq').value)"> overdue only</label>
+   <input id="iq" placeholder="Search" value="${esc(q)}" onkeydown="if(event.key==='Enter')inv(1,'${status}','${overdue}',this.value)"></div>`;
+      html += table([['Invoice', 'number'], ['Customer', 'customer_name'], ['Period', x => x.period_start + ' → ' + x.period_end], ['Due', 'due_date'], ['Total', x => money(x.total)], ['Paid', x => money(x.paid_amount)], ['Status', x => badge(x.status)],
+      ['Actions', x => [`<button class="sec" onclick="printInv(${x.id})">Print</button>`,
+      ...(isStaff() ? [x.status === 'draft' ? `<button onclick="invAct(${x.id},'confirm')">Confirm</button>` : '',
+      ['draft', 'confirmed'].includes(x.status) && !x.paid_amount ? `<button class="red" onclick="invAct(${x.id},'cancel')">Cancel</button>` : '',
+      x.status !== 'cancelled' ? `<button class="sec" onclick="invAct(${x.id},'send')">Send</button>` : '',
+      x.status === 'confirmed' ? `<button onclick="quickPay(${x.id},${(x.total - x.paid_amount).toFixed(2)})">Record payment</button>` : ''] : [])].join('')]], r.rows) + pager(page, r.total, 20, 'inv_p');
+      $('#main').innerHTML = html;
+    }
+    const inv_p = p => inv(p, window._is, window._io, window._iq);
+    const quickPay = (id, bal) => {
+      const method = prompt('Method (cash / card / bank / upi)', 'bank'); if (!method) return; const amount = prompt('Amount', bal); if (!amount) return;
+      run(async () => { const r = await api('/payments', 'POST', { invoice_id: id, method, amount: +amount, note: prompt('Note (optional)', '') || '' }); toast('Payment recorded → invoice ' + r.status); inv(window._ip, window._is, window._io, window._iq) })
+    };
+
+    /* ---------- payments ---------- */
+    async function pay() {
+      const [open, list] = await Promise.all([api('/invoices?status=confirmed&limit=200'), api('/payments')]);
+      $('#main').innerHTML = `<h2>Payments</h2><details open><summary>+ Record payment</summary>${formHtml('f', [
+        { n: 'invoice_id', l: 'Invoice', t: 'select', o: open.rows.map(i => [i.id, `${i.number} · ${i.customer_name} · balance ${(i.total - i.paid_amount).toFixed(2)}`]) },
+        { n: 'method', l: 'Method', t: 'select', o: [['bank', 'Bank transfer'], ['card', 'Card'], ['upi', 'UPI'], ['cash', 'Cash'], ['cheque', 'Cheque']] },
+        { n: 'amount', l: 'Amount', t: 'number', req: 1 }, { n: 'date', l: 'Date', t: 'date', v: new Date().toISOString().slice(0, 10) }, { n: 'note', l: 'Note' }])}</details>`
+        + table([['Date', 'date'], ['Invoice', 'invoice_number'], ['Customer', 'customer_name'], ['Method', 'method'], ['Amount', x => money(x.amount)], ['Note', 'note']], list);
+      onSave('f', async d => { const r = await api('/payments', 'POST', d); toast('Recorded → invoice ' + r.status); pay() });
+    }
+
+    /* ---------- admin config views ---------- */
+    async function prod() {
+      const rows = await api('/products');
+      $('#main').innerHTML = `<h2>Products</h2>${isAdmin() ? `<details><summary>+ Add product</summary>${formHtml('f', [{ n: 'name', l: 'Name', req: 1 }, { n: 'type', l: 'Type', t: 'select', o: [['service', 'Service'], ['software', 'Software'], ['addon', 'Add-on'], ['physical', 'Physical']] }, { n: 'sales_price', l: 'Sales price', t: 'number', req: 1 }, { n: 'cost_price', l: 'Cost price', t: 'number', v: 0 }, { n: 'notes', l: 'Notes' }])}</details>` : ''}`
+        + table([['Name', 'name'], ['Type', 'type'], ['Sales', x => money(x.sales_price)], ['Cost', x => money(x.cost_price)], ['Variants', x => x.variants.map(v => `${esc(v.attribute)}: ${esc(v.value)} (+${v.extra_price})`).join('<br>')],
+        ...(isAdmin() ? [['', x => `<button class="sec" onclick="addVariant(${x.id})">+ Variant</button>`]] : [])], rows);
+      if (isAdmin()) onSave('f', async d => { await api('/products', 'POST', d); toast('Saved'); prod() });
+    }
+    const addVariant = id => {
+      const attribute = prompt('Attribute (e.g. Brand)'); if (!attribute) return; const value = prompt('Value (e.g. Odoo)'); if (!value) return; const extra_price = prompt('Extra price (e.g. 560)', '0');
+      run(async () => { await api(`/products/${id}/variants`, 'POST', { attribute, value, extra_price }); prod() })
+    };
+    async function plan() {
+      const [rows, prods] = await Promise.all([api('/plans'), api('/products')]);
+      $('#main').innerHTML = `<h2>Plans</h2>${isAdmin() ? `<details><summary>+ Add plan</summary>${formHtml('f', [{ n: 'name', l: 'Name', req: 1 }, { n: 'product_id', l: 'Product', t: 'select', o: prods.map(p => [p.id, p.name]) }, { n: 'price', l: 'Price', t: 'number', req: 1 },
+      { n: 'billing_period', l: 'Billing period', t: 'select', o: ['daily', 'weekly', 'monthly', 'yearly'].map(x => [x, x]) }, { n: 'min_qty', l: 'Min quantity', t: 'number', v: 1 }, { n: 'start_date', l: 'Available from', t: 'date' }, { n: 'end_date', l: 'Available until', t: 'date' },
+      { n: 'auto_close', l: 'Auto-close at end?', t: 'select', o: [['0', 'No'], ['1', 'Yes']] }, { n: 'closable', l: 'Can close early?', t: 'select', o: yn }, { n: 'pausable', l: 'Can pause?', t: 'select', o: [['0', 'No'], ['1', 'Yes']] }, { n: 'renewable', l: 'Can renew?', t: 'select', o: yn }])}</details>` : ''}`
+        + table([['Name', 'name'], ['Price', x => money(x.price)], ['Billing', 'billing_period'], ['Min qty', 'min_qty'], ['Available', x => `${x.start_date || '…'} → ${x.end_date || '…'}`], ['Auto-close', x => x.auto_close ? '✔' : '—'], ['Close early', x => x.closable ? '✔' : '—'], ['Pause', x => x.pausable ? '✔' : '—'], ['Renew', x => x.renewable ? '✔' : '—']], rows);
+      if (isAdmin()) onSave('f', async d => { await api('/plans', 'POST', d); toast('Saved'); plan() });
+    }
+    async function tax() {
+      const rows = await api('/taxes');
+      $('#main').innerHTML = `<h2>Taxes</h2>${isAdmin() ? `<details><summary>+ Add tax</summary>${formHtml('f', [{ n: 'name', l: 'Name', req: 1 }, { n: 'rate', l: 'Rate %', t: 'number', req: 1 }, { n: 'is_default', l: 'Default?', t: 'select', o: [['0', 'No'], ['1', 'Yes']] }])}</details>` : ''}`
+        + table([['Name', 'name'], ['Rate %', 'rate'], ['Default', x => x.is_default ? '✔' : '—']], rows);
+      if (isAdmin()) onSave('f', async d => { await api('/taxes', 'POST', d); tax() });
+    }
+    async function disc() {
+      const [rows, prods] = await Promise.all([api('/discounts'), api('/products')]);
+      $('#main').innerHTML = `<h2>Discounts</h2>${isAdmin() ? `<details><summary>+ Add discount rule</summary>${formHtml('f', [{ n: 'name', l: 'Name', req: 1 }, { n: 'type', l: 'Type', t: 'select', o: [['percent', 'Percentage'], ['fixed', 'Fixed amount']] }, { n: 'value', l: 'Value', t: 'number', req: 1 },
+      { n: 'min_purchase', l: 'Min purchase', t: 'number', v: 0 }, { n: 'min_qty', l: 'Min quantity', t: 'number', v: 0 }, { n: 'start_date', l: 'Start', t: 'date' }, { n: 'end_date', l: 'End', t: 'date' }, { n: 'usage_limit', l: 'Usage limit', t: 'number' },
+      { n: 'applies_to', l: 'Applies to', t: 'select', o: [['subscription', 'Whole subscription'], ['product', 'Specific product']] }, { n: 'product_id', l: 'Product (if product)', t: 'select', o: [['', '—'], ...prods.map(p => [p.id, p.name])] }, { n: 'subscription_id', l: 'Subscription ID (optional)', t: 'number' }])}</details>` : ''}`
+        + table([['Name', 'name'], ['Rule', x => x.type === 'percent' ? x.value + '%' : money(x.value)], ['Min purchase/qty', x => `${x.min_purchase} / ${x.min_qty}`], ['Valid', x => `${x.start_date || '…'} → ${x.end_date || '…'}`], ['Used', x => `${x.used_count}/${x.usage_limit ?? '∞'}`], ['Applies to', x => x.applies_to + (x.product_id ? ' #' + x.product_id : '') + (x.subscription_id ? ' sub#' + x.subscription_id : '')]], rows);
+      if (isAdmin()) onSave('f', async d => { await api('/discounts', 'POST', d); toast('Saved'); disc() });
+    }
+    async function tpl() {
+      const [rows, plans, prods] = await Promise.all([api('/templates'), api('/plans'), api('/products')]);
+      $('#main').innerHTML = `<h2>Quotation templates</h2><details><summary>+ Add template</summary>${formHtml('f', [{ n: 'name', l: 'Name', req: 1 }, { n: 'plan_id', l: 'Plan', t: 'select', o: plans.map(p => [p.id, p.name]) }, { n: 'validity_days', l: 'Valid for (days)', t: 'number', v: 30 }, { n: 'product_id', l: 'Product', t: 'select', o: prods.map(p => [p.id, p.name]) }, { n: 'quantity', l: 'Quantity', t: 'number', v: 1 }])}</details>`
+        + table([['Name', 'name'], ['Plan ID', 'plan_id'], ['Valid days', 'validity_days'], ['Lines', x => x.lines.length]], rows);
+      onSave('f', async d => { await api('/templates', 'POST', { name: d.name, plan_id: d.plan_id, validity_days: +d.validity_days, lines: [{ product_id: d.product_id, quantity: +d.quantity }] }); toast('Saved'); tpl() });
+    }
+    async function staff() {
+      const rows = await api('/users?role=staff');
+      $('#main').innerHTML = `<h2>Staff (admin only)</h2><details open><summary>+ Add staff member</summary>${formHtml('f', [{ n: 'name', l: 'Name', req: 1 }, { n: 'email', l: 'Email', t: 'email', req: 1 }, { n: 'password', l: 'Temp password', t: 'password', req: 1 }])}</details>` + table([['Name', 'name'], ['Email', 'email']], rows);
+      onSave('f', async d => { await api('/staff', 'POST', d); toast('Staff added'); staff() });
+    }
+
+    user && token ? shell() : authScreen();
+  </script>
+</body>
+
+</html>

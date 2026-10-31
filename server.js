@@ -23,16 +23,39 @@ const wrap = fn => (req, res) => {
     res.status(st).json({ error: e.message });
   }
 };
-function addPeriod(s, p) {
+function addPeriod(s, p, anchorDay) {
   const d = new Date(s + 'T00:00:00Z');
-  ({ daily: () => d.setUTCDate(d.getUTCDate() + 1), weekly: () => d.setUTCDate(d.getUTCDate() + 7),
-     monthly: () => d.setUTCMonth(d.getUTCMonth() + 1), yearly: () => d.setUTCFullYear(d.getUTCFullYear() + 1) })[p]();
-  return iso(d);
+  const origDay = anchorDay || d.getUTCDate();
+  if (p === 'daily') {
+    d.setUTCDate(d.getUTCDate() + 1);
+    return iso(d);
+  }
+  if (p === 'weekly') {
+    d.setUTCDate(d.getUTCDate() + 7);
+    return iso(d);
+  }
+  if (p === 'monthly') {
+    const targetMonth = d.getUTCMonth() + 1;
+    const targetYear = d.getUTCFullYear() + Math.floor(targetMonth / 12);
+    const m = targetMonth % 12;
+    const maxDays = new Date(Date.UTC(targetYear, m + 1, 0)).getUTCDate();
+    const day = Math.min(origDay, maxDays);
+    return iso(new Date(Date.UTC(targetYear, m, day)));
+  }
+  if (p === 'yearly') {
+    const targetYear = d.getUTCFullYear() + 1;
+    const m = d.getUTCMonth();
+    const maxDays = new Date(Date.UTC(targetYear, m + 1, 0)).getUTCDate();
+    const day = Math.min(origDay, maxDays);
+    return iso(new Date(Date.UTC(targetYear, m, day)));
+  }
+  return s;
 }
 const addDays = (s, n) => { const d = new Date(s + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate() + Number(n)); return iso(d); };
 const nextNo = (prefix, table) =>
   prefix + String(db.prepare(`SELECT COALESCE(MAX(id),0)+1 n FROM ${table}`).get().n).padStart(6, '0');
 const clean = v => (v === '' || v === undefined ? null : v);
+app.post('/api/utils/add-period', wrap(req => ({ next: addPeriod(req.body.date, req.body.period, req.body.anchor_day) })));
 
 async function sendMail(to, subject, text) {
   if (!process.env.SMTP_HOST) { console.log(`\n[MAIL to ${to}] ${subject}\n${text}\n`); return; }
@@ -212,8 +235,9 @@ app.post('/api/subscriptions/:id/renew', auth('admin', 'staff'), wrap(req => {
   const s = getSub(req.params.id);
   if (!s.renewable) throw err(400, 'This plan cannot be renewed');
   if (!['active', 'closed'].includes(s.status)) throw err(400, 'Only active or closed subscriptions can be renewed');
+  const anchorDay = parseInt(s.start_date.slice(8, 10), 10);
   db.prepare("UPDATE subscriptions SET expiry_date=?, status='active', paused=0, next_invoice_date=COALESCE(MAX(next_invoice_date,?),?) WHERE id=?")
-    .run(addPeriod(s.expiry_date, s.billing_period), s.expiry_date, s.expiry_date, s.id);
+    .run(addPeriod(s.expiry_date, s.billing_period, anchorDay), s.expiry_date, s.expiry_date, s.id);
   return { ok: true };
 }));
 
@@ -292,8 +316,9 @@ function generateInvoices(onDay, autoConfirm) {
   let created = 0, skipped = 0;
   for (const s of subs) db.transaction(() => {
     let ns = s.next_invoice_date, guard = 0;
+    const anchorDay = parseInt(s.start_date.slice(8, 10), 10);
     while (ns <= onDay && ns < s.expiry_date && guard++ < 60) {
-      const pe = addPeriod(ns, s.billing_period);
+      const pe = addPeriod(ns, s.billing_period, anchorDay);
       const id = createInvoice(s, ns, pe, onDay);
       if (id) { created++; if (autoConfirm) db.prepare("UPDATE invoices SET status='confirmed' WHERE id=?").run(id); } else skipped++;
       ns = pe;

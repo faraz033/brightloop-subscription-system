@@ -49,5 +49,9 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   ok(rep.active >= 1 && rep.revenue >= d.total && rep.overdue_count >= 1, `report active=${rep.active} revenue=${rep.revenue} outstanding=${rep.outstanding} overdue=${rep.overdue_count} mrr=${rep.mrr}`);
   const autoStatus = (await call('/automation/status', 'GET', null, admin)).j;
   ok(autoStatus.active === true && Array.isArray(autoStatus.recent_runs), 'automation status active');
+  // Date clamping check: Jan 31 + 1 month should clamp to Feb 28, not overflow to March 3
+  const clamp1 = (await call('/utils/add-period', 'POST', { date: '2026-01-31', period: 'monthly' })).j.next;
+  const clamp2 = (await call('/utils/add-period', 'POST', { date: '2026-02-28', period: 'monthly', anchor_day: 31 })).j.next;
+  ok(clamp1 === '2026-02-28' && clamp2 === '2026-03-31', `month-end date clamping verified: ${clamp1} -> ${clamp2}`);
   console.log(fails ? `\n${fails} FAILED` : '\nALL PASSED'); process.exit(fails ? 1 : 0);
 })();

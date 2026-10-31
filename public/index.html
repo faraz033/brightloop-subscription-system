@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
 
 <head>
   <meta charset="utf-8">
@@ -7,10 +7,496 @@
   <title>Brightloop — Subscription Management & Recurring Billing Platform</title>
   <meta name="description" content="Manage products, plans, customer subscriptions, recurring invoices, taxes, discounts, and payments from one intelligent platform.">
 
+  <!-- Inter & JetBrains Mono Fonts (poulo.site typography) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script>
+    (function() {
+      const t = localStorage.getItem('theme') || 'dark';
+      if (t === 'dark') document.documentElement.classList.add('dark');
+      else document.documentElement.classList.remove('dark');
+    })();
+  </script>
+
   <!-- Design System & Stylesheets -->
   <link rel="stylesheet" href="/css/design-system.css">
   <link rel="stylesheet" href="/css/landing.css">
   <link rel="stylesheet" href="/css/auth-app.css">
+
+  <style id="poulo-theme-spec">
+    /* ==========================================================================
+       POULO.SITE-INSPIRED THEME TOKENS & SYSTEM (SHADCN/UI NEUTRAL + LIME BRAND)
+       ========================================================================== */
+    :root {
+      --brand: #adfa1d;           --brand-foreground: #000000;
+      --background: #ffffff;      --foreground: #0a0a0a;
+      --card: #ffffff;            --card-foreground: #0a0a0a;
+      --popover: #ffffff;         --popover-foreground: #0a0a0a;
+      --primary: #171717;         --primary-foreground: #fafafa;
+      --secondary: #f5f5f5;       --secondary-foreground: #171717;
+      --muted: #f5f5f5;           --muted-foreground: #737373;
+      --accent: #f5f5f5;          --accent-foreground: #171717;
+      --destructive: #e40014;
+      --border: #e5e5e5;          --border-strong: #a1a1a1;
+      --input: #e5e5e5;           --ring: #a1a1a1;
+      --chart-1: #d4d4d4; --chart-2: #737373; --chart-3: #525252; --chart-4: #404040; --chart-5: #262626;
+      --sidebar: #fafafa;         --sidebar-foreground: #0a0a0a;
+      --sidebar-primary: #171717; --sidebar-primary-foreground: #fafafa;
+      --sidebar-accent: #f5f5f5;  --sidebar-accent-foreground: #171717;
+      --sidebar-border: #e5e5e5;  --sidebar-ring: #a1a1a1;
+      --radius: .625rem;
+      --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    .dark {
+      --background: #0a0a0a;      --foreground: #fafafa;
+      --card: #171717;            --card-foreground: #fafafa;
+      --popover: #171717;         --popover-foreground: #fafafa;
+      --primary: #e5e5e5;         --primary-foreground: #171717;
+      --secondary: #262626;       --secondary-foreground: #fafafa;
+      --muted: #262626;           --muted-foreground: #a1a1a1;
+      --accent: #262626;          --accent-foreground: #fafafa;
+      --destructive: #ff6568;
+      --border: rgba(255,255,255,.1);   --border-strong: #737373;
+      --input: rgba(255,255,255,.15);   --ring: #737373;
+      --sidebar: #171717;         --sidebar-foreground: #fafafa;
+      --sidebar-primary: #1447e6; --sidebar-primary-foreground: #fafafa;
+      --sidebar-accent: #262626;  --sidebar-accent-foreground: #fafafa;
+      --sidebar-border: rgba(255,255,255,.1);
+    }
+
+    /* Base Reset & Background Glow */
+    body {
+      font-family: var(--font-sans) !important;
+      background-color: var(--background);
+      color: var(--foreground);
+      min-height: 100vh;
+      margin: 0;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .dark body,
+    html.dark,
+    .dark .app-view-container {
+      background-color: #0a0a0a !important;
+      background-image: radial-gradient(ellipse 80% 40% at 50% 0%, #202f3f 0%, transparent 70%) !important;
+      background-attachment: fixed !important;
+      background-repeat: no-repeat !important;
+      color: #fafafa !important;
+    }
+
+    /* Fixed Floating Glass Nav Pill */
+    .app-top-header {
+      position: fixed !important;
+      top: 16px !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+      width: calc(100% - 32px) !important;
+      max-width: 1150px !important;
+      height: 56px !important;
+      border-radius: 9999px !important;
+      padding: 0 16px !important;
+      z-index: 1000 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      border: 1px solid var(--border) !important;
+      background: rgba(255, 255, 255, 0.8) !important;
+      backdrop-filter: blur(12px) !important;
+      -webkit-backdrop-filter: blur(12px) !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+    }
+
+    .dark .app-top-header {
+      background: rgba(23, 23, 23, 0.7) !important;
+      border-color: rgba(255, 255, 255, 0.1) !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    .app-header-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--foreground) !important;
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .app-header-brand .logo-bolt-icon {
+      background: transparent !important;
+      color: var(--brand) !important;
+      font-size: 16px !important;
+      border: none !important;
+      box-shadow: none !important;
+      width: auto !important;
+      height: auto !important;
+    }
+
+    .app-nav-tabs-bar {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin: 0 12px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .app-tab-link {
+      color: var(--muted-foreground) !important;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 6px 14px !important;
+      border-radius: 9999px !important;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      cursor: pointer;
+      border: none;
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+
+    .app-tab-link:hover {
+      color: var(--foreground) !important;
+      background: var(--accent) !important;
+    }
+
+    .app-tab-link.active {
+      color: var(--accent-foreground) !important;
+      background: var(--accent) !important;
+      font-weight: 600;
+    }
+
+    .dark .app-tab-link.active {
+      background: #262626 !important;
+      color: #fafafa !important;
+    }
+
+    /* Main Container (Padding 96px clears the floating nav) */
+    main.app-main-content,
+    #appMainStage {
+      max-width: 1150px !important;
+      margin: 0 auto !important;
+      padding: 96px 16px 48px 16px !important;
+      min-height: calc(100vh - 120px);
+    }
+
+    /* Typography */
+    h1, h2, h3, h4 {
+      color: var(--foreground) !important;
+      letter-spacing: -0.02em !important;
+      font-family: var(--font-sans) !important;
+    }
+
+    h1 { font-size: 44px; font-weight: 700; }
+    h2 { font-size: 26px; font-weight: 600; }
+    h3 { font-size: 18px; font-weight: 600; }
+    .muted, p.muted { color: var(--muted-foreground) !important; font-size: 13.5px; }
+
+    /* Buttons (All fully rounded pills 9999px) */
+    button, .btn {
+      border-radius: 9999px !important;
+      font-family: var(--font-sans) !important;
+      font-size: 13px !important;
+      font-weight: 500 !important;
+      height: 38px;
+      padding: 0 18px !important;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    button.btn-primary, button.primary {
+      background: var(--primary) !important;
+      color: var(--primary-foreground) !important;
+      border: 1px solid transparent !important;
+    }
+    button.btn-primary:hover, button.primary:hover {
+      opacity: 0.9;
+    }
+
+    button.btn-sec, button.sec, .btn-view-landing-site, .btn-signout-link {
+      background: transparent !important;
+      border: 1px solid var(--border-strong) !important;
+      color: var(--foreground) !important;
+    }
+    button.btn-sec:hover, button.sec:hover, .btn-view-landing-site:hover, .btn-signout-link:hover {
+      background: var(--accent) !important;
+    }
+
+    button.btn-danger, button.red {
+      background: transparent !important;
+      border: 1px solid var(--destructive) !important;
+      color: var(--destructive) !important;
+    }
+    button.btn-danger:hover, button.red:hover {
+      background: rgba(255, 101, 104, 0.15) !important;
+    }
+
+    /* Call-to-action & Emerald: Poulo Lime Accent */
+    button.btn-emerald {
+      background: var(--brand) !important;
+      color: var(--brand-foreground) !important;
+      border: none !important;
+      font-weight: 600 !important;
+    }
+    button.btn-emerald:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+    }
+
+    /* Theme Toggle Button */
+    .theme-toggle-btn {
+      width: 34px !important;
+      height: 34px !important;
+      border-radius: 9999px !important;
+      background: transparent !important;
+      border: 1px solid var(--border) !important;
+      color: var(--foreground) !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      cursor: pointer !important;
+      font-size: 14px !important;
+      padding: 0 !important;
+      transition: all 0.15s ease;
+    }
+    .theme-toggle-btn:hover {
+      background: var(--accent) !important;
+      border-color: var(--border-strong) !important;
+    }
+
+    /* Cards: Large Rounded 20-24px, 1px Border */
+    .card,
+    .dash-stat-card,
+    .box,
+    .metric-bar-box,
+    .form-grid {
+      background: var(--card) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: 20px !important;
+      color: var(--card-foreground) !important;
+      box-shadow: none !important;
+    }
+
+    .dash-stat-card {
+      padding: 20px 22px !important;
+      border-top: 1px solid var(--border) !important;
+    }
+    .dash-stat-card small {
+      color: var(--muted-foreground) !important;
+      font-size: 12.5px;
+      font-weight: 500;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .dash-stat-card .val {
+      font-family: var(--font-sans) !important;
+      font-weight: 600 !important;
+      font-size: 28px !important;
+      letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums;
+      color: var(--foreground) !important;
+    }
+
+    /* Tables: Wrapped in 20px Rounded Card */
+    .table-scroll-wrap,
+    .scroll {
+      background: var(--card) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: 20px !important;
+      overflow: hidden !important;
+      box-shadow: none !important;
+      margin-bottom: 16px;
+    }
+
+    table.app-table,
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    table.app-table th,
+    table th {
+      background: var(--secondary) !important;
+      color: var(--muted-foreground) !important;
+      font-size: 11.5px !important;
+      font-weight: 600 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.05em !important;
+      padding: 12px 18px !important;
+      border-bottom: 1px solid var(--border) !important;
+    }
+
+    table.app-table td,
+    table td {
+      padding: 13px 18px !important;
+      border-bottom: 1px solid var(--border) !important;
+      color: var(--foreground) !important;
+      font-size: 13.5px !important;
+    }
+
+    table.app-table tr:last-child td,
+    table tr:last-child td {
+      border-bottom: none;
+    }
+
+    table.app-table tr:hover td,
+    table tr:hover td {
+      background: var(--accent) !important;
+    }
+
+    /* Semantic Status Badges */
+    .b {
+      border-radius: 9999px !important;
+      font-size: 11.5px !important;
+      font-weight: 600 !important;
+      padding: 2px 10px !important;
+      text-transform: capitalize !important;
+      display: inline-flex !important;
+      align-items: center !important;
+    }
+    .b.active, .b.paid {
+      background: rgba(173, 250, 29, 0.15) !important;
+      color: #3f6212 !important;
+    }
+    .dark .b.active, .dark .b.paid {
+      background: rgba(173, 250, 29, 0.15) !important;
+      color: #adfa1d !important;
+    }
+    .b.confirmed {
+      background: rgba(0, 0, 0, 0.06) !important;
+      color: var(--foreground) !important;
+    }
+    .dark .b.confirmed {
+      background: rgba(255, 255, 255, 0.08) !important;
+      color: #fafafa !important;
+    }
+    .b.draft, .b.quotation {
+      background: var(--muted) !important;
+      color: var(--muted-foreground) !important;
+    }
+    .b.closed, .b.cancelled, .b.overdue {
+      background: rgba(228, 0, 20, 0.12) !important;
+      color: var(--destructive) !important;
+    }
+    .dark .b.closed, .dark .b.cancelled, .dark .b.overdue {
+      background: rgba(255, 101, 104, 0.15) !important;
+      color: var(--destructive) !important;
+    }
+
+    /* Inputs & Selects */
+    input, select, textarea {
+      background: transparent !important;
+      border: 1px solid var(--input) !important;
+      color: var(--foreground) !important;
+      border-radius: var(--radius) !important;
+      height: 40px !important;
+      padding: 0 12px !important;
+      font-family: var(--font-sans) !important;
+      font-size: 13.5px !important;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none !important;
+      border-color: var(--ring) !important;
+      box-shadow: 0 0 0 2px var(--ring) !important;
+    }
+    select option {
+      background: var(--card) !important;
+      color: var(--card-foreground) !important;
+    }
+    label {
+      color: var(--muted-foreground) !important;
+      font-size: 12px !important;
+      font-weight: 500 !important;
+    }
+
+    /* Details / Summary Form Collapsible */
+    details summary {
+      display: inline-flex !important;
+      align-items: center !important;
+      border-radius: 9999px !important;
+      border: 1px solid var(--border-strong) !important;
+      padding: 8px 18px !important;
+      font-size: 13px !important;
+      font-weight: 600 !important;
+      cursor: pointer !important;
+      color: var(--foreground) !important;
+      background: var(--secondary) !important;
+      transition: all 0.15s ease !important;
+    }
+    details summary:hover {
+      background: var(--accent) !important;
+    }
+    details[open] .form-grid {
+      margin-top: 14px !important;
+      padding: 24px !important;
+    }
+
+    /* Modals */
+    .modal-backdrop {
+      background: rgba(0, 0, 0, 0.75) !important;
+      backdrop-filter: blur(8px) !important;
+      -webkit-backdrop-filter: blur(8px) !important;
+    }
+    .modal-card {
+      background: var(--card) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: 24px !important;
+      color: var(--card-foreground) !important;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+    }
+    .modal-header {
+      background: var(--secondary) !important;
+      border-bottom: 1px solid var(--border) !important;
+      padding: 16px 22px !important;
+    }
+    .modal-header h3 {
+      font-size: 16px !important;
+      font-weight: 600 !important;
+      color: var(--foreground) !important;
+    }
+    .modal-footer {
+      background: var(--secondary) !important;
+      border-top: 1px solid var(--border) !important;
+      padding: 14px 22px !important;
+    }
+
+    /* Toasts */
+    .toast {
+      background: var(--popover) !important;
+      color: var(--popover-foreground) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: 12px !important;
+    }
+    .toast.bad {
+      border-color: var(--destructive) !important;
+      color: var(--destructive) !important;
+    }
+
+    /* Links */
+    a.lnk {
+      color: var(--foreground);
+      text-decoration: none;
+    }
+    a.lnk:hover {
+      text-decoration: underline;
+    }
+    .dark a.lnk {
+      color: var(--brand);
+    }
+  </style>
 </head>
 
 <body>
@@ -1232,6 +1718,7 @@
 
       <!-- Right actions -->
       <div class="app-user-actions-pill">
+        <button id="themeToggleBtn" class="theme-toggle-btn" onclick="toggleTheme()" title="Toggle Light/Dark Theme" aria-label="Toggle theme">🌙</button>
         <button id="btnJuryTour" class="btn-jury-tour" onclick="startJuryTour()">🎯 1-Click Demo</button>
         <button id="btnBackToLanding" class="btn-view-landing-site">🌐 View Website</button>
         <div style="display: flex; align-items: center; gap: 8px;">

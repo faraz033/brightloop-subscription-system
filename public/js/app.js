@@ -12,6 +12,22 @@ const money = n => '₹' + Number(n || 0).toLocaleString('en-IN', { minimumFract
 const badge = s => `<span class="b ${s}">${s}</span>`;
 const yn = [['1', 'Yes'], ['0', 'No']];
 
+// Theme Toggle & Persistence (poulo.site spec - default: dark, localStorage key 'theme')
+function initTheme() {
+  const t = localStorage.getItem('theme') || 'dark';
+  document.documentElement.classList.toggle('dark', t === 'dark');
+  const btn = $('#themeToggleBtn');
+  if (btn) btn.innerHTML = t === 'dark' ? '☀️' : '🌙';
+}
+function toggleTheme() {
+  const isDark = document.documentElement.classList.toggle('dark');
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  const btn = $('#themeToggleBtn');
+  if (btn) btn.innerHTML = isDark ? '☀️' : '🌙';
+}
+window.toggleTheme = toggleTheme;
+setTimeout(initTheme, 0);
+
 const isAdmin = () => user && user.role === 'admin';
 const isStaff = () => user && user.role !== 'customer';
 

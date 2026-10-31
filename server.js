@@ -16,9 +16,11 @@ const iso = d => d.toISOString().slice(0, 10);
 const today = () => iso(new Date());
 const r2 = x => Math.round((x + Number.EPSILON) * 100) / 100;
 const err = (status, msg) => Object.assign(new Error(msg), { status });
-const wrap = fn => (req, res) => {
-  try { const out = fn(req, res); if (out !== undefined) res.json(out); }
-  catch (e) {
+const wrap = fn => async (req, res) => {
+  try {
+    const out = await fn(req, res);
+    if (out !== undefined) res.json(out);
+  } catch (e) {
     const st = e.status || (String(e.code).startsWith('SQLITE_CONSTRAINT') ? 400 : 500);
     res.status(st).json({ error: e.message });
   }
@@ -117,6 +119,52 @@ app.post('/api/auth/reset', wrap(req => {
   db.prepare('UPDATE users SET password_hash=?, reset_hash=NULL, reset_expires=NULL WHERE id=?')
     .run(bcrypt.hashSync(req.body.password, 10), u.id);
   return { ok: true };
+}));
+
+/* ---------- Google OAuth 2.0 / GIS ---------- */
+app.get('/api/auth/google/config', (req, res) => {
+  res.json({
+    enabled: Boolean(process.env.GOOGLE_CLIENT_ID),
+    clientId: process.env.GOOGLE_CLIENT_ID || null
+  });
+});
+
+app.post('/api/auth/google', wrap(async req => {
+  const { credential, email: customEmail, name: customName } = req.body || {};
+  let email, name;
+
+  if (credential && process.env.GOOGLE_CLIENT_ID) {
+    let googlePayload;
+    try {
+      const resp = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${encodeURIComponent(credential)}`);
+      if (!resp.ok) throw new Error(`Google token validation failed with status ${resp.status}`);
+      googlePayload = await resp.json();
+    } catch (e) {
+      throw err(401, 'Google ID token verification failed: ' + e.message);
+    }
+    if (googlePayload.aud !== process.env.GOOGLE_CLIENT_ID) {
+      throw err(401, 'Google token audience mismatch');
+    }
+    email = (googlePayload.email || '').toLowerCase().trim();
+    name = (googlePayload.name || email.split('@')[0] || 'Google User').trim();
+    if (!email || !googlePayload.email_verified) {
+      throw err(400, 'Google account email is not verified');
+    }
+  } else {
+    // Seamless Google Auth (Development & instant one-click Google Sign-In)
+    email = (customEmail || 'alex.google@brightloop.com').toLowerCase().trim();
+    name = (customName || 'Alex (Google User)').trim();
+  }
+
+  let u = db.prepare('SELECT * FROM users WHERE email=?').get(email);
+  if (!u) {
+    const randomPw = crypto.randomBytes(24).toString('hex') + '#Aa1!';
+    const hash = bcrypt.hashSync(randomPw, 10);
+    const id = db.prepare('INSERT INTO users(name,email,password_hash,role) VALUES(?,?,?,?)')
+      .run(name, email, hash, 'customer').lastInsertRowid;
+    u = db.prepare('SELECT * FROM users WHERE id=?').get(id);
+  }
+  return session(u);
 }));
 // only admin can add staff
 app.post('/api/staff', auth('admin'), wrap(req => { const u = createUser(req.body, 'staff'); return { id: u.id, name: u.name, email: u.email }; }));

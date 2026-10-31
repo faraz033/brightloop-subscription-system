@@ -123,6 +123,16 @@ CREATE TABLE IF NOT EXISTS payments(
   date TEXT NOT NULL, note TEXT,
   created_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
+CREATE TABLE IF NOT EXISTS billing_runs(
+  id INTEGER PRIMARY KEY,
+  run_type TEXT NOT NULL DEFAULT 'auto' CHECK(run_type IN ('auto','manual')),
+  triggered_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  billing_date TEXT NOT NULL,
+  due_count INTEGER NOT NULL DEFAULT 0,
+  created_count INTEGER NOT NULL DEFAULT 0,
+  skipped_count INTEGER NOT NULL DEFAULT 0,
+  auto_closed_count INTEGER NOT NULL DEFAULT 0
+);
 -- indexes keep every page under 2s with thousands of rows
 CREATE INDEX IF NOT EXISTS ix_sub_status ON subscriptions(status, next_invoice_date);
 CREATE INDEX IF NOT EXISTS ix_sub_cust ON subscriptions(customer_id);
@@ -130,6 +140,7 @@ CREATE INDEX IF NOT EXISTS ix_inv_status ON invoices(status, due_date);
 CREATE INDEX IF NOT EXISTS ix_inv_cust ON invoices(customer_id);
 CREATE INDEX IF NOT EXISTS ix_pay_inv ON payments(invoice_id);
 CREATE INDEX IF NOT EXISTS ix_pay_date ON payments(date);
+CREATE INDEX IF NOT EXISTS ix_billing_runs_date ON billing_runs(triggered_at);
 `);
 
 // ---- seed demo data on first run ----

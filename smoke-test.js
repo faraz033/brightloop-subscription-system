@@ -47,5 +47,7 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   await call('/invoices/generate', 'POST', { date: old(60), auto_confirm: true }, admin);
   const rep = (await call('/reports/summary', 'GET', null, admin)).j;
   ok(rep.active >= 1 && rep.revenue >= d.total && rep.overdue_count >= 1, `report active=${rep.active} revenue=${rep.revenue} outstanding=${rep.outstanding} overdue=${rep.overdue_count} mrr=${rep.mrr}`);
+  const autoStatus = (await call('/automation/status', 'GET', null, admin)).j;
+  ok(autoStatus.active === true && Array.isArray(autoStatus.recent_runs), 'automation status active');
   console.log(fails ? `\n${fails} FAILED` : '\nALL PASSED'); process.exit(fails ? 1 : 0);
 })();

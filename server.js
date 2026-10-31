@@ -303,9 +303,53 @@ function generateInvoices(onDay, autoConfirm) {
   // plans set to close on their own once expired and fully billed
   const closed = db.prepare(`UPDATE subscriptions SET status='closed' WHERE status='active' AND expiry_date<=? AND next_invoice_date>=expiry_date
     AND plan_id IN (SELECT id FROM plans WHERE auto_close=1)`).run(onDay).changes;
+
+  // log run audit to billing_runs
+  try {
+    db.prepare(`INSERT INTO billing_runs(run_type, billing_date, due_count, created_count, skipped_count, auto_closed_count)
+      VALUES(?,?,?,?,?,?)`).run(autoConfirm ? 'manual' : 'auto', onDay, subs.length, created, skipped, closed);
+  } catch (e) { /* non-fatal audit log */ }
+
   return { due: subs.length, created, skipped, auto_closed: closed };
 }
 app.post('/api/invoices/generate', auth('admin', 'staff'), wrap(req => generateInvoices(req.body.date || today(), !!req.body.auto_confirm)));
+
+/* ---------- automated background scheduler (nightly billing worker) ---------- */
+let schedulerActive = true;
+let schedulerIntervalSeconds = 60;
+let lastSchedulerRun = null;
+
+function runScheduledBilling() {
+  try {
+    const res = generateInvoices(today(), false);
+    lastSchedulerRun = { timestamp: new Date().toISOString(), ...res };
+    if (res.created > 0 || res.auto_closed > 0) {
+      console.log(`[SCHEDULER] Nightly billing pass: ${res.created} invoices created, ${res.auto_closed} auto-closed.`);
+    }
+  } catch (e) {
+    console.error('[SCHEDULER] Error:', e.message);
+  }
+}
+let schedulerTimer = setInterval(runScheduledBilling, schedulerIntervalSeconds * 1000);
+
+app.get('/api/automation/status', auth('admin', 'staff'), wrap(() => ({
+  active: schedulerActive,
+  interval_seconds: schedulerIntervalSeconds,
+  last_run: lastSchedulerRun,
+  next_run: schedulerActive ? new Date(Date.now() + schedulerIntervalSeconds * 1000).toISOString() : null,
+  recent_runs: db.prepare('SELECT * FROM billing_runs ORDER BY id DESC LIMIT 15').all()
+})));
+
+app.post('/api/automation/toggle', auth('admin'), wrap(req => {
+  schedulerActive = req.body.active !== undefined ? !!req.body.active : !schedulerActive;
+  if (schedulerActive && !schedulerTimer) {
+    schedulerTimer = setInterval(runScheduledBilling, schedulerIntervalSeconds * 1000);
+  } else if (!schedulerActive && schedulerTimer) {
+    clearInterval(schedulerTimer);
+    schedulerTimer = null;
+  }
+  return { ok: true, active: schedulerActive };
+}));
 
 /* ---------- invoices ---------- */
 function getInvoice(id, user) {

@@ -1120,7 +1120,10 @@
             <h2>${isStaff() ? 'Customer Invoices' : 'My Invoices'}</h2>
             <p class="muted">Generate periodic billing, track balances, and record payments.</p>
           </div>
-          ${isStaff() ? `<button class="emerald" onclick="run(async()=>{const x=await api('/invoices/generate','POST',{});toast(x.created+' invoices created, '+x.skipped+' skipped, '+x.auto_closed+' auto-closed');inv();})">⚡ Generate Due Invoices</button>` : ''}
+          ${isStaff() ? `<div style="display:flex; gap:8px;">
+            <button class="sec" onclick="openAutomationModal()">⚙️ Nightly Cron Status</button>
+            <button class="emerald" onclick="run(async()=>{const x=await api('/invoices/generate','POST',{});toast(x.created+' invoices created, '+x.skipped+' skipped, '+x.auto_closed+' auto-closed');inv();})">⚡ Generate Due Invoices</button>
+          </div>` : ''}
         </div>`;
 
       html += `
@@ -1193,6 +1196,38 @@
           toast('Payment recorded! Invoice status: ' + r.status);
           inv(window._ip, window._is, window._io, window._iq);
         }
+    }
+
+    async function openAutomationModal() {
+      const status = await api('/automation/status');
+      showModal({
+        title: '⚙️ Nightly Billing Scheduler (Cron Worker)',
+        bodyHtml: `
+          <div style="background:#f8fafc; padding:16px; border-radius:10px; border:1px solid var(--border); margin-bottom:14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <span><b>Scheduler Status:</b> ${status.active ? '<span class="b active">Active (Running)</span>' : '<span class="b closed">Paused</span>'}</span>
+              ${isAdmin() ? `<button class="sec" onclick="run(async()=>{await api('/automation/toggle','POST',{});closeModal();openAutomationModal();})">${status.active ? 'Pause Worker' : 'Resume Worker'}</button>` : ''}
+            </div>
+            <p style="font-size:12.5px; color:var(--text-muted); margin:4px 0;"><b>Frequency:</b> Periodic sweep simulating nightly invoice generation.</p>
+            <p style="font-size:12.5px; color:var(--text-muted); margin:4px 0;"><b>Next Automatic Run:</b> ${status.next_run ? new Date(status.next_run).toLocaleTimeString() : 'Paused'}</p>
+          </div>
+          <h4 style="font-size:13.5px; margin:10px 0 6px;">Recent Automation Audit Logs</h4>
+          <div style="max-height:220px; overflow-y:auto; border:1px solid var(--border); border-radius:8px;">
+            <table style="font-size:12px;">
+              <thead><tr><th>Triggered</th><th>Type</th><th>Due</th><th>Created</th><th>Skipped</th></tr></thead>
+              <tbody>
+                ${(status.recent_runs || []).map(r => `<tr>
+                  <td>${r.triggered_at}</td>
+                  <td><span class="b" style="padding:1px 6px; font-size:10.5px;">${r.run_type}</span></td>
+                  <td>${r.due_count}</td>
+                  <td style="color:var(--success); font-weight:700;">+${r.created_count}</td>
+                  <td class="muted">${r.skipped_count}</td>
+                </tr>`).join('') || '<tr><td colspan="5" style="text-align:center; padding:12px;" class="muted">No runs recorded yet.</td></tr>'}
+              </tbody>
+            </table>
+          </div>`,
+        confirmText: 'Done',
+        onConfirm: async () => {}
       });
     }
 

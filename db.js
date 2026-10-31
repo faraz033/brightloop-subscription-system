@@ -1,7 +1,22 @@
-const Database = require('better-sqlite3');
+const { DatabaseSync } = require('node:sqlite');
 const bcrypt = require('bcryptjs');
 
-const db = new Database(process.env.DB_FILE || 'brightloop.db');
+const db = new DatabaseSync(process.env.DB_FILE || 'brightloop.db');
+
+// Add compatibility helpers
+db.pragma = (str) => db.exec(`PRAGMA ${str}`);
+db.transaction = (fn) => (...args) => {
+  db.exec('BEGIN');
+  try {
+    const res = fn(...args);
+    db.exec('COMMIT');
+    return res;
+  } catch (err) {
+    db.exec('ROLLBACK');
+    throw err;
+  }
+};
+
 db.pragma('journal_mode = WAL');
 db.pragma('foreign_keys = ON');
 

@@ -16,6 +16,8 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   ok((await call('/staff', 'POST', { name: 'S', email: 's' + e, password: 'Strong#Pass1' }, cust.token)).s === 403, 'customer cannot add staff');
   ok((await call('/staff', 'POST', { name: 'S', email: 's' + e, password: 'Strong#Pass1' }, admin)).s === 200, 'admin adds staff');
   ok((await call('/discounts', 'POST', { name: 'x', type: 'fixed', value: 1, applies_to: 'subscription' }, cust.token)).s === 403, 'customer cannot create discount');
+  const existingDiscounts = (await call('/discounts', 'GET', null, admin)).j || [];
+  for (const d of existingDiscounts) await call('/discounts/' + d.id, 'DELETE', null, admin);
   await call('/discounts', 'POST', { name: '10% off', type: 'percent', value: 10, min_qty: 2, applies_to: 'subscription' }, admin);
   const prods = (await call('/products', 'GET', null, admin)).j, p = prods[0];
   const plans = (await call('/plans', 'GET', null, admin)).j;
@@ -27,7 +29,8 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   const g1 = (await call('/invoices/generate', 'POST', {}, admin)).j, g2 = (await call('/invoices/generate', 'POST', {}, admin)).j;
   ok(g1.created >= 2, 'invoices generated for missed periods: ' + g1.created);
   ok(g2.created === 0, 'second run creates nothing (no double billing)');
-  const inv = (await call('/invoices', 'GET', null, admin)).j.rows.at(-1), d = (await call('/invoices/' + inv.id, 'GET', null, admin)).j;
+  const invs = (await call('/invoices?status=draft', 'GET', null, admin)).j.rows;
+  const inv = invs.find(r => r.customer_id === cust.user.id) || invs[0], d = (await call('/invoices/' + inv.id, 'GET', null, admin)).j;
   // 2 x (1000+560)=3120, -10% = 312, net 2808, +18% tax = 505.44 -> 3313.44
   ok(Math.abs(d.total - 3313.44) < 0.01, 'discount+tax math total=' + d.total);
   ok((await call(`/invoices/${inv.id}/confirm`, 'POST', {}, admin)).s === 200, 'invoice confirmed');

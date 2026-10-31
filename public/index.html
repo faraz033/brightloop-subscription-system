@@ -1,241 +1,791 @@
 <!doctype html>
-<html>
+<html lang="en">
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Brightloop Subscriptions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Brightloop — Subscription Management Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-light: #eef2ff;
+      --primary-border: #c7d2fe;
+      --surface: #ffffff;
+      --bg: #f8fafc;
+      --border: #e2e8f0;
+      --border-focus: #818cf8;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --text-subtle: #94a3b8;
+      --success: #10b981;
+      --success-light: #ecfdf5;
+      --warning: #f59e0b;
+      --warning-light: #fffbeb;
+      --danger: #ef4444;
+      --danger-light: #fef2f2;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.07);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    }
+
     * {
-      box-sizing: border-box
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
-      font: 14px system-ui, sans-serif;
-      background: #f5f6fa;
-      color: #222
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
+    /* ---------- Header / Navigation ---------- */
     header {
-      background: #1f2540;
+      background: #0f172a;
       color: #fff;
       display: flex;
-      gap: 18px;
       align-items: center;
-      padding: 10px 20px;
-      flex-wrap: wrap
+      justify-content: space-between;
+      padding: 0 28px;
+      height: 68px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     }
 
-    header nav {
+    .brand {
       display: flex;
-      gap: 12px;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 19px;
+      letter-spacing: -0.02em;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      box-shadow: 0 0 16px rgba(99, 102, 241, 0.4);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 6px;
       flex: 1;
-      flex-wrap: wrap
+      margin: 0 32px;
+      overflow-x: auto;
+      scrollbar-width: none;
     }
 
-    header a {
-      color: #cfd6ff;
-      text-decoration: none
+    nav::-webkit-scrollbar {
+      display: none;
     }
 
-    header a:hover {
-      color: #fff
+    nav a {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      transition: all 0.15s ease;
+      white-space: nowrap;
     }
 
+    nav a:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    nav a.active {
+      color: #ffffff;
+      background: rgba(99, 102, 241, 0.25);
+      border: 1px solid rgba(129, 140, 248, 0.3);
+    }
+
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 6px 14px;
+      border-radius: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 13px;
+    }
+
+    .user-avatar {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, #818cf8, #c084fc);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 12px;
+      color: #fff;
+    }
+
+    .role-tag {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.12);
+      color: #cbd5e1;
+      letter-spacing: 0.05em;
+    }
+
+    .logout-btn {
+      color: #f87171;
+      cursor: pointer;
+      font-weight: 600;
+      transition: opacity 0.15s;
+      text-decoration: none;
+      font-size: 12.5px;
+    }
+
+    .logout-btn:hover {
+      opacity: 0.8;
+      text-decoration: underline;
+    }
+
+    /* ---------- Main Layout ---------- */
     main {
-      max-width: 1150px;
-      margin: 20px auto;
-      padding: 0 16px
+      max-width: 1280px;
+      width: 100%;
+      margin: 28px auto;
+      padding: 0 24px;
+      flex: 1;
+    }
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+      gap: 16px;
     }
 
     h2 {
-      margin: 6px 0 14px
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: var(--text);
+    }
+
+    h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin: 24px 0 12px;
+      color: var(--text);
     }
 
     .muted {
-      color: #888
+      color: var(--text-muted);
+      font-size: 13.5px;
     }
 
-    .box {
-      background: #fff;
-      border-radius: 10px;
+    /* ---------- Cards & KPI Blocks ---------- */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: var(--surface);
       padding: 20px;
-      box-shadow: 0 1px 4px #0001;
-      max-width: 420px;
-      margin: 60px auto
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      position: relative;
+      overflow: hidden;
     }
 
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .card-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+
+    .card small {
+      color: var(--text-muted);
+      font-size: 12.5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      display: block;
+    }
+
+    .card b {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.03em;
+      display: block;
+      margin-top: 4px;
+    }
+
+    .card.blue .card-icon { background: #e0e7ff; color: #4338ca; }
+    .card.green .card-icon { background: #d1fae5; color: #047857; }
+    .card.purple .card-icon { background: #ede9fe; color: #6d28d9; }
+    .card.amber .card-icon { background: #fef3c7; color: #b45309; }
+    .card.rose .card-icon { background: #ffe4e6; color: #be123c; }
+
+    /* Visual Ratio Bar */
+    .metric-bar-container {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .metric-bar-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13.5px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .metric-track {
+      height: 12px;
+      background: #f1f5f9;
+      border-radius: 6px;
+      display: flex;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .metric-segment {
+      height: 100%;
+      transition: width 0.3s ease;
+    }
+
+    .metric-legend {
+      display: flex;
+      gap: 18px;
+      font-size: 12px;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    /* ---------- Tables & Data Presentation ---------- */
     .scroll {
       overflow-x: auto;
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 1px 4px #0001
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
     }
 
     table {
       border-collapse: collapse;
-      width: 100%
+      width: 100%;
+      font-size: 13.5px;
     }
 
-    th,
-    td {
-      padding: 8px 10px;
+    th, td {
+      padding: 12px 16px;
       text-align: left;
-      border-bottom: 1px solid #eee;
-      white-space: nowrap
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
     }
 
     th {
-      background: #fafbff;
-      font-size: 12px;
+      background: #f8fafc;
+      font-size: 11.5px;
+      font-weight: 700;
       text-transform: uppercase;
-      color: #667
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      border-bottom: 2px solid var(--border);
     }
 
+    tbody tr {
+      transition: background 0.12s ease;
+    }
+
+    tbody tr:hover {
+      background: #f8fafc;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .tabular {
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+    }
+
+    /* ---------- Status Badges ---------- */
+    .b {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: capitalize;
+      letter-spacing: 0.02em;
+    }
+
+    .b::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .b.active, .b.paid {
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+    .b.active::before, .b.paid::before { background: #10b981; }
+
+    .b.confirmed {
+      background: #eff6ff;
+      color: #1e40af;
+      border: 1px solid #bfdbfe;
+    }
+    .b.confirmed::before { background: #3b82f6; }
+
+    .b.draft, .b.quotation {
+      background: #fffbeb;
+      color: #92400e;
+      border: 1px solid #fde68a;
+    }
+    .b.draft::before, .b.quotation::before { background: #f59e0b; }
+
+    .b.closed, .b.cancelled {
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+    .b.closed::before, .b.cancelled::before { background: #ef4444; }
+
+    /* ---------- Forms & Inputs ---------- */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 10px;
-      background: #fff;
-      padding: 14px;
-      border-radius: 10px;
-      margin: 8px 0 16px;
-      box-shadow: 0 1px 4px #0001
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+      background: var(--surface);
+      padding: 20px;
+      border-radius: var(--radius);
+      margin: 12px 0 20px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
     }
 
     label {
       display: flex;
       flex-direction: column;
       font-size: 12px;
-      color: #556;
-      gap: 3px
+      font-weight: 600;
+      color: var(--text-muted);
+      gap: 5px;
     }
 
-    input,
-    select {
-      padding: 7px;
-      border: 1px solid #ccd;
-      border-radius: 6px;
-      font-size: 14px
+    input, select {
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 13.5px;
+      color: var(--text);
+      background: #ffffff;
+      outline: none;
+      transition: all 0.15s ease;
     }
 
+    input:focus, select:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    }
+
+    /* ---------- Buttons ---------- */
     button {
-      background: #3b4bdb;
+      background: var(--primary);
       color: #fff;
       border: 0;
-      border-radius: 6px;
-      padding: 7px 12px;
+      border-radius: var(--radius-sm);
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: inherit;
       cursor: pointer;
-      margin: 2px
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      white-space: nowrap;
     }
 
     button:hover {
-      background: #2b39b5
+      background: var(--primary-hover);
+      box-shadow: 0 4px 8px rgba(79, 70, 229, 0.25);
+      transform: translateY(-1px);
+    }
+
+    button:active {
+      transform: translateY(0);
     }
 
     button.sec {
-      background: #e5e8ff;
-      color: #223
+      background: #f1f5f9;
+      color: #334155;
+      border: 1px solid var(--border);
+    }
+
+    button.sec:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+      box-shadow: none;
     }
 
     button.red {
-      background: #d63b3b
-    }
-
-    .box input,
-    .box button {
-      width: 100%;
-      margin: 5px 0
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: 12px;
-      margin-bottom: 20px
-    }
-
-    .card {
-      background: #fff;
-      padding: 16px;
-      border-radius: 10px;
-      box-shadow: 0 1px 4px #0001
-    }
-
-    .card small {
-      color: #778;
-      display: block
-    }
-
-    .card b {
-      font-size: 22px
-    }
-
-    .b {
-      padding: 2px 8px;
-      border-radius: 10px;
-      font-size: 12px;
-      background: #eee
-    }
-
-    .b.active,
-    .b.paid {
-      background: #d4f5dd
-    }
-
-    .b.confirmed {
-      background: #dbe7ff
-    }
-
-    .b.closed,
-    .b.cancelled {
-      background: #f5d4d4
-    }
-
-    .b.draft,
-    .b.quotation {
-      background: #fff3cd
-    }
-
-    .filters {
-      margin: 8px 0 12px
-    }
-
-    .toast {
-      position: fixed;
-      right: 16px;
-      bottom: 16px;
-      background: #1f2540;
+      background: #ef4444;
       color: #fff;
-      padding: 10px 16px;
-      border-radius: 8px;
-      z-index: 9
     }
 
-    .toast.bad {
-      background: #c0392b
+    button.red:hover {
+      background: #dc2626;
+      box-shadow: 0 4px 8px rgba(239, 68, 68, 0.25);
+    }
+
+    button.emerald {
+      background: #10b981;
+      color: #fff;
+    }
+
+    button.emerald:hover {
+      background: #059669;
+      box-shadow: 0 4px 8px rgba(16, 185, 129, 0.25);
+    }
+
+    /* ---------- Interactive Filters & Drawers ---------- */
+    .filters {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 12px 0 16px;
+      flex-wrap: wrap;
     }
 
     details {
-      margin-bottom: 8px
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+
+    details[open] {
+      box-shadow: var(--shadow);
     }
 
     summary {
+      padding: 14px 18px;
       cursor: pointer;
-      color: #3b4bdb;
-      font-weight: 600
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #fcfdfe;
+      user-select: none;
+    }
+
+    summary:hover {
+      background: #f8fafc;
+    }
+
+    details[open] summary {
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ---------- Auth Box ---------- */
+    .auth-wrapper {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .box {
+      background: var(--surface);
+      border-radius: 16px;
+      padding: 36px 32px;
+      box-shadow: var(--shadow-xl);
+      max-width: 420px;
+      width: 100%;
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .box .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      border-radius: 14px;
+      color: #fff;
+      font-size: 24px;
+      margin-bottom: 16px;
+      box-shadow: 0 8px 16px rgba(99, 102, 241, 0.35);
+    }
+
+    .box h2 {
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+
+    .box p.subtitle {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .box form input {
+      width: 100%;
+      margin-bottom: 12px;
+      padding: 11px 14px;
+    }
+
+    .box form button {
+      width: 100%;
+      padding: 11px;
+      font-size: 14.5px;
+      justify-content: center;
+      margin-top: 6px;
+    }
+
+    .box .auth-links {
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .box .auth-links a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .box .auth-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* ---------- Toast Notifications ---------- */
+    .toast {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      background: #0f172a;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: var(--shadow-xl);
+      z-index: 999;
+      animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .toast.bad {
+      background: #b91c1c;
+      border-color: #ef4444;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* ---------- Modal Dialog System ---------- */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 100;
+      animation: fadeIn 0.15s ease;
+    }
+
+    .modal-card {
+      background: #fff;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: var(--shadow-xl);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      animation: scaleIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f8fafc;
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--text-muted);
+      padding: 4px 8px;
+      box-shadow: none;
+    }
+
+    .modal-close:hover {
+      background: #e2e8f0;
+      color: var(--text);
+      box-shadow: none;
+      transform: none;
+    }
+
+    .modal-body {
+      padding: 22px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .modal-footer {
+      padding: 16px 24px;
+      background: #f8fafc;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes scaleIn {
+      from { transform: scale(0.96); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    /* ---------- Helpers & Pager ---------- */
+    .pager {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 14px;
+      font-size: 13px;
+      color: var(--text-muted);
     }
 
     a.lnk {
-      color: #3b4bdb;
-      cursor: pointer
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    a.lnk:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 
 <body>
   <div id="app"></div>
+  <div id="modal-container"></div>
+
   <script>
     const $ = s => document.querySelector(s);
     let token = localStorage.getItem('t'), user = JSON.parse(localStorage.getItem('u') || 'null');
@@ -243,184 +793,654 @@
     const money = n => '₹' + Number(n || 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     const badge = s => `<span class="b ${s}">${s}</span>`;
     const yn = [['1', 'Yes'], ['0', 'No']];
+
     async function api(path, method = 'GET', body) {
-      const r = await fetch('/api' + path, { method, headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: 'Bearer ' + token } : {}) }, body: body ? JSON.stringify(body) : undefined });
+      const r = await fetch('/api' + path, {
+        method,
+        headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: 'Bearer ' + token } : {}) },
+        body: body ? JSON.stringify(body) : undefined
+      });
       const j = await r.json().catch(() => ({}));
       if (r.status === 401 && token) { logout(); }
-      if (!r.ok) throw new Error(j.error || r.statusText); return j;
+      if (!r.ok) throw new Error(j.error || r.statusText);
+      return j;
     }
-    function toast(m, bad) { const t = document.createElement('div'); t.className = 'toast' + (bad ? ' bad' : ''); t.textContent = m; document.body.appendChild(t); setTimeout(() => t.remove(), 3500) }
+
+    function toast(m, bad) {
+      const t = document.createElement('div');
+      t.className = 'toast' + (bad ? ' bad' : '');
+      t.innerHTML = `${bad ? '⚠️' : '✓'} <span>${esc(m)}</span>`;
+      document.body.appendChild(t);
+      setTimeout(() => t.remove(), 3800);
+    }
+
     const run = async f => { try { await f() } catch (e) { toast(e.message, 1) } };
+
     function table(cols, rows) {
-      if (!rows.length) return '<p class="muted">Nothing here yet.</p>';
-      return `<div class="scroll"><table><tr>${cols.map(c => `<th>${c[0]}</th>`).join('')}</tr>${rows.map(r => `<tr>${cols.map(c => `<td>${typeof c[1] === 'function' ? c[1](r) : esc(r[c[1]])}</td>`).join('')}</tr>`).join('')}</table></div>`;
+      if (!rows.length) return '<div class="scroll" style="padding: 32px; text-align: center; color: var(--text-muted); font-size: 14px;">No records found.</div>';
+      return `<div class="scroll"><table><thead><tr>${cols.map(c => `<th>${c[0]}</th>`).join('')}</tr></thead><tbody>${
+        rows.map(r => `<tr>${cols.map(c => `<td>${typeof c[1] === 'function' ? c[1](r) : esc(r[c[1]])}</td>`).join('')}</tr>`).join('')
+      }</tbody></table></div>`;
     }
+
     function formHtml(id, fields) {
-      return `<form id="${id}" class="grid">${fields.map(f => `<label>${f.l}${f.t === 'select'
-        ? `<select name="${f.n}">${(f.o || []).map(o => `<option value="${esc(o[0])}">${esc(o[1])}</option>`).join('')}</select>`
-        : `<input name="${f.n}" type="${f.t || 'text'}" ${f.v !== undefined ? `value="${esc(f.v)}"` : ''} ${f.req ? 'required' : ''} ${f.t === 'number' ? 'step="any"' : ''}>`}</label>`).join('')}<label>&nbsp;<button>Save</button></label></form>`;
+      return `<form id="${id}" class="grid">${fields.map(f => `<label>${f.l}${
+        f.t === 'select'
+          ? `<select name="${f.n}">${(f.o || []).map(o => `<option value="${esc(o[0])}">${esc(o[1])}</option>`).join('')}</select>`
+          : `<input name="${f.n}" type="${f.t || 'text'}" ${f.v !== undefined ? `value="${esc(f.v)}"` : ''} ${f.req ? 'required' : ''} ${f.t === 'number' ? 'step="any"' : ''}>`
+      }</label>`).join('')}<label>&nbsp;<button style="height:39px; justify-content:center;">Save</button></label></form>`;
     }
+
     const formData = id => Object.fromEntries(new FormData($('#' + id)).entries());
     const onSave = (id, fn) => { $('#' + id).onsubmit = e => { e.preventDefault(); run(() => fn(formData(id))) } };
-    const pager = (page, total, limit, fn) => `<p>${total} total · ${page > 1 ? `<a class="lnk" onclick="${fn}(${page - 1})">‹ Prev</a>` : ''} Page ${page} ${page * limit < total ? `<a class="lnk" onclick="${fn}(${page + 1})">Next ›</a>` : ''}</p>`;
+    const pager = (page, total, limit, fn) => `<div class="pager"><span>${total} total records</span><div>${page > 1 ? `<a class="lnk" onclick="${fn}(${page - 1})">‹ Previous</a>` : ''} <span style="margin: 0 10px; font-weight:600;">Page ${page}</span> ${page * limit < total ? `<a class="lnk" onclick="${fn}(${page + 1})">Next ›</a>` : ''}</div></div>`;
 
-    /* ---------- auth screens ---------- */
-    function authScreen(mode = 'login') {
-      const rt = new URLSearchParams(location.search).get('reset');
-      if (rt) { mode = 'reset' }
-      const titles = { login: 'Log in', signup: 'Create account', forgot: 'Forgot password', reset: 'Set new password' };
-      $('#app').innerHTML = `<div class="box"><h2>Brightloop — ${titles[mode]}</h2><form id="af">
-  ${mode === 'signup' ? '<input name="name" placeholder="Full name" required>' : ''}
-  ${mode !== 'reset' ? '<input name="email" type="email" placeholder="Email" required>' : ''}
-  ${mode === 'login' || mode === 'signup' || mode === 'reset' ? '<input name="password" type="password" placeholder="Password" required>' : ''}
-  <button>${titles[mode]}</button></form>
-  ${mode === 'login' ? '<p><a class="lnk" onclick="authScreen(\'signup\')">Create account</a> · <a class="lnk" onclick="authScreen(\'forgot\')">Forgot password?</a></p>' : '<p><a class="lnk" onclick="history.replaceState(0,0,\'/\');authScreen(\'login\')">Back to login</a></p>'}
-  ${mode === 'signup' ? '<p class="muted">Password: 9+ chars, upper, lower, special character.</p>' : ''}</div>`;
-      $('#af').onsubmit = e => {
-        e.preventDefault(); run(async () => {
-          const d = Object.fromEntries(new FormData(e.target));
-          if (mode === 'forgot') { const r = await api('/auth/forgot', 'POST', d); toast(r.message); return }
-          if (mode === 'reset') { await api('/auth/reset', 'POST', { token: rt, password: d.password }); toast('Password updated, please log in'); history.replaceState(0, 0, '/'); return authScreen('login') }
-          const r = await api('/auth/' + mode, 'POST', d); token = r.token; user = r.user; localStorage.setItem('t', token); localStorage.setItem('u', JSON.stringify(user)); shell();
-        })
+    /* ---------- Modal Dialogs ---------- */
+    function showModal({ title, bodyHtml, confirmText = 'Submit', onConfirm }) {
+      const container = $('#modal-container');
+      container.innerHTML = `
+        <div class="modal-backdrop" id="mb">
+          <div class="modal-card">
+            <div class="modal-header">
+              <h3>${title}</h3>
+              <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body">${bodyHtml}</div>
+            <div class="modal-footer">
+              <button class="sec" onclick="closeModal()">Cancel</button>
+              <button id="modal-confirm-btn">${confirmText}</button>
+            </div>
+          </div>
+        </div>`;
+      $('#mb').onclick = e => { if (e.target.id === 'mb') closeModal(); };
+      $('#modal-confirm-btn').onclick = async () => {
+        try {
+          await onConfirm();
+          closeModal();
+        } catch (e) {
+          toast(e.message, 1);
+        }
       };
     }
-    function logout() { token = null; user = null; localStorage.clear(); authScreen() }
+    function closeModal() { $('#modal-container').innerHTML = ''; }
 
-    /* ---------- shell ---------- */
-    const STAFF_NAV = [['dash', 'Dashboard'], ['subs', 'Subscriptions'], ['inv', 'Invoices'], ['pay', 'Payments'], ['prod', 'Products'], ['plan', 'Plans'], ['tax', 'Taxes'], ['disc', 'Discounts'], ['tpl', 'Templates']];
-    const NAV = { admin: [...STAFF_NAV, ['staff', 'Staff']], staff: STAFF_NAV, customer: [['subs', 'My Subscriptions'], ['inv', 'My Invoices']] };
-    const isAdmin = () => user.role === 'admin', isStaff = () => user.role !== 'customer';
-    function shell() {
-      $('#app').innerHTML = `<header><b>Brightloop</b><nav>${NAV[user.role].map(([k, l]) => `<a href="#" onclick="go('${k}');return false">${l}</a>`).join('')}</nav><span>${esc(user.name)} (${user.role}) · <a href="#" onclick="logout();return false">Logout</a></span></header><main id="main"></main>`;
-      go(NAV[user.role][0][0]);
+    /* ---------- Auth Screens ---------- */
+    function authScreen(mode = 'login') {
+      const rt = new URLSearchParams(location.search).get('reset');
+      if (rt) { mode = 'reset'; }
+      const titles = { login: 'Welcome Back', signup: 'Create Account', forgot: 'Reset Password', reset: 'Set New Password' };
+      const sub = {
+        login: 'Sign in to access your Brightloop workspace',
+        signup: 'Join Brightloop to start your subscription services',
+        forgot: 'Enter your email to receive a password reset link',
+        reset: 'Choose a strong password with 9+ characters'
+      };
+
+      $('#app').innerHTML = `
+        <div class="auth-wrapper">
+          <div class="box">
+            <div class="brand-badge">⚡</div>
+            <h2>${titles[mode]}</h2>
+            <p class="subtitle">${sub[mode]}</p>
+            <form id="af">
+              ${mode === 'signup' ? '<input name="name" placeholder="Full Name" required>' : ''}
+              ${mode !== 'reset' ? '<input name="email" type="email" placeholder="Work Email" required>' : ''}
+              ${mode === 'login' || mode === 'signup' || mode === 'reset' ? '<input name="password" type="password" placeholder="Password" required>' : ''}
+              <button>${titles[mode]}</button>
+            </form>
+            <div class="auth-links">
+              ${mode === 'login' 
+                ? `<p><a onclick="authScreen('signup')">Create customer account</a> · <a onclick="authScreen('forgot')">Forgot password?</a></p>`
+                : `<p><a onclick="history.replaceState(0,0,'/');authScreen('login')">← Back to Login</a></p>`}
+              ${mode === 'signup' ? '<p class="muted" style="margin-top:10px; font-size:11.5px;">Password rule: 9+ chars, uppercase, lowercase & special symbol.</p>' : ''}
+            </div>
+          </div>
+        </div>`;
+
+      $('#af').onsubmit = e => {
+        e.preventDefault();
+        run(async () => {
+          const d = Object.fromEntries(new FormData(e.target));
+          if (mode === 'forgot') { const r = await api('/auth/forgot', 'POST', d); toast(r.message); return; }
+          if (mode === 'reset') { await api('/auth/reset', 'POST', { token: rt, password: d.password }); toast('Password updated! Please log in.'); history.replaceState(0, 0, '/'); return authScreen('login'); }
+          const r = await api('/auth/' + mode, 'POST', d);
+          token = r.token; user = r.user;
+          localStorage.setItem('t', token); localStorage.setItem('u', JSON.stringify(user));
+          shell();
+        });
+      };
     }
-    const go = k => run(() => ({ dash, subs, inv, pay, prod, plan, tax, disc, tpl, staff })[k]());
 
-    /* ---------- dashboard ---------- */
+    function logout() { token = null; user = null; localStorage.clear(); authScreen(); }
+
+    /* ---------- Navigation Shell ---------- */
+    const STAFF_NAV = [
+      ['dash', '📊 Dashboard'], ['subs', '📑 Subscriptions'], ['inv', '💳 Invoices'],
+      ['pay', '💰 Payments'], ['prod', '📦 Products'], ['plan', '📋 Plans'],
+      ['tax', '🏷️ Taxes'], ['disc', '🎁 Discounts'], ['tpl', '📑 Templates']
+    ];
+    const NAV = {
+      admin: [...STAFF_NAV, ['staff', '👥 Staff']],
+      staff: STAFF_NAV,
+      customer: [['subs', '📑 My Subscriptions'], ['inv', '💳 My Invoices']]
+    };
+    const isAdmin = () => user.role === 'admin';
+    const isStaff = () => user.role !== 'customer';
+
+    function shell() {
+      const activeRole = user.role;
+      $('#app').innerHTML = `
+        <header>
+          <a href="#" class="brand" onclick="go(NAV[user.role][0][0]);return false">
+            <span class="brand-icon">⚡</span> Brightloop
+          </a>
+          <nav id="top-nav">
+            ${NAV[activeRole].map(([k, l]) => `<a href="#" id="nav-${k}" onclick="go('${k}');return false">${l}</a>`).join('')}
+          </nav>
+          <div class="user-pill">
+            <span class="user-avatar">${esc(user.name.charAt(0).toUpperCase())}</span>
+            <span><b>${esc(user.name)}</b> <span class="role-tag">${user.role}</span></span>
+            <a class="logout-btn" onclick="logout();return false">Sign out</a>
+          </div>
+        </header>
+        <main id="main"></main>`;
+      go(NAV[activeRole][0][0]);
+    }
+
+    const go = k => {
+      document.querySelectorAll('nav a').forEach(el => el.classList.remove('active'));
+      const activeNav = $(`#nav-${k}`);
+      if (activeNav) activeNav.classList.add('active');
+      run(() => ({ dash, subs, inv, pay, prod, plan, tax, disc, tpl, staff })[k]());
+    };
+
+    /* ---------- Dashboard ---------- */
     async function dash(from = '', to = '') {
       const s = await api(`/reports/summary?from=${from}&to=${to}`);
-      $('#main').innerHTML = `<h2>Finance overview</h2><div class="filters">Revenue from <input type="date" id="from" value="${from}"> to <input type="date" id="to" value="${to}"> <button onclick="run(()=>dash($('#from').value,$('#to').value))">Apply</button></div>
-  <div class="cards">${[['Active subscriptions', s.active], ['Monthly recurring revenue', money(s.mrr)], ['Revenue collected', money(s.revenue)], ['Outstanding', money(s.outstanding)], ['Overdue invoices', s.overdue_count]].map(([l, v]) => `<div class="card"><small>${l}</small><b>${v}</b></div>`).join('')}</div>
-  <h3>Overdue invoices (chase these)</h3>`+ table([['Invoice', 'number'], ['Customer', 'customer_name'], ['Due date', 'due_date'], ['Balance', r => money(r.total - r.paid_amount)]], s.overdue);
+      const totalFin = (s.revenue || 0) + (s.outstanding || 0);
+      const revPct = totalFin > 0 ? Math.round((s.revenue / totalFin) * 100) : 0;
+      const outPct = 100 - revPct;
+
+      $('#main').innerHTML = `
+        <div class="page-header">
+          <div>
+            <h2>Finance Overview</h2>
+            <p class="muted">Live recurring metrics, revenue recognition, and payment status.</p>
+          </div>
+          <div class="filters">
+            <label style="flex-direction:row; align-items:center; gap:6px;">From <input type="date" id="from" value="${from}"></label>
+            <label style="flex-direction:row; align-items:center; gap:6px;">To <input type="date" id="to" value="${to}"></label>
+            <button onclick="run(()=>dash($('#from').value,$('#to').value))">Filter</button>
+          </div>
+        </div>
+
+        <div class="cards">
+          <div class="card blue">
+            <div class="card-icon">📑</div>
+            <small>Active Subscriptions</small>
+            <b>${s.active}</b>
+          </div>
+          <div class="card green">
+            <div class="card-icon">📈</div>
+            <small>Normalized MRR</small>
+            <b class="tabular">${money(s.mrr)}</b>
+          </div>
+          <div class="card purple">
+            <div class="card-icon">💰</div>
+            <small>Revenue Collected</small>
+            <b class="tabular">${money(s.revenue)}</b>
+          </div>
+          <div class="card amber">
+            <div class="card-icon">⏳</div>
+            <small>Amount Outstanding</small>
+            <b class="tabular">${money(s.outstanding)}</b>
+          </div>
+          <div class="card rose">
+            <div class="card-icon">🚨</div>
+            <small>Overdue Invoices</small>
+            <b>${s.overdue_count}</b>
+          </div>
+        </div>
+
+        <div class="metric-bar-container">
+          <div class="metric-bar-header">
+            <span>Collected vs. Outstanding Balance</span>
+            <span>Total: ${money(totalFin)}</span>
+          </div>
+          <div class="metric-track">
+            <div class="metric-segment" style="width: ${revPct}%; background: #10b981;"></div>
+            <div class="metric-segment" style="width: ${outPct}%; background: #f59e0b;"></div>
+          </div>
+          <div class="metric-legend">
+            <div class="legend-item"><span class="legend-dot" style="background:#10b981;"></span> Revenue Collected (${revPct}%)</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#f59e0b;"></span> Outstanding Receivables (${outPct}%)</div>
+          </div>
+        </div>
+
+        <h3>🚨 Overdue Invoices Requiring Follow-up</h3>` +
+        table([
+          ['Invoice', 'number'],
+          ['Customer', 'customer_name'],
+          ['Due Date', 'due_date'],
+          ['Outstanding Balance', r => `<span class="tabular" style="color:var(--danger); font-weight:700;">${money(r.total - r.paid_amount)}</span>`]
+        ], s.overdue);
     }
 
-    /* ---------- subscriptions ---------- */
+    /* ---------- Subscriptions ---------- */
     const NEXT = { draft: 'quotation', quotation: 'confirmed', confirmed: 'active' };
-    const subAct = (id, p, body) => run(async () => { await api(`/subscriptions/${id}/${p}`, 'POST', body); toast('Updated'); subs(window._sp || 1, window._ss || '', window._sq || '') });
+    const subAct = (id, p, body) => run(async () => {
+      await api(`/subscriptions/${id}/${p}`, 'POST', body);
+      toast('Subscription status updated');
+      subs(window._sp || 1, window._ss || '', window._sq || '');
+    });
+
     async function subs(page = 1, status = '', q = '') {
       window._sp = page; window._ss = status; window._sq = q;
-      let html = `<h2>${isStaff() ? 'Subscriptions' : 'My subscriptions'}</h2>`, ctx = null;
+      let html = `
+        <div class="page-header">
+          <div>
+            <h2>${isStaff() ? 'Customer Subscriptions' : 'My Subscriptions'}</h2>
+            <p class="muted">Manage contracts, pricing plans, and recurring order lifecycles.</p>
+          </div>
+        </div>`, ctx = null;
+
       if (isStaff()) {
-        const [cust, plans, tpls, prods] = await Promise.all([api('/users?role=customer'), api('/plans'), api('/templates'), api('/products')]);
-        const variants = prods.flatMap(p => p.variants.map(v => [v.id, `${p.name} – ${v.attribute}: ${v.value} (+${v.extra_price})`]));
-        html += `<details><summary>+ New quotation / subscription</summary>${formHtml('f', [
+        const [cust, plans, tpls, prods] = await Promise.all([
+          api('/users?role=customer'), api('/plans'), api('/templates'), api('/products')
+        ]);
+        const variants = prods.flatMap(p => p.variants.map(v => [v.id, `${p.name} — ${v.attribute}: ${v.value} (+₹${v.extra_price})`]));
+
+        html += `<details><summary>+ New Quotation / Subscription</summary>${formHtml('f', [
           { n: 'customer_id', l: 'Customer', t: 'select', o: cust.map(c => [c.id, `${c.name} (${c.email})`]) },
-          { n: 'template_id', l: 'Start from template', t: 'select', o: [['', '— none —'], ...tpls.map(t => [t.id, t.name])] },
-          { n: 'plan_id', l: 'Plan', t: 'select', o: plans.map(p => [p.id, `${p.name} (${p.billing_period})`]) },
-          { n: 'start_date', l: 'Start date', t: 'date', req: 1 }, { n: 'expiry_date', l: 'Expiry (blank = plan end)', t: 'date' },
-          { n: 'payment_terms', l: 'Payment terms', t: 'select', o: [['Immediate', 'Immediate'], ['Net 15', 'Net 15'], ['Net 30', 'Net 30']] },
-          { n: 'product_id', l: 'Product (if no template)', t: 'select', o: [['', '—'], ...prods.map(p => [p.id, p.name])] },
-          { n: 'variant_id', l: 'Variant', t: 'select', o: [['', '—'], ...variants] }, { n: 'quantity', l: 'Quantity', t: 'number', v: 1 }])}</details>`;
+          { n: 'template_id', l: 'Start from Quotation Template', t: 'select', o: [['', '— None (manual items) —'], ...tpls.map(t => [t.id, t.name])] },
+          { n: 'plan_id', l: 'Billing Plan', t: 'select', o: plans.map(p => [p.id, `${p.name} (${p.billing_period})`]) },
+          { n: 'start_date', l: 'Start Date', t: 'date', req: 1 },
+          { n: 'expiry_date', l: 'Expiry Date (optional)', t: 'date' },
+          { n: 'payment_terms', l: 'Payment Terms', t: 'select', o: [['Immediate', 'Immediate'], ['Net 15', 'Net 15'], ['Net 30', 'Net 30']] },
+          { n: 'product_id', l: 'Product (if not using template)', t: 'select', o: [['', '— None —'], ...prods.map(p => [p.id, p.name])] },
+          { n: 'variant_id', l: 'Variant (Optional)', t: 'select', o: [['', '— Standard —'], ...variants] },
+          { n: 'quantity', l: 'Quantity', t: 'number', v: 1 }
+        ])}</details>`;
         ctx = 1;
       }
+
       const r = await api(`/subscriptions?page=${page}&status=${status}&q=${encodeURIComponent(q)}`);
-      html += `<div class="filters"><select id="fs" onchange="subs(1,this.value,$('#fq').value)">${['', 'draft', 'quotation', 'confirmed', 'active', 'closed'].map(s => `<option value="${s}" ${s === status ? 'selected' : ''}>${s || 'All statuses'}</option>`).join('')}</select> <input id="fq" placeholder="Search number / customer" value="${esc(q)}" onkeydown="if(event.key==='Enter')subs(1,$('#fs').value,this.value)"></div>`;
-      html += table([['Number', 'number'], ['Customer', 'customer_name'], ['Plan', 'plan_name'], ['Start', 'start_date'], ['Expiry', 'expiry_date'], ['Status', x => badge(x.status) + (x.paused ? ' ⏸' : '')], ['Amount / period', x => money(x.amount)],
-      ...(isStaff() ? [['Actions', x => [
-        NEXT[x.status] ? `<button onclick="subAct(${x.id},'status',{status:'${NEXT[x.status]}'})">→ ${NEXT[x.status]}</button>` : '',
-        x.status !== 'closed' && x.closable ? `<button class="red" onclick="subAct(${x.id},'status',{status:'closed'})">Close</button>` : '',
-        x.status === 'active' && x.pausable ? (x.paused ? `<button class="sec" onclick="subAct(${x.id},'resume')">Resume</button>` : `<button class="sec" onclick="subAct(${x.id},'pause')">Pause</button>`) : '',
-        ['active', 'closed'].includes(x.status) && x.renewable ? `<button class="sec" onclick="subAct(${x.id},'renew')">Renew</button>` : ''].join('')]] : [])], r.rows) + pager(page, r.total, 20, 'subs_p');
+      html += `
+        <div class="filters">
+          <select id="fs" onchange="subs(1,this.value,$('#fq').value)">
+            ${['', 'draft', 'quotation', 'confirmed', 'active', 'closed'].map(s => `<option value="${s}" ${s === status ? 'selected' : ''}>${s ? 'Status: ' + s : 'All Statuses'}</option>`).join('')}
+          </select>
+          <input id="fq" style="width:260px;" placeholder="Search subscription / customer..." value="${esc(q)}" onkeydown="if(event.key==='Enter')subs(1,$('#fs').value,this.value)">
+        </div>`;
+
+      html += table([
+        ['Number', r => `<b style="color:var(--primary); font-family:monospace;">${r.number}</b>`],
+        ['Customer', 'customer_name'],
+        ['Plan', 'plan_name'],
+        ['Start', 'start_date'],
+        ['Expiry', 'expiry_date'],
+        ['Status', x => badge(x.status) + (x.paused ? ' <span title="Paused">⏸</span>' : '')],
+        ['Amount / Period', x => `<span class="tabular">${money(x.amount)}</span>`],
+        ...(isStaff() ? [['Actions', x => [
+          NEXT[x.status] ? `<button onclick="subAct(${x.id},'status',{status:'${NEXT[x.status]}'})">Advance → ${NEXT[x.status]}</button>` : '',
+          x.status !== 'closed' && x.closable ? `<button class="red" onclick="subAct(${x.id},'status',{status:'closed'})">Close Early</button>` : '',
+          x.status === 'active' && x.pausable ? (x.paused ? `<button class="sec" onclick="subAct(${x.id},'resume')">Resume</button>` : `<button class="sec" onclick="subAct(${x.id},'pause')">Pause</button>`) : '',
+          ['active', 'closed'].includes(x.status) && x.renewable ? `<button class="emerald" onclick="subAct(${x.id},'renew')">Renew</button>` : ''
+        ].join('')]] : [])
+      ], r.rows) + pager(page, r.total, 20, 'subs_p');
+
       $('#main').innerHTML = html;
       if (ctx) onSave('f', async d => {
-        const p = { customer_id: d.customer_id, plan_id: d.plan_id, start_date: d.start_date, expiry_date: d.expiry_date || null, payment_terms: d.payment_terms, template_id: d.template_id || null };
+        const p = {
+          customer_id: d.customer_id, plan_id: d.plan_id, start_date: d.start_date,
+          expiry_date: d.expiry_date || null, payment_terms: d.payment_terms, template_id: d.template_id || null
+        };
         if (d.product_id) p.lines = [{ product_id: d.product_id, variant_id: d.variant_id || null, quantity: +d.quantity || 1 }];
-        const r = await api('/subscriptions', 'POST', p); toast('Created ' + r.number); subs();
+        const res = await api('/subscriptions', 'POST', p);
+        toast('Subscription created ' + res.number);
+        subs();
       });
     }
     const subs_p = p => subs(p, window._ss, window._sq);
 
-    /* ---------- invoices ---------- */
-    const invAct = (id, p, b) => run(async () => { await api(`/invoices/${id}/${p}`, 'POST', b); toast('Done'); inv(window._ip || 1, window._is || '', window._io || '', window._iq || '') });
+    /* ---------- Invoices ---------- */
+    const invAct = (id, p, b) => run(async () => {
+      await api(`/invoices/${id}/${p}`, 'POST', b);
+      toast('Invoice updated');
+      inv(window._ip || 1, window._is || '', window._io || '', window._iq || '');
+    });
     const printInv = id => window.open(`/api/invoices/${id}/print?token=${token}`);
+
     async function inv(page = 1, status = '', overdue = '', q = '') {
       window._ip = page; window._is = status; window._io = overdue; window._iq = q;
       const r = await api(`/invoices?page=${page}&status=${status}&overdue=${overdue}&q=${encodeURIComponent(q)}`);
-      let html = `<h2>${isStaff() ? 'Invoices' : 'My invoices'}</h2>`;
-      if (isStaff()) html += `<div class="filters"><button onclick="run(async()=>{const x=await api('/invoices/generate','POST',{});toast(x.created+' invoices created, '+x.skipped+' already existed, '+x.auto_closed+' plans auto-closed');inv()})">⚡ Generate due invoices</button></div>`;
-      html += `<div class="filters"><select onchange="inv(1,this.value,'',$('#iq').value)">${['', 'draft', 'confirmed', 'paid', 'cancelled'].map(s => `<option value="${s}" ${s === status ? 'selected' : ''}>${s || 'All statuses'}</option>`).join('')}</select>
-   <label style="display:inline"><input type="checkbox" ${overdue ? 'checked' : ''} onchange="inv(1,'',this.checked?1:'',$('#iq').value)"> overdue only</label>
-   <input id="iq" placeholder="Search" value="${esc(q)}" onkeydown="if(event.key==='Enter')inv(1,'${status}','${overdue}',this.value)"></div>`;
-      html += table([['Invoice', 'number'], ['Customer', 'customer_name'], ['Period', x => x.period_start + ' → ' + x.period_end], ['Due', 'due_date'], ['Total', x => money(x.total)], ['Paid', x => money(x.paid_amount)], ['Status', x => badge(x.status)],
-      ['Actions', x => [`<button class="sec" onclick="printInv(${x.id})">Print</button>`,
-      ...(isStaff() ? [x.status === 'draft' ? `<button onclick="invAct(${x.id},'confirm')">Confirm</button>` : '',
-      ['draft', 'confirmed'].includes(x.status) && !x.paid_amount ? `<button class="red" onclick="invAct(${x.id},'cancel')">Cancel</button>` : '',
-      x.status !== 'cancelled' ? `<button class="sec" onclick="invAct(${x.id},'send')">Send</button>` : '',
-      x.status === 'confirmed' ? `<button onclick="quickPay(${x.id},${(x.total - x.paid_amount).toFixed(2)})">Record payment</button>` : ''] : [])].join('')]], r.rows) + pager(page, r.total, 20, 'inv_p');
+      let html = `
+        <div class="page-header">
+          <div>
+            <h2>${isStaff() ? 'Customer Invoices' : 'My Invoices'}</h2>
+            <p class="muted">Generate periodic billing, track balances, and record payments.</p>
+          </div>
+          ${isStaff() ? `<button class="emerald" onclick="run(async()=>{const x=await api('/invoices/generate','POST',{});toast(x.created+' invoices created, '+x.skipped+' skipped, '+x.auto_closed+' auto-closed');inv();})">⚡ Generate Due Invoices</button>` : ''}
+        </div>`;
+
+      html += `
+        <div class="filters">
+          <select onchange="inv(1,this.value,'',$('#iq').value)">
+            ${['', 'draft', 'confirmed', 'paid', 'cancelled'].map(s => `<option value="${s}" ${s === status ? 'selected' : ''}>${s ? 'Status: ' + s : 'All Statuses'}</option>`).join('')}
+          </select>
+          <label style="flex-direction:row; align-items:center; gap:6px; font-weight:600; cursor:pointer;">
+            <input type="checkbox" ${overdue ? 'checked' : ''} onchange="inv(1,'',this.checked?1:'',$('#iq').value)"> Show Overdue Only
+          </label>
+          <input id="iq" style="width:260px;" placeholder="Search invoice number / customer..." value="${esc(q)}" onkeydown="if(event.key==='Enter')inv(1,'${status}','${overdue}',this.value)">
+        </div>`;
+
+      html += table([
+        ['Invoice', r => `<b style="font-family:monospace; color:var(--primary);">${r.number}</b>`],
+        ['Customer', 'customer_name'],
+        ['Period', x => `${x.period_start} → ${x.period_end}`],
+        ['Due Date', 'due_date'],
+        ['Total', x => `<span class="tabular">${money(x.total)}</span>`],
+        ['Paid', x => `<span class="tabular" style="color:var(--success); font-weight:700;">${money(x.paid_amount)}</span>`],
+        ['Balance', x => `<span class="tabular" style="color:${x.total - x.paid_amount > 0 ? 'var(--danger)' : 'var(--text-muted)'}; font-weight:700;">${money(x.total - x.paid_amount)}</span>`],
+        ['Status', x => badge(x.status)],
+        ['Actions', x => [
+          `<button class="sec" onclick="printInv(${x.id})">🖨️ Print</button>`,
+          ...(isStaff() ? [
+            x.status === 'draft' ? `<button onclick="invAct(${x.id},'confirm')">Confirm</button>` : '',
+            ['draft', 'confirmed'].includes(x.status) && !x.paid_amount ? `<button class="red" onclick="invAct(${x.id},'cancel')">Cancel</button>` : '',
+            x.status !== 'cancelled' ? `<button class="sec" onclick="invAct(${x.id},'send')">Send Email</button>` : '',
+            x.status === 'confirmed' ? `<button class="emerald" onclick="openPaymentModal(${x.id}, '${esc(x.number)}', ${(x.total - x.paid_amount).toFixed(2)})">Record Payment</button>` : ''
+          ] : [])
+        ].join('')]
+      ], r.rows) + pager(page, r.total, 20, 'inv_p');
+
       $('#main').innerHTML = html;
     }
     const inv_p = p => inv(p, window._is, window._io, window._iq);
-    const quickPay = (id, bal) => {
-      const method = prompt('Method (cash / card / bank / upi)', 'bank'); if (!method) return; const amount = prompt('Amount', bal); if (!amount) return;
-      run(async () => { const r = await api('/payments', 'POST', { invoice_id: id, method, amount: +amount, note: prompt('Note (optional)', '') || '' }); toast('Payment recorded → invoice ' + r.status); inv(window._ip, window._is, window._io, window._iq) })
-    };
 
-    /* ---------- payments ---------- */
+    function openPaymentModal(invoiceId, invoiceNo, balance) {
+      showModal({
+        title: `Record Payment for ${invoiceNo}`,
+        bodyHtml: `
+          <div style="background:#f8fafc; padding:12px; border-radius:8px; margin-bottom:12px;">
+            <span class="muted">Remaining Balance:</span> <b style="color:var(--danger); font-size:16px;">₹${balance}</b>
+          </div>
+          <label>Payment Method
+            <select id="m-method">
+              <option value="bank">Bank Transfer</option>
+              <option value="upi">UPI</option>
+              <option value="card">Credit / Debit Card</option>
+              <option value="cash">Cash</option>
+              <option value="cheque">Cheque</option>
+            </select>
+          </label>
+          <label>Amount (₹)
+            <input type="number" id="m-amount" step="any" value="${balance}">
+          </label>
+          <label>Payment Date
+            <input type="date" id="m-date" value="${new Date().toISOString().slice(0, 10)}">
+          </label>
+          <label>Reference Note (Optional)
+            <input type="text" id="m-note" placeholder="Transaction ID or remarks">
+          </label>`,
+        confirmText: 'Confirm Payment',
+        onConfirm: async () => {
+          const method = $('#m-method').value;
+          const amount = +$('#m-amount').value;
+          const date = $('#m-date').value;
+          const note = $('#m-note').value;
+          const r = await api('/payments', 'POST', { invoice_id: invoiceId, method, amount, date, note });
+          toast('Payment recorded! Invoice status: ' + r.status);
+          inv(window._ip, window._is, window._io, window._iq);
+        }
+      });
+    }
+
+    /* ---------- Payments Ledger ---------- */
     async function pay() {
       const [open, list] = await Promise.all([api('/invoices?status=confirmed&limit=200'), api('/payments')]);
-      $('#main').innerHTML = `<h2>Payments</h2><details open><summary>+ Record payment</summary>${formHtml('f', [
-        { n: 'invoice_id', l: 'Invoice', t: 'select', o: open.rows.map(i => [i.id, `${i.number} · ${i.customer_name} · balance ${(i.total - i.paid_amount).toFixed(2)}`]) },
-        { n: 'method', l: 'Method', t: 'select', o: [['bank', 'Bank transfer'], ['card', 'Card'], ['upi', 'UPI'], ['cash', 'Cash'], ['cheque', 'Cheque']] },
-        { n: 'amount', l: 'Amount', t: 'number', req: 1 }, { n: 'date', l: 'Date', t: 'date', v: new Date().toISOString().slice(0, 10) }, { n: 'note', l: 'Note' }])}</details>`
-        + table([['Date', 'date'], ['Invoice', 'invoice_number'], ['Customer', 'customer_name'], ['Method', 'method'], ['Amount', x => money(x.amount)], ['Note', 'note']], list);
-      onSave('f', async d => { const r = await api('/payments', 'POST', d); toast('Recorded → invoice ' + r.status); pay() });
+      $('#main').innerHTML = `
+        <div class="page-header">
+          <div>
+            <h2>Payments Ledger</h2>
+            <p class="muted">All recorded collections, bank transfers, and partial settlements.</p>
+          </div>
+        </div>
+        <details open><summary>+ Record New Payment</summary>${formHtml('f', [
+          { n: 'invoice_id', l: 'Confirmed Invoice', t: 'select', o: open.rows.map(i => [i.id, `${i.number} — ${i.customer_name} (Balance: ₹${(i.total - i.paid_amount).toFixed(2)})`]) },
+          { n: 'method', l: 'Method', t: 'select', o: [['bank', 'Bank Transfer'], ['upi', 'UPI'], ['card', 'Credit/Debit Card'], ['cash', 'Cash'], ['cheque', 'Cheque']] },
+          { n: 'amount', l: 'Amount', t: 'number', req: 1 },
+          { n: 'date', l: 'Date', t: 'date', v: new Date().toISOString().slice(0, 10) },
+          { n: 'note', l: 'Reference Note' }
+        ])}</details>` +
+        table([
+          ['Date', 'date'],
+          ['Invoice', r => `<b style="font-family:monospace; color:var(--primary);">${r.invoice_number}</b>`],
+          ['Customer', 'customer_name'],
+          ['Method', r => `<span class="b" style="background:#f1f5f9; color:#334155;">${esc(r.method).toUpperCase()}</span>`],
+          ['Amount', x => `<span class="tabular" style="color:var(--success); font-weight:700;">${money(x.amount)}</span>`],
+          ['Note', 'note']
+        ], list);
+
+      onSave('f', async d => {
+        const r = await api('/payments', 'POST', d);
+        toast('Payment recorded! Invoice status: ' + r.status);
+        pay();
+      });
     }
 
-    /* ---------- admin config views ---------- */
+    /* ---------- Products & Variants ---------- */
     async function prod() {
       const rows = await api('/products');
-      $('#main').innerHTML = `<h2>Products</h2>${isAdmin() ? `<details><summary>+ Add product</summary>${formHtml('f', [{ n: 'name', l: 'Name', req: 1 }, { n: 'type', l: 'Type', t: 'select', o: [['service', 'Service'], ['software', 'Software'], ['addon', 'Add-on'], ['physical', 'Physical']] }, { n: 'sales_price', l: 'Sales price', t: 'number', req: 1 }, { n: 'cost_price', l: 'Cost price', t: 'number', v: 0 }, { n: 'notes', l: 'Notes' }])}</details>` : ''}`
-        + table([['Name', 'name'], ['Type', 'type'], ['Sales', x => money(x.sales_price)], ['Cost', x => money(x.cost_price)], ['Variants', x => x.variants.map(v => `${esc(v.attribute)}: ${esc(v.value)} (+${v.extra_price})`).join('<br>')],
-        ...(isAdmin() ? [['', x => `<button class="sec" onclick="addVariant(${x.id})">+ Variant</button>`]] : [])], rows);
-      if (isAdmin()) onSave('f', async d => { await api('/products', 'POST', d); toast('Saved'); prod() });
+      $('#main').innerHTML = `
+        <div class="page-header">
+          <div>
+            <h2>Products & Offerings</h2>
+            <p class="muted">Items sold, base prices, and custom attribute variant add-ons.</p>
+          </div>
+        </div>
+        ${isAdmin() ? `<details><summary>+ Add New Product</summary>${formHtml('f', [
+          { n: 'name', l: 'Product Name', req: 1 },
+          { n: 'type', l: 'Type', t: 'select', o: [['service', 'Service'], ['software', 'Software'], ['addon', 'Add-on'], ['physical', 'Physical']] },
+          { n: 'sales_price', l: 'Sales Price (₹)', t: 'number', req: 1 },
+          { n: 'cost_price', l: 'Cost Price (₹)', t: 'number', v: 0 },
+          { n: 'notes', l: 'Notes' }
+        ])}</details>` : ''}` +
+        table([
+          ['Name', r => `<b>${esc(r.name)}</b>`],
+          ['Type', r => `<span class="b" style="background:#f8fafc; border:1px solid var(--border);">${esc(r.type)}</span>`],
+          ['Sales Price', x => `<span class="tabular">${money(x.sales_price)}</span>`],
+          ['Cost Price', x => `<span class="tabular muted">${money(x.cost_price)}</span>`],
+          ['Configured Variants', x => x.variants.map(v => `<span style="display:inline-block; background:#eef2ff; color:#4338ca; border-radius:4px; padding:2px 6px; margin:2px 0; font-size:12px;"><b>${esc(v.attribute)}:</b> ${esc(v.value)} (+₹${v.extra_price})</span>`).join('<br>') || '<span class="muted">None</span>'],
+          ...(isAdmin() ? [['Actions', x => `<button class="sec" onclick="openVariantModal(${x.id},'${esc(x.name)}')">+ Add Variant</button>`]] : [])
+        ], rows);
+
+      if (isAdmin()) onSave('f', async d => { await api('/products', 'POST', d); toast('Product saved'); prod(); });
     }
-    const addVariant = id => {
-      const attribute = prompt('Attribute (e.g. Brand)'); if (!attribute) return; const value = prompt('Value (e.g. Odoo)'); if (!value) return; const extra_price = prompt('Extra price (e.g. 560)', '0');
-      run(async () => { await api(`/products/${id}/variants`, 'POST', { attribute, value, extra_price }); prod() })
-    };
+
+    function openVariantModal(productId, productName) {
+      showModal({
+        title: `Add Variant to ${productName}`,
+        bodyHtml: `
+          <label>Attribute Name
+            <input type="text" id="v-attr" placeholder="e.g. Brand, Tier, Region" required>
+          </label>
+          <label>Attribute Value
+            <input type="text" id="v-val" placeholder="e.g. Odoo, Enterprise, US" required>
+          </label>
+          <label>Extra Price Add-on (₹)
+            <input type="number" id="v-price" step="any" value="0">
+          </label>`,
+        confirmText: 'Save Variant',
+        onConfirm: async () => {
+          const attribute = $('#v-attr').value.trim();
+          const value = $('#v-val').value.trim();
+          const extra_price = +$('#v-price').value || 0;
+          if (!attribute || !value) throw new Error('Attribute and value required');
+          await api(`/products/${productId}/variants`, 'POST', { attribute, value, extra_price });
+          toast('Variant added successfully');
+          prod();
+        }
+      });
+    }
+
+    /* ---------- Plans ---------- */
     async function plan() {
       const [rows, prods] = await Promise.all([api('/plans'), api('/products')]);
-      $('#main').innerHTML = `<h2>Plans</h2>${isAdmin() ? `<details><summary>+ Add plan</summary>${formHtml('f', [{ n: 'name', l: 'Name', req: 1 }, { n: 'product_id', l: 'Product', t: 'select', o: prods.map(p => [p.id, p.name]) }, { n: 'price', l: 'Price', t: 'number', req: 1 },
-      { n: 'billing_period', l: 'Billing period', t: 'select', o: ['daily', 'weekly', 'monthly', 'yearly'].map(x => [x, x]) }, { n: 'min_qty', l: 'Min quantity', t: 'number', v: 1 }, { n: 'start_date', l: 'Available from', t: 'date' }, { n: 'end_date', l: 'Available until', t: 'date' },
-      { n: 'auto_close', l: 'Auto-close at end?', t: 'select', o: [['0', 'No'], ['1', 'Yes']] }, { n: 'closable', l: 'Can close early?', t: 'select', o: yn }, { n: 'pausable', l: 'Can pause?', t: 'select', o: [['0', 'No'], ['1', 'Yes']] }, { n: 'renewable', l: 'Can renew?', t: 'select', o: yn }])}</details>` : ''}`
-        + table([['Name', 'name'], ['Price', x => money(x.price)], ['Billing', 'billing_period'], ['Min qty', 'min_qty'], ['Available', x => `${x.start_date || '…'} → ${x.end_date || '…'}`], ['Auto-close', x => x.auto_close ? '✔' : '—'], ['Close early', x => x.closable ? '✔' : '—'], ['Pause', x => x.pausable ? '✔' : '—'], ['Renew', x => x.renewable ? '✔' : '—']], rows);
-      if (isAdmin()) onSave('f', async d => { await api('/plans', 'POST', d); toast('Saved'); plan() });
+      $('#main').innerHTML = `
+        <div class="page-header">
+          <div>
+            <h2>Subscription Plans</h2>
+            <p class="muted">Billing intervals, minimum seat commitments, and lifecycle flags.</p>
+          </div>
+        </div>
+        ${isAdmin() ? `<details><summary>+ Add New Plan</summary>${formHtml('f', [
+          { n: 'name', l: 'Plan Name', req: 1 },
+          { n: 'product_id', l: 'Primary Product', t: 'select', o: prods.map(p => [p.id, p.name]) },
+          { n: 'price', l: 'Price (₹)', t: 'number', req: 1 },
+          { n: 'billing_period', l: 'Billing Interval', t: 'select', o: ['daily', 'weekly', 'monthly', 'yearly'].map(x => [x, x.toUpperCase()]) },
+          { n: 'min_qty', l: 'Min Seats/Quantity', t: 'number', v: 1 },
+          { n: 'start_date', l: 'Available From', t: 'date' },
+          { n: 'end_date', l: 'Available Until', t: 'date' },
+          { n: 'auto_close', l: 'Auto-close when expired & billed?', t: 'select', o: [['0', 'No'], ['1', 'Yes']] },
+          { n: 'closable', l: 'Allow closing early?', t: 'select', o: yn },
+          { n: 'pausable', l: 'Allow pause / resume?', t: 'select', o: [['0', 'No'], ['1', 'Yes']] },
+          { n: 'renewable', l: 'Allow contract renewal?', t: 'select', o: yn }
+        ])}</details>` : ''}` +
+        table([
+          ['Name', r => `<b>${esc(r.name)}</b>`],
+          ['Price', x => `<span class="tabular">${money(x.price)}</span>`],
+          ['Interval', r => `<span class="b" style="background:#e0e7ff; color:#3730a3;">${r.billing_period}</span>`],
+          ['Min Qty', 'min_qty'],
+          ['Availability', x => `${x.start_date || 'Any'} → ${x.end_date || 'Indefinite'}`],
+          ['Auto-Close', x => x.auto_close ? '✓' : '—'],
+          ['Close Early', x => x.closable ? '✓' : '—'],
+          ['Pausable', x => x.pausable ? '✓' : '—'],
+          ['Renewable', x => x.renewable ? '✓' : '—']
+        ], rows);
+
+      if (isAdmin()) onSave('f', async d => { await api('/plans', 'POST', d); toast('Plan created'); plan(); });
     }
+
+    /* ---------- Taxes ---------- */
     async function tax() {
       const rows = await api('/taxes');
-      $('#main').innerHTML = `<h2>Taxes</h2>${isAdmin() ? `<details><summary>+ Add tax</summary>${formHtml('f', [{ n: 'name', l: 'Name', req: 1 }, { n: 'rate', l: 'Rate %', t: 'number', req: 1 }, { n: 'is_default', l: 'Default?', t: 'select', o: [['0', 'No'], ['1', 'Yes']] }])}</details>` : ''}`
-        + table([['Name', 'name'], ['Rate %', 'rate'], ['Default', x => x.is_default ? '✔' : '—']], rows);
-      if (isAdmin()) onSave('f', async d => { await api('/taxes', 'POST', d); tax() });
+      $('#main').innerHTML = `
+        <div class="page-header">
+          <div>
+            <h2>Tax Configurations</h2>
+            <p class="muted">Automated GST and sales tax rules applied to billable items.</p>
+          </div>
+        </div>
+        ${isAdmin() ? `<details><summary>+ Add New Tax Rule</summary>${formHtml('f', [
+          { n: 'name', l: 'Tax Name (e.g. GST 18%)', req: 1 },
+          { n: 'rate', l: 'Tax Rate (%)', t: 'number', req: 1 },
+          { n: 'is_default', l: 'Apply as Default Tax?', t: 'select', o: [['0', 'No'], ['1', 'Yes']] }
+        ])}</details>` : ''}` +
+        table([
+          ['Name', r => `<b>${esc(r.name)}</b>`],
+          ['Rate', r => `<span class="tabular">${r.rate}%</span>`],
+          ['Default Tax', x => x.is_default ? '<span class="b active">Default</span>' : '—']
+        ], rows);
+
+      if (isAdmin()) onSave('f', async d => { await api('/taxes', 'POST', d); toast('Tax saved'); tax(); });
     }
+
+    /* ---------- Discounts ---------- */
     async function disc() {
       const [rows, prods] = await Promise.all([api('/discounts'), api('/products')]);
-      $('#main').innerHTML = `<h2>Discounts</h2>${isAdmin() ? `<details><summary>+ Add discount rule</summary>${formHtml('f', [{ n: 'name', l: 'Name', req: 1 }, { n: 'type', l: 'Type', t: 'select', o: [['percent', 'Percentage'], ['fixed', 'Fixed amount']] }, { n: 'value', l: 'Value', t: 'number', req: 1 },
-      { n: 'min_purchase', l: 'Min purchase', t: 'number', v: 0 }, { n: 'min_qty', l: 'Min quantity', t: 'number', v: 0 }, { n: 'start_date', l: 'Start', t: 'date' }, { n: 'end_date', l: 'End', t: 'date' }, { n: 'usage_limit', l: 'Usage limit', t: 'number' },
-      { n: 'applies_to', l: 'Applies to', t: 'select', o: [['subscription', 'Whole subscription'], ['product', 'Specific product']] }, { n: 'product_id', l: 'Product (if product)', t: 'select', o: [['', '—'], ...prods.map(p => [p.id, p.name])] }, { n: 'subscription_id', l: 'Subscription ID (optional)', t: 'number' }])}</details>` : ''}`
-        + table([['Name', 'name'], ['Rule', x => x.type === 'percent' ? x.value + '%' : money(x.value)], ['Min purchase/qty', x => `${x.min_purchase} / ${x.min_qty}`], ['Valid', x => `${x.start_date || '…'} → ${x.end_date || '…'}`], ['Used', x => `${x.used_count}/${x.usage_limit ?? '∞'}`], ['Applies to', x => x.applies_to + (x.product_id ? ' #' + x.product_id : '') + (x.subscription_id ? ' sub#' + x.subscription_id : '')]], rows);
-      if (isAdmin()) onSave('f', async d => { await api('/discounts', 'POST', d); toast('Saved'); disc() });
+      $('#main').innerHTML = `
+        <div class="page-header">
+          <div>
+            <h2>Discount Rules</h2>
+            <p class="muted">Configurable promotional reductions applied on invoices.</p>
+          </div>
+        </div>
+        ${isAdmin() ? `<details><summary>+ Create Discount Rule</summary>${formHtml('f', [
+          { n: 'name', l: 'Discount Name', req: 1 },
+          { n: 'type', l: 'Discount Type', t: 'select', o: [['percent', 'Percentage (%)'], ['fixed', 'Fixed Amount (₹)']] },
+          { n: 'value', l: 'Discount Value', t: 'number', req: 1 },
+          { n: 'min_purchase', l: 'Minimum Purchase (₹)', t: 'number', v: 0 },
+          { n: 'min_qty', l: 'Minimum Quantity', t: 'number', v: 0 },
+          { n: 'start_date', l: 'Start Date', t: 'date' },
+          { n: 'end_date', l: 'End Date', t: 'date' },
+          { n: 'usage_limit', l: 'Maximum Usage Limit', t: 'number' },
+          { n: 'applies_to', l: 'Scope', t: 'select', o: [['subscription', 'Whole Subscription'], ['product', 'Specific Product Only']] },
+          { n: 'product_id', l: 'Target Product (if product-specific)', t: 'select', o: [['', '— Select —'], ...prods.map(p => [p.id, p.name])] },
+          { n: 'subscription_id', l: 'Specific Subscription ID (Optional)', t: 'number' }
+        ])}</details>` : ''}` +
+        table([
+          ['Name', r => `<b>${esc(r.name)}</b>`],
+          ['Rule', x => `<span class="tabular font-bold" style="color:var(--success);">${x.type === 'percent' ? x.value + '%' : money(x.value)}</span>`],
+          ['Min Thresholds', x => `₹${x.min_purchase} / ${x.min_qty} seats`],
+          ['Validity Period', x => `${x.start_date || 'Any'} → ${x.end_date || 'Indefinite'}`],
+          ['Usage', x => `<span class="tabular">${x.used_count} / ${x.usage_limit ?? '∞'}</span>`],
+          ['Target Scope', x => `<span class="b" style="background:#f1f5f9;">${x.applies_to}</span> ${x.product_id ? '#' + x.product_id : ''} ${x.subscription_id ? 'sub#' + x.subscription_id : ''}`]
+        ], rows);
+
+      if (isAdmin()) onSave('f', async d => { await api('/discounts', 'POST', d); toast('Discount rule saved'); disc(); });
     }
+
+    /* ---------- Quotation Templates ---------- */
     async function tpl() {
       const [rows, plans, prods] = await Promise.all([api('/templates'), api('/plans'), api('/products')]);
-      $('#main').innerHTML = `<h2>Quotation templates</h2><details><summary>+ Add template</summary>${formHtml('f', [{ n: 'name', l: 'Name', req: 1 }, { n: 'plan_id', l: 'Plan', t: 'select', o: plans.map(p => [p.id, p.name]) }, { n: 'validity_days', l: 'Valid for (days)', t: 'number', v: 30 }, { n: 'product_id', l: 'Product', t: 'select', o: prods.map(p => [p.id, p.name]) }, { n: 'quantity', l: 'Quantity', t: 'number', v: 1 }])}</details>`
-        + table([['Name', 'name'], ['Plan ID', 'plan_id'], ['Valid days', 'validity_days'], ['Lines', x => x.lines.length]], rows);
-      onSave('f', async d => { await api('/templates', 'POST', { name: d.name, plan_id: d.plan_id, validity_days: +d.validity_days, lines: [{ product_id: d.product_id, quantity: +d.quantity }] }); toast('Saved'); tpl() });
+      $('#main').innerHTML = `
+        <div class="page-header">
+          <div>
+            <h2>Quotation Templates</h2>
+            <p class="muted">Reusable sales proposals with pre-selected plans and lines.</p>
+          </div>
+        </div>
+        <details><summary>+ Create Quotation Template</summary>${formHtml('f', [
+          { n: 'name', l: 'Template Name', req: 1 },
+          { n: 'plan_id', l: 'Linked Plan', t: 'select', o: plans.map(p => [p.id, p.name]) },
+          { n: 'validity_days', l: 'Quote Validity (Days)', t: 'number', v: 30 },
+          { n: 'product_id', l: 'Default Product Line', t: 'select', o: prods.map(p => [p.id, p.name]) },
+          { n: 'quantity', l: 'Default Quantity', t: 'number', v: 1 }
+        ])}</details>` +
+        table([
+          ['Template Name', r => `<b>${esc(r.name)}</b>`],
+          ['Linked Plan ID', 'plan_id'],
+          ['Valid Days', 'validity_days'],
+          ['Line Items', x => `<span class="tabular">${x.lines.length} lines</span>`]
+        ], rows);
+
+      onSave('f', async d => {
+        await api('/templates', 'POST', {
+          name: d.name, plan_id: d.plan_id, validity_days: +d.validity_days,
+          lines: [{ product_id: d.product_id, quantity: +d.quantity }]
+        });
+        toast('Template created');
+        tpl();
+      });
     }
+
+    /* ---------- Staff Accounts (Admin Only) ---------- */
     async function staff() {
       const rows = await api('/users?role=staff');
-      $('#main').innerHTML = `<h2>Staff (admin only)</h2><details open><summary>+ Add staff member</summary>${formHtml('f', [{ n: 'name', l: 'Name', req: 1 }, { n: 'email', l: 'Email', t: 'email', req: 1 }, { n: 'password', l: 'Temp password', t: 'password', req: 1 }])}</details>` + table([['Name', 'name'], ['Email', 'email']], rows);
-      onSave('f', async d => { await api('/staff', 'POST', d); toast('Staff added'); staff() });
+      $('#main').innerHTML = `
+        <div class="page-header">
+          <div>
+            <h2>Staff Team Members</h2>
+            <p class="muted">Grant internal team members access to day-to-day operations.</p>
+          </div>
+        </div>
+        <details open><summary>+ Add Staff Member</summary>${formHtml('f', [
+          { n: 'name', l: 'Staff Full Name', req: 1 },
+          { n: 'email', l: 'Work Email Address', t: 'email', req: 1 },
+          { n: 'password', l: 'Temporary Password (9+ chars with Upper, Lower, Special)', t: 'password', req: 1 }
+        ])}</details>` +
+        table([
+          ['Staff Name', r => `<b>${esc(r.name)}</b>`],
+          ['Email Address', 'email'],
+          ['Role', () => '<span class="b confirmed">Staff</span>']
+        ], rows);
+
+      onSave('f', async d => {
+        await api('/staff', 'POST', d);
+        toast('Staff member invited successfully');
+        staff();
+      });
     }
 
     user && token ? shell() : authScreen();

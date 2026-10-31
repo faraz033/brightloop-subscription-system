@@ -158,6 +158,22 @@ function closeModal() {
   $('#modal-container').innerHTML = '';
 }
 
+function downloadCsv(path, filename) {
+  fetch('/api/' + path, { headers: { ...(token ? { Authorization: 'Bearer ' + token } : {}) } })
+    .then(r => {
+      if (!r.ok) throw new Error('Export failed');
+      return r.blob();
+    })
+    .then(b => {
+      const u = URL.createObjectURL(b);
+      const a = document.createElement('a');
+      a.href = u; a.download = filename;
+      document.body.appendChild(a); a.click(); a.remove();
+      showToast('CSV report downloaded');
+    })
+    .catch(e => showToast(e.message, true));
+}
+
 /* --------------------------------------------------
    ROUTING & VIEW SWITCHING (LANDING vs APP vs AUTH)
    -------------------------------------------------- */
@@ -423,6 +439,7 @@ async function dash(from = '', to = '') {
         <p class="muted">Live recurring metrics, revenue recognition, and payment status.</p>
       </div>
       <div class="filters-bar">
+        <button class="btn-sec" onclick="downloadCsv('reports/export/invoices', 'invoices_summary.csv')">📥 Export CSV</button>
         <label style="display:flex; align-items:center; gap:6px; font-weight:700;">From <input type="date" id="dashFromDate" value="${from}"></label>
         <label style="display:flex; align-items:center; gap:6px; font-weight:700;">To <input type="date" id="dashToDate" value="${to}"></label>
         <button class="btn-primary" onclick="run(() => dash($('#dashFromDate').value, $('#dashToDate').value))">Filter</button>
@@ -499,6 +516,7 @@ async function subs(page = 1, status = '', q = '') {
         <h2>${isStaff() ? 'Customer Subscriptions' : 'My Subscriptions'}</h2>
         <p class="muted">Manage contracts, pricing plans, and recurring order lifecycles.</p>
       </div>
+      <button class="btn-sec" onclick="downloadCsv('reports/export/subscriptions', 'subscriptions.csv')">📥 Export CSV</button>
     </div>
   `;
 
@@ -609,13 +627,16 @@ async function inv(page = 1, status = '', overdue = '', q = '') {
         <h2>${isStaff() ? 'Customer Invoices' : 'My Invoices'}</h2>
         <p class="muted">Generate periodic billing, track balances, and record payments.</p>
       </div>
-      ${isStaff() ? `
-        <button class="btn-emerald" onclick="run(async () => {
-          const x = await api('/invoices/generate', 'POST', {});
-          showToast(x.created + ' invoices created, ' + x.skipped + ' skipped, ' + x.auto_closed + ' auto-closed');
-          inv();
-        })">⚡ Generate Due Invoices</button>
-      ` : ''}
+      <div style="display:flex; gap:8px;">
+        <button class="btn-sec" onclick="downloadCsv('reports/export/invoices', 'invoices.csv')">📥 Export CSV</button>
+        ${isStaff() ? `
+          <button class="btn-emerald" onclick="run(async () => {
+            const x = await api('/invoices/generate', 'POST', {});
+            showToast(x.created + ' invoices created, ' + x.skipped + ' skipped, ' + x.auto_closed + ' auto-closed');
+            inv();
+          })">⚡ Generate Due Invoices</button>
+        ` : ''}
+      </div>
     </div>
 
     <div class="filters-bar">
@@ -709,6 +730,7 @@ async function pay() {
         <h2>Payments Ledger</h2>
         <p class="muted">All recorded collections, bank transfers, and partial settlements.</p>
       </div>
+      <button class="btn-sec" onclick="downloadCsv('reports/export/payments', 'payments_ledger.csv')">📥 Export CSV</button>
     </div>
     <details open>
       <summary>+ Record New Payment</summary>

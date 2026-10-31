@@ -985,54 +985,36 @@
             <div class="faq-answer-pane">
               Click the "Get Started" button in the navigation bar to register with your name, email, and a secure password (minimum 8 characters with uppercase, lowercase, and special character), or sign in instantly with Google!
             </div>
-            <div class="modal-body">${bodyHtml}</div>
-            <div class="modal-footer">
-              <button class="sec" onclick="closeModal()">Cancel</button>
-              <button id="modal-confirm-btn">${confirmText}</button>
-            </div>
           </div>
-        </div>`;
-      $('#mb').onclick = e => { if (e.target.id === 'mb') closeModal(); };
-      $('#modal-confirm-btn').onclick = async () => {
-        try {
-          await onConfirm();
-          closeModal();
-        } catch (e) {
-          toast(e.message, 1);
-        }
-      };
-    }
-    function closeModal() { $('#modal-container').innerHTML = ''; }
+        </div>
+      </div>
+    </section>
 
-    /* ---------- Auth Screens ---------- */
-    function authScreen(mode = 'login') {
-      const rt = new URLSearchParams(location.search).get('reset');
-      if (rt) { mode = 'reset'; }
-      const titles = { login: 'Welcome Back', signup: 'Create Account', forgot: 'Reset Password', reset: 'Set New Password' };
-      const sub = {
-        login: 'Sign in to access your Brightloop workspace',
-        signup: 'Join Brightloop to start your subscription services',
-        forgot: 'Enter your email to receive a password reset link',
-        reset: 'Choose a strong password with 9+ characters'
-      };
+    <!-- SECTION 15: FINAL CALL TO ACTION -->
+    <section class="final-cta-section">
+      <div class="container-full final-cta-box">
+        <div class="logo-bolt-icon" style="width: 72px; height: 72px; font-size: 2.2rem; margin: 0 auto 1.5rem auto; border-radius: 20px;">⚡</div>
+        <h2 style="font-size: clamp(2.4rem, 4.5vw, 3.8rem); font-weight: 900; margin-bottom: 1.25rem; letter-spacing: -0.03em;">
+          Ready to Put Your Subscription Chaos in a Loop?
+        </h2>
+        <p style="font-size: 1.2rem; color: #cbd5e1; max-width: 680px; margin: 0 auto 2.5rem auto; line-height: 1.6;">
+          Bring your products, plans, subscriptions, invoices, and payments together with Brightloop.
+        </p>
+        <div style="display: flex; justify-content: center; gap: 1.25rem; flex-wrap: wrap;">
+          <a href="#" class="btn-hero-primary open-signup-btn">Get Started Free →</a>
+          <a href="#" class="btn-hero-secondary open-login-btn">Sign In to Account</a>
+        </div>
+      </div>
+    </section>
 
-      $('#app').innerHTML = `
-        <div class="auth-wrapper">
-          <div class="box">
-            <div class="brand-badge">⚡</div>
-            <h2>${titles[mode]}</h2>
-            <p class="subtitle">${sub[mode]}</p>
-            <form id="af">
-              ${mode === 'signup' ? '<input name="name" placeholder="Full Name" required>' : ''}
-              ${mode !== 'reset' ? '<input name="email" type="email" placeholder="Work Email" required>' : ''}
-              ${mode === 'login' || mode === 'signup' || mode === 'reset' ? '<input name="password" type="password" placeholder="Password" required>' : ''}
-              <button>${titles[mode]}</button>
-            </form>
-            <div class="auth-links">
-              ${mode === 'login' 
-                ? `<p><a onclick="authScreen('signup')">Create customer account</a> · <a onclick="authScreen('forgot')">Forgot password?</a></p>`
-                : `<p><a onclick="history.replaceState(0,0,'/');authScreen('login')">← Back to Login</a></p>`}
-              ${mode === 'signup' ? '<p class="muted" style="margin-top:10px; font-size:11.5px;">Password rule: 9+ chars, uppercase, lowercase & special symbol.</p>' : ''}
+    <!-- SECTION 16: COMPLETE FOOTER -->
+    <footer class="bl-main-footer">
+      <div class="container-full">
+        <div class="footer-top-grid">
+          <div class="footer-col">
+            <div class="bl-brand-logo" style="margin-bottom: 1.25rem;">
+              <div class="logo-bolt-icon">⚡</div>
+              <span>Brightloop</span>
             </div>
             <p style="font-size: 0.9rem; line-height: 1.7; max-width: 320px; color: #94a3b8;">
               Intelligent subscription management, automated recurring invoice engines, and financial operations built for high-growth businesses.
@@ -1068,35 +1050,16 @@
               <li><a href="#finance">Finance Telemetry</a></li>
             </ul>
           </div>
-        </header>
-        <main id="main"></main>`;
-      go(NAV[activeRole][0][0]);
-    }
 
-    const go = k => {
-      document.querySelectorAll('nav a').forEach(el => el.classList.remove('active'));
-      const activeNav = $(`#nav-${k}`);
-      if (activeNav) activeNav.classList.add('active');
-      run(() => ({ dash, subs, inv, pay, prod, plan, tax, disc, tpl, staff })[k]());
-    };
-
-    /* ---------- Dashboard ---------- */
-    async function dash(from = '', to = '') {
-      const s = await api(`/reports/summary?from=${from}&to=${to}`);
-      const totalFin = (s.revenue || 0) + (s.outstanding || 0);
-      const revPct = totalFin > 0 ? Math.round((s.revenue / totalFin) * 100) : 0;
-      const outPct = 100 - revPct;
-
-      $('#main').innerHTML = `
-        <div class="page-header">
-          <div>
-            <h2>Finance Overview</h2>
-            <p class="muted">Live recurring metrics, revenue recognition, and payment status.</p>
-          </div>
-          <div class="filters">
-            <label style="flex-direction:row; align-items:center; gap:6px;">From <input type="date" id="from" value="${from}"></label>
-            <label style="flex-direction:row; align-items:center; gap:6px;">To <input type="date" id="to" value="${to}"></label>
-            <button onclick="run(()=>dash($('#from').value,$('#to').value))">Filter</button>
+          <div class="footer-col">
+            <h5>Account</h5>
+            <ul class="footer-links-list">
+              <li><a href="#" class="open-login-btn">Sign In</a></li>
+              <li><a href="#" class="open-signup-btn">Create Free Account</a></li>
+              <li><a href="#" class="btn-demo-badge" data-role="admin">👑 Admin Demo</a></li>
+              <li><a href="#" class="btn-demo-badge" data-role="staff">💼 Staff Demo</a></li>
+              <li><a href="#" class="btn-demo-badge" data-role="customer">👤 Customer Demo</a></li>
+            </ul>
           </div>
         </div>
 
@@ -1146,156 +1109,46 @@
         </div>
       </div>
 
-        <h3>🚨 Overdue Invoices Requiring Follow-up</h3>` +
-        table([
-          ['Invoice', 'number'],
-          ['Customer', 'customer_name'],
-          ['Due Date', 'due_date'],
-          ['Outstanding Balance', r => `<span class="tabular" style="color:var(--danger); font-weight:700;">${money(r.total - r.paid_amount)}</span>`]
-        ], s.overdue);
-    }
+      <!-- Right side: Sleek Authentication Form -->
+      <div class="auth-card-form">
+        <div class="auth-top-action-bar">
+          <button type="button" class="btn-back-home" onclick="closeAuthModal()">
+            <span>←</span> <span>Back to Website</span>
+          </button>
+          <button type="button" class="btn-close-auth-x" onclick="closeAuthModal()" title="Close">✕</button>
+        </div>
 
-    /* ---------- Subscriptions ---------- */
-    const NEXT = { draft: 'quotation', quotation: 'confirmed', confirmed: 'active' };
-    const subAct = (id, p, body) => run(async () => {
-      await api(`/subscriptions/${id}/${p}`, 'POST', body);
-      toast('Subscription status updated');
-      subs(window._sp || 1, window._ss || '', window._sq || '');
-    });
+        <div class="auth-form-header">
+          <h2 id="authHeadingText">Welcome to Brightloop</h2>
+          <p id="authSubheadingText">Enter your credentials or test with 1-click demo roles.</p>
+        </div>
 
-    async function subs(page = 1, status = '', q = '') {
-      window._sp = page; window._ss = status; window._sq = q;
-      let html = `
-        <div class="page-header">
-          <div>
-            <h2>${isStaff() ? 'Customer Subscriptions' : 'My Subscriptions'}</h2>
-            <p class="muted">Manage contracts, pricing plans, and recurring order lifecycles.</p>
-          </div>
-        </div>`, ctx = null;
+        <!-- Mode switcher tabs -->
+        <div class="auth-mode-tabs">
+          <button type="button" id="authTabLogin" class="auth-tab-btn active">Sign In</button>
+          <button type="button" id="authTabSignup" class="auth-tab-btn">Create Account</button>
+        </div>
 
-      if (isStaff()) {
-        const [cust, plans, tpls, prods] = await Promise.all([
-          api('/users?role=customer'), api('/plans'), api('/templates'), api('/products')
-        ]);
-        const variants = prods.flatMap(p => p.variants.map(v => [v.id, `${p.name} — ${v.attribute}: ${v.value} (+₹${v.extra_price})`]));
+        <!-- Working Google Auth Button -->
+        <button type="button" class="btn-google-auth-wide google-auth-action">
+          <svg class="google-icon-svg" viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.34 24 12 24z"/>
+            <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+          </svg>
+          <span>Continue with Google</span>
+        </button>
 
-        html += `<details><summary>+ New Quotation / Subscription</summary>${formHtml('f', [
-          { n: 'customer_id', l: 'Customer', t: 'select', o: cust.map(c => [c.id, `${c.name} (${c.email})`]) },
-          { n: 'template_id', l: 'Start from Quotation Template', t: 'select', o: [['', '— None (manual items) —'], ...tpls.map(t => [t.id, t.name])] },
-          { n: 'plan_id', l: 'Billing Plan', t: 'select', o: plans.map(p => [p.id, `${p.name} (${p.billing_period})`]) },
-          { n: 'start_date', l: 'Start Date', t: 'date', req: 1 },
-          { n: 'expiry_date', l: 'Expiry Date (optional)', t: 'date' },
-          { n: 'payment_terms', l: 'Payment Terms', t: 'select', o: [['Immediate', 'Immediate'], ['Net 15', 'Net 15'], ['Net 30', 'Net 30']] },
-          { n: 'product_id', l: 'Product (if not using template)', t: 'select', o: [['', '— None —'], ...prods.map(p => [p.id, p.name])] },
-          { n: 'variant_id', l: 'Variant (Optional)', t: 'select', o: [['', '— Standard —'], ...variants] },
-          { n: 'quantity', l: 'Quantity', t: 'number', v: 1 }
-        ])}</details>`;
-        ctx = 1;
-      }
+        <div class="auth-divider-line">or continue with work email</div>
 
-      const r = await api(`/subscriptions?page=${page}&status=${status}&q=${encodeURIComponent(q)}`);
-      html += `
-        <div class="filters">
-          <select id="fs" onchange="subs(1,this.value,$('#fq').value)">
-            ${['', 'draft', 'quotation', 'confirmed', 'active', 'closed'].map(s => `<option value="${s}" ${s === status ? 'selected' : ''}>${s ? 'Status: ' + s : 'All Statuses'}</option>`).join('')}
-          </select>
-          <input id="fq" style="width:260px;" placeholder="Search subscription / customer..." value="${esc(q)}" onkeydown="if(event.key==='Enter')subs(1,$('#fs').value,this.value)">
-        </div>`;
+        <div id="authErrAlert" class="auth-error-alert"></div>
 
-      html += table([
-        ['Number', r => `<b style="color:var(--primary); font-family:monospace;">${r.number}</b>`],
-        ['Customer', 'customer_name'],
-        ['Plan', 'plan_name'],
-        ['Start', 'start_date'],
-        ['Expiry', 'expiry_date'],
-        ['Status', x => badge(x.status) + (x.paused ? ' <span title="Paused">⏸</span>' : '')],
-        ['Amount / Period', x => `<span class="tabular">${money(x.amount)}</span>`],
-        ...(isStaff() ? [['Actions', x => [
-          NEXT[x.status] ? `<button onclick="subAct(${x.id},'status',{status:'${NEXT[x.status]}'})">Advance → ${NEXT[x.status]}</button>` : '',
-          x.status !== 'closed' && x.closable ? `<button class="red" onclick="subAct(${x.id},'status',{status:'closed'})">Close Early</button>` : '',
-          x.status === 'active' && x.pausable ? (x.paused ? `<button class="sec" onclick="subAct(${x.id},'resume')">Resume</button>` : `<button class="sec" onclick="subAct(${x.id},'pause')">Pause</button>`) : '',
-          ['active', 'closed'].includes(x.status) && x.renewable ? `<button class="emerald" onclick="subAct(${x.id},'renew')">Renew</button>` : ''
-        ].join('')]] : [])
-      ], r.rows) + pager(page, r.total, 20, 'subs_p');
-
-      $('#main').innerHTML = html;
-      if (ctx) onSave('f', async d => {
-        const p = {
-          customer_id: d.customer_id, plan_id: d.plan_id, start_date: d.start_date,
-          expiry_date: d.expiry_date || null, payment_terms: d.payment_terms, template_id: d.template_id || null
-        };
-        if (d.product_id) p.lines = [{ product_id: d.product_id, variant_id: d.variant_id || null, quantity: +d.quantity || 1 }];
-        const res = await api('/subscriptions', 'POST', p);
-        toast('Subscription created ' + res.number);
-        subs();
-      });
-    }
-    const subs_p = p => subs(p, window._ss, window._sq);
-
-    /* ---------- Invoices ---------- */
-    const invAct = (id, p, b) => run(async () => {
-      await api(`/invoices/${id}/${p}`, 'POST', b);
-      toast('Invoice updated');
-      inv(window._ip || 1, window._is || '', window._io || '', window._iq || '');
-    });
-    const printInv = id => window.open(`/api/invoices/${id}/print?token=${token}`);
-
-    async function inv(page = 1, status = '', overdue = '', q = '') {
-      window._ip = page; window._is = status; window._io = overdue; window._iq = q;
-      const r = await api(`/invoices?page=${page}&status=${status}&overdue=${overdue}&q=${encodeURIComponent(q)}`);
-      let html = `
-        <div class="page-header">
-          <div>
-            <h2>${isStaff() ? 'Customer Invoices' : 'My Invoices'}</h2>
-            <p class="muted">Generate periodic billing, track balances, and record payments.</p>
-          </div>
-          ${isStaff() ? `<div style="display:flex; gap:8px;">
-            <button class="sec" onclick="openAutomationModal()">⚙️ Nightly Cron Status</button>
-            <button class="emerald" onclick="run(async()=>{const x=await api('/invoices/generate','POST',{});toast(x.created+' invoices created, '+x.skipped+' skipped, '+x.auto_closed+' auto-closed');inv();})">⚡ Generate Due Invoices</button>
-          </div>` : ''}
-        </div>`;
-
-      html += `
-        <div class="filters">
-          <select onchange="inv(1,this.value,'',$('#iq').value)">
-            ${['', 'draft', 'confirmed', 'paid', 'cancelled'].map(s => `<option value="${s}" ${s === status ? 'selected' : ''}>${s ? 'Status: ' + s : 'All Statuses'}</option>`).join('')}
-          </select>
-          <label style="flex-direction:row; align-items:center; gap:6px; font-weight:600; cursor:pointer;">
-            <input type="checkbox" ${overdue ? 'checked' : ''} onchange="inv(1,'',this.checked?1:'',$('#iq').value)"> Show Overdue Only
-          </label>
-          <input id="iq" style="width:260px;" placeholder="Search invoice number / customer..." value="${esc(q)}" onkeydown="if(event.key==='Enter')inv(1,'${status}','${overdue}',this.value)">
-        </div>`;
-
-      html += table([
-        ['Invoice', r => `<b style="font-family:monospace; color:var(--primary);">${r.number}</b>`],
-        ['Customer', 'customer_name'],
-        ['Period', x => `${x.period_start} → ${x.period_end}`],
-        ['Due Date', 'due_date'],
-        ['Total', x => `<span class="tabular">${money(x.total)}</span>`],
-        ['Paid', x => `<span class="tabular" style="color:var(--success); font-weight:700;">${money(x.paid_amount)}</span>`],
-        ['Balance', x => `<span class="tabular" style="color:${x.total - x.paid_amount > 0 ? 'var(--danger)' : 'var(--text-muted)'}; font-weight:700;">${money(x.total - x.paid_amount)}</span>`],
-        ['Status', x => badge(x.status)],
-        ['Actions', x => [
-          `<button class="sec" onclick="printInv(${x.id})">🖨️ Print</button>`,
-          ...(isStaff() ? [
-            x.status === 'draft' ? `<button onclick="invAct(${x.id},'confirm')">Confirm</button>` : '',
-            ['draft', 'confirmed'].includes(x.status) && !x.paid_amount ? `<button class="red" onclick="invAct(${x.id},'cancel')">Cancel</button>` : '',
-            x.status !== 'cancelled' ? `<button class="sec" onclick="invAct(${x.id},'send')">Send Email</button>` : '',
-            x.status === 'confirmed' ? `<button class="emerald" onclick="openPaymentModal(${x.id}, '${esc(x.number)}', ${(x.total - x.paid_amount).toFixed(2)})">Record Payment</button>` : ''
-          ] : [])
-        ].join('')]
-      ], r.rows) + pager(page, r.total, 20, 'inv_p');
-
-      $('#main').innerHTML = html;
-    }
-    const inv_p = p => inv(p, window._is, window._io, window._iq);
-
-    function openPaymentModal(invoiceId, invoiceNo, balance) {
-      showModal({
-        title: `Record Payment for ${invoiceNo}`,
-        bodyHtml: `
-          <div style="background:#f8fafc; padding:12px; border-radius:8px; margin-bottom:12px;">
-            <span class="muted">Remaining Balance:</span> <b style="color:var(--danger); font-size:16px;">₹${balance}</b>
+        <!-- Sign In Form -->
+        <form id="authFormLogin">
+          <div class="auth-form-group">
+            <label for="loginEmailInput">Email Address</label>
+            <input type="email" id="loginEmailInput" class="auth-input-dark" placeholder="name@company.com" required>
           </div>
 
           <div class="auth-form-group">
@@ -1308,38 +1161,15 @@
               <button type="button" class="auth-pw-eye" title="Toggle password visibility">👁️</button>
             </div>
           </div>
-        </div>
-        <details open><summary>+ Record New Payment</summary>${formHtml('f', [
-          { n: 'invoice_id', l: 'Confirmed Invoice', t: 'select', o: open.rows.map(i => [i.id, `${i.number} — ${i.customer_name} (Balance: ₹${(i.total - i.paid_amount).toFixed(2)})`]) },
-          { n: 'method', l: 'Method', t: 'select', o: [['bank', 'Bank Transfer'], ['upi', 'UPI'], ['card', 'Credit/Debit Card'], ['cash', 'Cash'], ['cheque', 'Cheque']] },
-          { n: 'amount', l: 'Amount', t: 'number', req: 1 },
-          { n: 'date', l: 'Date', t: 'date', v: new Date().toISOString().slice(0, 10) },
-          { n: 'note', l: 'Reference Note' }
-        ])}</details>` +
-        table([
-          ['Date', 'date'],
-          ['Invoice', r => `<b style="font-family:monospace; color:var(--primary);">${r.invoice_number}</b>`],
-          ['Customer', 'customer_name'],
-          ['Method', r => `<span class="b" style="background:#f1f5f9; color:#334155;">${esc(r.method).toUpperCase()}</span>`],
-          ['Amount', x => `<span class="tabular" style="color:var(--success); font-weight:700;">${money(x.amount)}</span>`],
-          ['Note', 'note']
-        ], list);
 
-      onSave('f', async d => {
-        const r = await api('/payments', 'POST', d);
-        toast('Payment recorded! Invoice status: ' + r.status);
-        pay();
-      });
-    }
+          <button type="submit" class="btn-auth-submit">Sign In to Control Room →</button>
+        </form>
 
-    /* ---------- Products & Variants ---------- */
-    async function prod() {
-      const rows = await api('/products');
-      $('#main').innerHTML = `
-        <div class="page-header">
-          <div>
-            <h2>Products & Offerings</h2>
-            <p class="muted">Items sold, base prices, and custom attribute variant add-ons.</p>
+        <!-- Create Account Form -->
+        <form id="authFormSignup" style="display: none;">
+          <div class="auth-form-group">
+            <label for="signupNameInput">Full Name</label>
+            <input type="text" id="signupNameInput" class="auth-input-dark" placeholder="Alex Morgan" required>
           </div>
 
           <div class="auth-form-group">

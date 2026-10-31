@@ -487,10 +487,11 @@ ${i.lines.map(l => `<tr><td>${l.description}</td><td class=r>${l.quantity}</td><
 });
 
 /* ---------- payments ---------- */
-app.post('/api/payments', auth('admin', 'staff'), wrap(req => db.transaction(() => {
+app.post('/api/payments', auth(), wrap(req => db.transaction(() => {
   const { invoice_id, method, amount, date, note } = req.body;
   const i = db.prepare('SELECT * FROM invoices WHERE id=?').get(invoice_id);
   if (!i) throw err(404, 'Invoice not found');
+  if (req.user.role === 'customer' && i.customer_id !== req.user.id) throw err(403, 'Not your invoice');
   if (i.status !== 'confirmed') throw err(400, 'Only confirmed invoices can receive payments');
   const amt = r2(Number(amount));
   if (!(amt > 0)) throw err(400, 'Amount must be positive');
@@ -501,9 +502,12 @@ app.post('/api/payments', auth('admin', 'staff'), wrap(req => db.transaction(() 
   db.prepare('UPDATE invoices SET paid_amount=?, status=? WHERE id=?').run(paid, paid >= i.total - 0.001 ? 'paid' : 'confirmed', i.id);
   return { ok: true, status: paid >= i.total - 0.001 ? 'paid' : 'confirmed' };
 })()));
-app.get('/api/payments', auth('admin', 'staff'), wrap(req => {
+app.get('/api/payments', auth(), wrap(req => {
   const { limit, offset } = pageOf(req);
-  return db.prepare(`SELECT p.*,i.number invoice_number,u.name customer_name FROM payments p JOIN invoices i ON i.id=p.invoice_id JOIN users u ON u.id=i.customer_id ORDER BY p.id DESC LIMIT ? OFFSET ?`).all(limit, offset);
+  const w = [], a = [];
+  if (req.user.role === 'customer') { w.push('i.customer_id=?'); a.push(req.user.id); }
+  const where = w.length ? 'WHERE ' + w.join(' AND ') : '';
+  return db.prepare(`SELECT p.*,i.number invoice_number,u.name customer_name FROM payments p JOIN invoices i ON i.id=p.invoice_id JOIN users u ON u.id=i.customer_id ${where} ORDER BY p.id DESC LIMIT ? OFFSET ?`).all(...a, limit, offset);
 }));
 
 /* ---------- finance dashboard ---------- */

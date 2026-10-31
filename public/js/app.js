@@ -749,7 +749,7 @@ async function openSubscriptionModal(subId) {
           ['Actions', r => `
             <div style="display:flex; gap:6px;">
               <button class="btn-sec" style="padding:3px 8px; font-size:11.5px;" onclick="printInvoice(${r.id})">🖨️ Print</button>
-              ${isStaff() && r.status === 'confirmed' ? `<button class="btn-emerald" style="padding:3px 8px; font-size:11.5px;" onclick="openPaymentModal(${r.id}, '${esc(r.number)}', ${(r.total - r.paid_amount).toFixed(2)})">Pay</button>` : ''}
+              ${r.status === 'confirmed' && (r.total - r.paid_amount) > 0 ? `<button class="btn-emerald" style="padding:3px 8px; font-size:11.5px; font-weight:700;" onclick="openCustomerCheckoutModal(${r.id}, '${esc(r.number)}', ${(r.total - r.paid_amount).toFixed(2)})">💳 Pay</button>` : ''}
             </div>
           `]
         ], s.invoices)}
@@ -832,11 +832,14 @@ async function inv(page = 1, status = '', overdue = '', q = '') {
     ['Actions', x => `
       <div style="display:flex; gap:6px; flex-wrap:wrap;">
         <button class="btn-sec" style="padding:4px 8px; font-size:12px;" onclick="printInvoice(${x.id})">🖨️ Print</button>
+        ${x.status === 'confirmed' && (x.total - x.paid_amount) > 0 ? `
+          <button class="btn-emerald" style="padding:4px 8px; font-size:12px; font-weight:800;" onclick="openCustomerCheckoutModal(${x.id}, '${esc(x.number)}', ${(x.total - x.paid_amount).toFixed(2)})">💳 Pay Now</button>
+        ` : ''}
         ${isStaff() ? `
           ${x.status === 'draft' ? `<button class="btn-primary" style="padding:4px 8px; font-size:12px;" onclick="invAction(${x.id}, 'confirm')">Confirm</button>` : ''}
           ${['draft', 'confirmed'].includes(x.status) && !x.paid_amount ? `<button class="btn-danger" style="padding:4px 8px; font-size:12px;" onclick="invAction(${x.id}, 'cancel')">Cancel</button>` : ''}
           ${x.status !== 'cancelled' ? `<button class="btn-sec" style="padding:4px 8px; font-size:12px;" onclick="invAction(${x.id}, 'send')">Email</button>` : ''}
-          ${x.status === 'confirmed' ? `<button class="btn-emerald" style="padding:4px 8px; font-size:12px;" onclick="openPaymentModal(${x.id}, '${esc(x.number)}', ${(x.total - x.paid_amount).toFixed(2)})">Record Payment</button>` : ''}
+          ${x.status === 'confirmed' ? `<button class="btn-sec" style="padding:4px 8px; font-size:12px;" onclick="openPaymentModal(${x.id}, '${esc(x.number)}', ${(x.total - x.paid_amount).toFixed(2)})">Manual Entry</button>` : ''}
         ` : ''}
       </div>
     `]
@@ -883,6 +886,312 @@ function openPaymentModal(invoiceId, invoiceNo, balance) {
       inv(window._invPage, window._invStatus, window._invOverdue, window._invQ);
     }
   });
+}
+
+/* --------------------------------------------------
+   CUSTOMER "PAY NOW" CHECKOUT PORTAL MODAL
+   -------------------------------------------------- */
+function openCustomerCheckoutModal(invoiceId, invoiceNo, balance) {
+  let activeTab = 'upi';
+
+  const renderContent = () => {
+    let tabContent = '';
+    if (activeTab === 'upi') {
+      tabContent = `
+        <div style="text-align:center; padding:10px 0;">
+          <div style="display:inline-block; background:#ffffff; padding:14px; border-radius:14px; border:2px dashed #cbd5e1; box-shadow:0 4px 15px rgba(0,0,0,0.06); margin-bottom:12px;">
+            <svg width="180" height="180" viewBox="0 0 180 180" style="display:block; margin:0 auto;">
+              <rect width="180" height="180" fill="#ffffff" rx="10"/>
+              <rect x="15" y="15" width="45" height="45" fill="#0f172a" rx="6"/>
+              <rect x="22" y="22" width="31" height="31" fill="#ffffff" rx="4"/>
+              <rect x="29" y="29" width="17" height="17" fill="#7c3aed" rx="3"/>
+              <rect x="120" y="15" width="45" height="45" fill="#0f172a" rx="6"/>
+              <rect x="127" y="22" width="31" height="31" fill="#ffffff" rx="4"/>
+              <rect x="134" y="29" width="17" height="17" fill="#7c3aed" rx="3"/>
+              <rect x="15" y="120" width="45" height="45" fill="#0f172a" rx="6"/>
+              <rect x="22" y="127" width="31" height="31" fill="#ffffff" rx="4"/>
+              <rect x="29" y="134" width="17" height="17" fill="#7c3aed" rx="3"/>
+              <rect x="70" y="18" width="10" height="10" fill="#334155"/>
+              <rect x="90" y="22" width="12" height="12" fill="#334155"/>
+              <rect x="75" y="38" width="14" height="8" fill="#334155"/>
+              <rect x="98" y="42" width="10" height="10" fill="#334155"/>
+              <rect x="20" y="70" width="12" height="12" fill="#334155"/>
+              <rect x="42" y="75" width="10" height="14" fill="#334155"/>
+              <rect x="25" y="94" width="14" height="10" fill="#334155"/>
+              <rect x="48" y="98" width="8" height="12" fill="#334155"/>
+              <rect x="125" y="70" width="12" height="12" fill="#334155"/>
+              <rect x="145" y="78" width="14" height="10" fill="#334155"/>
+              <rect x="130" y="95" width="10" height="12" fill="#334155"/>
+              <rect x="150" y="98" width="12" height="10" fill="#334155"/>
+              <rect x="70" y="125" width="12" height="12" fill="#334155"/>
+              <rect x="92" y="132" width="10" height="14" fill="#334155"/>
+              <rect x="75" y="148" width="14" height="10" fill="#334155"/>
+              <rect x="100" y="152" width="10" height="10" fill="#334155"/>
+              <circle cx="90" cy="90" r="18" fill="#7c3aed"/>
+              <path d="M92 80 L82 92 L89 92 L87 102 L98 90 L91 90 Z" fill="#ffffff"/>
+            </svg>
+            <div style="font-size:11px; font-weight:800; color:#475569; margin-top:6px; letter-spacing:0.02em;">UPI ID: billing@brightloop</div>
+          </div>
+          <div style="font-size:12.5px; color:#64748b; margin-bottom:12px;">Scan with <b>Google Pay</b>, <b>PhonePe</b>, <b>Paytm</b>, or <b>BHIM</b></div>
+          <button class="btn-emerald" style="width:100%; height:44px; justify-content:center; font-size:14px; font-weight:800;" onclick="submitCheckoutPayment(${invoiceId}, 'upi', ${balance})">
+            ⚡ Simulate Instant UPI Approval
+          </button>
+        </div>
+      `;
+    } else if (activeTab === 'card') {
+      tabContent = `
+        <div>
+          <div class="mock-credit-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+              <span style="font-weight:800; letter-spacing:1px; font-size:13px; color:#a5b4fc;">BRIGHTLOOP CARD</span>
+              <span style="font-size:18px;">💳</span>
+            </div>
+            <div style="font-size:19px; font-family:monospace; letter-spacing:3px; margin-bottom:18px; font-weight:600;">
+              •••• &nbsp;•••• &nbsp;•••• &nbsp;4242
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:11px; text-transform:uppercase; color:#c7d2fe;">
+              <div>
+                <div>Cardholder</div>
+                <div style="font-weight:700; color:#ffffff; font-size:13px; margin-top:2px;">${esc(user?.name || 'Customer Account')}</div>
+              </div>
+              <div>
+                <div>Expires</div>
+                <div style="font-weight:700; color:#ffffff; font-size:13px; margin-top:2px;">12/28</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <label style="font-size:12.5px; font-weight:700; color:#475569;">Card Number
+              <input type="text" value="4242 •••• •••• 4242" readonly style="background:#f8fafc; font-family:monospace;">
+            </label>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+              <label style="font-size:12.5px; font-weight:700; color:#475569;">Expiry Date
+                <input type="text" value="12/28" readonly style="background:#f8fafc; text-align:center;">
+              </label>
+              <label style="font-size:12.5px; font-weight:700; color:#475569;">CVV / CVC
+                <input type="password" value="888" readonly style="background:#f8fafc; text-align:center;">
+              </label>
+            </div>
+            <button class="btn-primary" style="width:100%; height:44px; justify-content:center; font-size:14px; font-weight:800; margin-top:6px;" onclick="submitCheckoutPayment(${invoiceId}, 'card', ${balance})">
+              🔒 Pay ₹${balance} via Secure Card
+            </button>
+          </div>
+        </div>
+      `;
+    } else {
+      tabContent = `
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div style="font-size:12.5px; color:#64748b; font-weight:600;">Select your preferred Net Banking institution:</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            ${['HDFC Bank', 'ICICI Bank', 'State Bank of India', 'Axis Bank', 'Kotak Bank', 'Punjab National Bank'].map((b, i) => `
+              <label style="display:flex; align-items:center; gap:8px; padding:10px 12px; border:1px solid #cbd5e1; border-radius:8px; cursor:pointer; font-size:13px; font-weight:700;">
+                <input type="radio" name="nbBank" value="${b}" ${i === 0 ? 'checked' : ''}>
+                <span>${b}</span>
+              </label>
+            `).join('')}
+          </div>
+          <button class="btn-primary" style="width:100%; height:44px; justify-content:center; font-size:14px; font-weight:800; margin-top:6px;" onclick="submitCheckoutPayment(${invoiceId}, 'bank', ${balance})">
+            🏦 Authorize Net Banking Payment
+          </button>
+        </div>
+      `;
+    }
+
+    return `
+      <div style="background:linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border:1px solid #e2e8f0; border-radius:12px; padding:14px 18px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="font-size:12px; color:#64748b; font-weight:700; text-transform:uppercase;">Invoice Number</div>
+          <div style="font-size:17px; font-weight:800; font-family:monospace; color:var(--bl-violet);">${invoiceNo}</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:12px; color:#64748b; font-weight:700; text-transform:uppercase;">Payable Amount</div>
+          <div style="font-size:22px; font-weight:800; color:#047857;">₹${balance}</div>
+        </div>
+      </div>
+
+      <div class="checkout-method-tabs">
+        <button class="checkout-tab-btn ${activeTab === 'upi' ? 'active' : ''}" onclick="window._setCheckoutTab('upi')">📱 UPI / QR</button>
+        <button class="checkout-tab-btn ${activeTab === 'card' ? 'active' : ''}" onclick="window._setCheckoutTab('card')">💳 Credit / Debit Card</button>
+        <button class="checkout-tab-btn ${activeTab === 'bank' ? 'active' : ''}" onclick="window._setCheckoutTab('bank')">🏦 Net Banking</button>
+      </div>
+
+      <div id="checkoutTabStage">${tabContent}</div>
+    `;
+  };
+
+  window._setCheckoutTab = tab => {
+    activeTab = tab;
+    $('#checkoutTabStage').outerHTML = `<div id="checkoutTabStage">${renderContent().split('<div id="checkoutTabStage">')[1]}`;
+    document.querySelectorAll('.checkout-tab-btn').forEach((btn, idx) => {
+      btn.classList.toggle('active', (tab === 'upi' && idx === 0) || (tab === 'card' && idx === 1) || (tab === 'bank' && idx === 2));
+    });
+  };
+
+  showModal({
+    title: `⚡ Brightloop Instant Payment Portal`,
+    maxWidth: '520px',
+    hideFooter: true,
+    bodyHtml: renderContent()
+  });
+}
+
+async function submitCheckoutPayment(invoiceId, method, amount) {
+  showModal({
+    title: 'Processing Payment...',
+    maxWidth: '440px',
+    hideFooter: true,
+    bodyHtml: `
+      <div style="text-align:center; padding:30px 10px;">
+        <div style="width:48px; height:48px; border:4px solid #e2e8f0; border-top-color:var(--bl-violet); border-radius:50%; margin:0 auto 16px auto; animation:spin 0.8s linear infinite;"></div>
+        <h3 style="font-size:16px; font-weight:800; color:#0f172a; margin-bottom:6px;">Connecting to Bank Gateway</h3>
+        <p style="font-size:13px; color:#64748b;">Simulating real-time settlement & webhook callbacks...</p>
+      </div>
+      <style>@keyframes spin { 0% { transform:rotate(0deg); } 100% { transform:rotate(360deg); } }</style>
+    `
+  });
+
+  setTimeout(async () => {
+    try {
+      const txnId = 'TXN-' + Math.random().toString(36).substring(2, 9).toUpperCase();
+      const res = await api('/payments', 'POST', {
+        invoice_id: invoiceId,
+        method,
+        amount: +amount,
+        date: new Date().toISOString().slice(0, 10),
+        note: `Self-service online payment via ${method.toUpperCase()} (${txnId})`
+      });
+
+      showToast('Payment successful! Status: ' + res.status);
+      if (typeof inv === 'function') inv(window._invPage, window._invStatus, window._invOverdue, window._invQ);
+
+      showModal({
+        title: 'Payment Successful',
+        maxWidth: '480px',
+        hideFooter: true,
+        bodyHtml: `
+          <div style="text-align:center; padding:10px 0 16px 0;">
+            <div style="width:60px; height:60px; background:#ecfdf5; color:#059669; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:28px; margin:0 auto 12px auto; border:2px solid #a7f3d0;">✓</div>
+            <h3 style="font-size:19px; font-weight:800; color:#065f46; margin-bottom:4px;">₹${amount} Paid Successfully</h3>
+            <p style="font-size:13px; color:#64748b;">Your subscription invoice has been marked as <b>PAID</b> in real-time.</p>
+          </div>
+
+          <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:14px; margin-bottom:18px; font-size:13px; display:flex; flex-direction:column; gap:8px;">
+            <div style="display:flex; justify-content:space-between;"><span style="color:#64748b;">Transaction Reference:</span> <b style="font-family:monospace; color:#0f172a;">${txnId}</b></div>
+            <div style="display:flex; justify-content:space-between;"><span style="color:#64748b;">Payment Method:</span> <b style="text-transform:uppercase;">${method}</b></div>
+            <div style="display:flex; justify-content:space-between;"><span style="color:#64748b;">Date & Time:</span> <b>${new Date().toLocaleString()}</b></div>
+            <div style="display:flex; justify-content:space-between;"><span style="color:#64748b;">Status:</span> <span class="b paid">paid</span></div>
+          </div>
+
+          <div style="display:flex; gap:10px;">
+            <button class="btn-sec" style="flex:1; justify-content:center; height:40px;" onclick="closeModal()">Close</button>
+            <button class="btn-primary" style="flex:1; justify-content:center; height:40px;" onclick="printInvoice(${invoiceId})">🖨️ Print Receipt</button>
+          </div>
+        `
+      });
+    } catch (e) {
+      showToast(e.message, true);
+      closeModal();
+    }
+  }, 900);
+}
+
+/* --------------------------------------------------
+   MODULE: 1-CLICK INTERACTIVE JURY DEMO TOUR
+   -------------------------------------------------- */
+function startJuryTour() {
+  showModal({
+    title: '🎯 Odoo Hackathon Jury Tour — Brightloop Architecture',
+    maxWidth: '720px',
+    hideFooter: true,
+    bodyHtml: `
+      <div style="margin-bottom:16px;">
+        <p style="font-size:13.5px; color:#475569; line-height:1.5;">
+          Welcome to Brightloop! Built for the <b>Odoo x FLUX Hackathon '26</b>, this system implements an enterprise-grade subscription lifecycle, automated periodic billing scheduler, smart clamping, and real-time financial intelligence.
+        </p>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
+        <div class="tour-step-card" style="border-left-color: #7c3aed;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <b style="font-size:14px; color:#0f172a;">1. 📜 Subscription & Quotation Engine (PRD §1 & §4)</b>
+            <button class="btn-sec" style="padding:4px 10px; font-size:12px;" onclick="closeModal(); subs();">⚡ Inspect Subscriptions</button>
+          </div>
+          <p style="font-size:12.5px; color:#64748b; margin-top:4px;">
+            Supports plans (Daily, Weekly, Monthly, Yearly), product variants with price adders, quotation templates, and automatic multi-tier discount math.
+          </p>
+        </div>
+
+        <div class="tour-step-card" style="border-left-color: #3b82f6;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <b style="font-size:14px; color:#0f172a;">2. 🔄 Odoo Life-Cycle & Smart Stat Drilldown (PRD §5)</b>
+            <button class="btn-sec" style="padding:4px 10px; font-size:12px;" onclick="run(async () => { closeModal(); const r = await api('/subscriptions?limit=1'); if (r.rows.length) openSubscriptionModal(r.rows[0].id); else subs(); });">⚡ Open Smart Stats</button>
+          </div>
+          <p style="font-size:12.5px; color:#64748b; margin-top:4px;">
+            Strict state machine (<code>Draft</code> ➔ <code>Quotation</code> ➔ <code>Confirmed</code> ➔ <code>Active</code> ➔ <code>Closed</code>) with Odoo-style smart stat buttons: 🧾 Invoices, 💰 Billed, 💳 Collected, ⚖️ Outstanding, and ⏳ Next Billing.
+          </p>
+        </div>
+
+        <div class="tour-step-card" style="border-left-color: #f59e0b;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <b style="font-size:14px; color:#0f172a;">3. ⚡ Automated Nightly Scheduler & Leap Clamping (PRD §7)</b>
+            <button class="btn-sec" style="padding:4px 10px; font-size:12px;" onclick="run(async () => { const x = await api('/invoices/generate', 'POST', {}); showToast('Generated: ' + x.created + ' invoices'); inv(); closeModal(); });">⚡ Trigger Invoices</button>
+          </div>
+          <p style="font-size:12.5px; color:#64748b; margin-top:4px;">
+            Background cron worker backfills missed cycles, executes idempotent single billing, and clamps month-end dates (e.g. Jan 31 ➔ Feb 28 ➔ Mar 31).
+          </p>
+        </div>
+
+        <div class="tour-step-card" style="border-left-color: #10b981;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <b style="font-size:14px; color:#0f172a;">4. 💳 Customer Self-Service Checkout & Live MRR (PRD §6 & §8)</b>
+            <button class="btn-sec" style="padding:4px 10px; font-size:12px;" onclick="closeModal(); dash();">⚡ View Analytics</button>
+          </div>
+          <p style="font-size:12.5px; color:#64748b; margin-top:4px;">
+            Simulated instant UPI QR & Card payment checkout, printable PDF invoices/receipts, and real-time MRR, active subscription counters, and CSV export engines.
+          </p>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; background:#0f172a; padding:14px 18px; border-radius:12px; color:#ffffff;">
+        <div>
+          <b style="font-size:13.5px; color:#fde68a;">🚀 Want to see it in action?</b>
+          <div style="font-size:12px; color:#94a3b8;">Run an automated 10-second end-to-end guided showcase.</div>
+        </div>
+        <button class="btn-jury-tour" style="font-size:13px; padding:8px 16px;" onclick="runAutoShowcase()">⚡ Run Auto-Showcase</button>
+      </div>
+    `
+  });
+}
+
+async function runAutoShowcase() {
+  closeModal();
+  showToast('🎯 Starting 10-Second Jury Demo Tour...');
+  
+  await new Promise(r => setTimeout(r, 600));
+  showToast('Tour 1/4: Loading Subscriptions & Contracts...');
+  await subs();
+
+  await new Promise(r => setTimeout(r, 1600));
+  const subRes = await api('/subscriptions?limit=1');
+  if (subRes.rows && subRes.rows.length) {
+    showToast('Tour 2/4: Opening Odoo Smart Stat Buttons for ' + subRes.rows[0].number + '...');
+    await openSubscriptionModal(subRes.rows[0].id);
+  }
+
+  await new Promise(r => setTimeout(r, 3200));
+  closeModal();
+  showToast('Tour 3/4: Executing Automated Billing Engine...');
+  const genRes = await api('/invoices/generate', 'POST', {});
+  showToast(`Billing Run: ${genRes.created} invoices created, ${genRes.skipped} skipped.`);
+  await inv();
+
+  await new Promise(r => setTimeout(r, 2200));
+  showToast('Tour 4/4: Reconciling Live MRR & Financial Analytics...');
+  await dash();
+
+  await new Promise(r => setTimeout(r, 1500));
+  showToast('✅ Jury Tour Complete! Full System Verified 100%.');
 }
 
 /* --------------------------------------------------

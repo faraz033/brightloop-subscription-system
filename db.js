@@ -144,13 +144,45 @@ CREATE INDEX IF NOT EXISTS ix_billing_runs_date ON billing_runs(triggered_at);
 `);
 
 // ---- seed demo data on first run ----
-if (!db.prepare('SELECT 1 FROM users LIMIT 1').get()) {
-  const h = p => bcrypt.hashSync(p, 10);
+const h = p => bcrypt.hashSync(p, 10);
+
+if (!db.prepare("SELECT 1 FROM users WHERE email='admin@brightloop.com'").get()) {
   db.prepare("INSERT INTO users(name,email,password_hash,role) VALUES('Admin','admin@brightloop.com',?,'admin')").run(h('Admin@12345'));
+}
+if (!db.prepare("SELECT 1 FROM users WHERE email='staff@brightloop.com'").get()) {
+  db.prepare("INSERT INTO users(name,email,password_hash,role) VALUES('Sarah Connor','staff@brightloop.com',?,'staff')").run(h('Staff@12345'));
+}
+if (!db.prepare("SELECT 1 FROM users WHERE email='customer@brightloop.com'").get()) {
+  db.prepare("INSERT INTO users(name,email,password_hash,role) VALUES('Alex Morgan','customer@brightloop.com',?,'customer')").run(h('Customer@12345'));
+}
+
+if (!db.prepare('SELECT 1 FROM taxes LIMIT 1').get()) {
   db.prepare("INSERT INTO taxes(name,rate,is_default) VALUES('GST 18%',18,1),('GST 5%',5,0)").run();
-  const pid = db.prepare("INSERT INTO products(name,type,sales_price,cost_price,notes) VALUES('Brightloop CRM','service',1000,400,'CRM seat')").run().lastInsertRowid;
-  db.prepare("INSERT INTO product_variants(product_id,attribute,value,extra_price) VALUES(?,?,?,?)").run(pid, 'Brand', 'Odoo', 560);
-  db.prepare("INSERT INTO plans(name,product_id,price,billing_period,min_qty,start_date,end_date,auto_close,closable,pausable,renewable) VALUES('CRM Monthly',?,1000,'monthly',1,'2026-01-01','2030-12-31',0,1,1,1)").run(pid);
+}
+
+if (!db.prepare('SELECT 1 FROM products LIMIT 1').get()) {
+  const pid = db.prepare("INSERT INTO products(name,type,sales_price,cost_price,notes) VALUES('Brightloop CRM','service',1000,400,'CRM Enterprise Seat')").run().lastInsertRowid;
+  const vid = db.prepare("INSERT INTO product_variants(product_id,attribute,value,extra_price) VALUES(?,?,?,?)").run(pid, 'Edition', 'Odoo Enhanced', 560).lastInsertRowid;
+  const planId = db.prepare("INSERT INTO plans(name,product_id,price,billing_period,min_qty,start_date,end_date,auto_close,closable,pausable,renewable) VALUES('Enterprise Monthly',?,1560,'monthly',1,'2026-01-01','2030-12-31',0,1,1,1)").run(pid).lastInsertRowid;
+  
+  // Seed sample quotation template
+  const tplId = db.prepare("INSERT INTO quotation_templates(name,plan_id,validity_days) VALUES('Standard SaaS Package',?,30)").run(planId).lastInsertRowid;
+  db.prepare("INSERT INTO template_lines(template_id,product_id,variant_id,quantity,tax_id) VALUES(?,?,?,1,1)").run(tplId, pid, vid);
+
+  // Seed sample active subscription for customer
+  const cust = db.prepare("SELECT id FROM users WHERE email='customer@brightloop.com'").get();
+  if (cust) {
+    const subId = db.prepare("INSERT INTO subscriptions(number,customer_id,plan_id,start_date,expiry_date,payment_terms,status,paused,next_invoice_date) VALUES('SUB-000001',?,?, '2026-01-01', '2027-01-01', 'Immediate', 'active', 0, '2026-03-01')").run(cust.id, planId).lastInsertRowid;
+    db.prepare("INSERT INTO subscription_lines(subscription_id,product_id,variant_id,quantity,unit_price,tax_id) VALUES(?,?,?,?,1560,1)").run(subId, pid, vid, 2);
+
+    // Seed sample invoices: 1 paid, 1 confirmed (ready to pay)
+    const inv1 = db.prepare("INSERT INTO invoices(number,subscription_id,customer_id,period_start,period_end,issue_date,due_date,status,subtotal,discount_total,tax_total,total,paid_amount) VALUES('INV-000001',?,?, '2026-01-01', '2026-02-01', '2026-01-01', '2026-01-15', 'paid', 3120, 0, 561.6, 3681.6, 3681.6)").run(subId, cust.id).lastInsertRowid;
+    db.prepare("INSERT INTO invoice_lines(invoice_id,description,quantity,unit_price,discount,tax_rate,tax_amount,amount) VALUES(?,'Brightloop CRM - Edition: Odoo Enhanced',2,1560,0,18,561.6,3681.6)").run(inv1);
+    db.prepare("INSERT INTO payments(invoice_id,method,amount,date,note) VALUES(?,'upi',3681.6,'2026-01-02','Initial period settlement via UPI')").run(inv1);
+
+    const inv2 = db.prepare("INSERT INTO invoices(number,subscription_id,customer_id,period_start,period_end,issue_date,due_date,status,subtotal,discount_total,tax_total,total,paid_amount) VALUES('INV-000002',?,?, '2026-02-01', '2026-03-01', '2026-02-01', '2026-02-15', 'confirmed', 3120, 0, 561.6, 3681.6, 0)").run(subId, cust.id).lastInsertRowid;
+    db.prepare("INSERT INTO invoice_lines(invoice_id,description,quantity,unit_price,discount,tax_rate,tax_amount,amount) VALUES(?,'Brightloop CRM - Edition: Odoo Enhanced',2,1560,0,18,561.6,3681.6)").run(inv2);
+  }
 }
 
 module.exports = db;

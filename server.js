@@ -305,9 +305,20 @@ app.get('/api/subscriptions', auth(), wrap(req => {
   };
 }));
 app.get('/api/subscriptions/:id', auth(), wrap(req => {
-  const s = getSub(req.params.id);
+  const s = db.prepare(`SELECT s.*, u.name customer_name, u.email customer_email, p.name plan_name, p.closable, p.pausable, p.renewable, p.billing_period, p.price plan_price
+    FROM subscriptions s JOIN users u ON u.id=s.customer_id JOIN plans p ON p.id=s.plan_id WHERE s.id=?`).get(req.params.id);
+  if (!s) throw err(404, 'Subscription not found');
   if (req.user.role === 'customer' && s.customer_id !== req.user.id) throw err(403, 'Not your subscription');
-  s.lines = db.prepare(`SELECT l.*,pr.name product_name,t.rate tax_rate FROM subscription_lines l JOIN products pr ON pr.id=l.product_id LEFT JOIN taxes t ON t.id=l.tax_id WHERE subscription_id=?`).all(s.id);
+  s.lines = db.prepare(`SELECT l.*, pr.name product_name, t.rate tax_rate, v.attribute variant_attribute, v.value variant_value, v.extra_price variant_extra
+    FROM subscription_lines l JOIN products pr ON pr.id=l.product_id
+    LEFT JOIN product_variants v ON v.id=l.variant_id
+    LEFT JOIN taxes t ON t.id=l.tax_id WHERE l.subscription_id=?`).all(s.id);
+  s.invoices = db.prepare(`SELECT id, number, period_start, period_end, issue_date, due_date, status, total, paid_amount
+    FROM invoices WHERE subscription_id=? ORDER BY id DESC`).all(s.id);
+  s.invoice_count = s.invoices.length;
+  s.total_billed = r2(s.invoices.reduce((sum, inv) => sum + (inv.total || 0), 0));
+  s.total_paid = r2(s.invoices.reduce((sum, inv) => sum + (inv.paid_amount || 0), 0));
+  s.outstanding_balance = r2(s.invoices.filter(i => i.status === 'confirmed').reduce((sum, inv) => sum + (inv.total - inv.paid_amount), 0));
   return s;
 }));
 

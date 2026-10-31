@@ -126,32 +126,45 @@ const pager = (page, total, limit, fnName) => `
 /* --------------------------------------------------
    MODAL DIALOG SYSTEM
    -------------------------------------------------- */
-function showModal({ title, bodyHtml, confirmText = 'Submit', onConfirm }) {
+function showModal({ title, bodyHtml, confirmText = 'Submit', onConfirm, maxWidth = '500px', hideFooter = false, footerHtml = null }) {
   const container = $('#modal-container');
-  container.innerHTML = `
-    <div class="modal-backdrop" id="modalBackdrop">
-      <div class="modal-card">
-        <div class="modal-header">
-          <h3>${title}</h3>
-          <button class="modal-close" onclick="closeModal()">✕</button>
-        </div>
-        <div class="modal-body">${bodyHtml}</div>
+  let footer = '';
+  if (!hideFooter) {
+    if (footerHtml) {
+      footer = `<div class="modal-footer">${footerHtml}</div>`;
+    } else {
+      footer = `
         <div class="modal-footer">
           <button class="btn-sec" onclick="closeModal()">Cancel</button>
           <button id="modalConfirmBtn" class="btn-primary">${confirmText}</button>
         </div>
+      `;
+    }
+  }
+
+  container.innerHTML = `
+    <div class="modal-backdrop" id="modalBackdrop">
+      <div class="modal-card" style="max-width: ${maxWidth}; width: 100%; max-height: 90vh; display: flex; flex-direction: column;">
+        <div class="modal-header">
+          <h3>${title}</h3>
+          <button class="modal-close" onclick="closeModal()">✕</button>
+        </div>
+        <div class="modal-body" style="overflow-y: auto; flex: 1;">${bodyHtml}</div>
+        ${footer}
       </div>
     </div>
   `;
   $('#modalBackdrop').onclick = e => { if (e.target.id === 'modalBackdrop') closeModal(); };
-  $('#modalConfirmBtn').onclick = async () => {
-    try {
-      await onConfirm();
-      closeModal();
-    } catch (e) {
-      showToast(e.message, true);
-    }
-  };
+  if (!hideFooter && !footerHtml && onConfirm) {
+    $('#modalConfirmBtn').onclick = async () => {
+      try {
+        await onConfirm();
+        closeModal();
+      } catch (e) {
+        showToast(e.message, true);
+      }
+    };
+  }
 }
 
 function closeModal() {
@@ -562,21 +575,24 @@ async function subs(page = 1, status = '', q = '') {
   `;
 
   html += tableHtml([
-    ['Number', r => `<b style="color:var(--bl-violet); font-family:monospace;">${r.number}</b>`],
+    ['Number', r => `<a href="#" onclick="openSubscriptionModal(${r.id}); return false;" style="color:var(--bl-violet); font-family:monospace; font-weight:800; text-decoration:underline;" title="View Contract Details & Odoo Smart Stats">${r.number}</a>`],
     ['Customer', 'customer_name'],
     ['Plan', 'plan_name'],
     ['Start', 'start_date'],
     ['Expiry', r => r.expiry_date || '—'],
     ['Status', x => badge(x.status) + (x.paused ? ' <span title="Paused" style="color:#f59e0b; font-weight:800;">⏸ Paused</span>' : '')],
     ['Amount / Period', x => `<span style="font-weight:700;">${money(x.amount)}</span>`],
-    ...(isStaff() ? [['Actions', x => `
+    ['Actions', x => `
       <div style="display:flex; gap:6px; flex-wrap:wrap;">
-        ${NEXT_SUB_STAGE[x.status] ? `<button class="btn-primary" style="padding:4px 8px; font-size:12px;" onclick="subAction(${x.id}, 'status', {status:'${NEXT_SUB_STAGE[x.status]}'})">Advance → ${NEXT_SUB_STAGE[x.status]}</button>` : ''}
-        ${x.status !== 'closed' && x.closable ? `<button class="btn-danger" style="padding:4px 8px; font-size:12px;" onclick="subAction(${x.id}, 'status', {status:'closed'})">Close Early</button>` : ''}
-        ${x.status === 'active' && x.pausable ? (x.paused ? `<button class="btn-sec" style="padding:4px 8px; font-size:12px;" onclick="subAction(${x.id}, 'resume')">Resume</button>` : `<button class="btn-sec" style="padding:4px 8px; font-size:12px;" onclick="subAction(${x.id}, 'pause')">Pause</button>`) : ''}
-        ${['active', 'closed'].includes(x.status) && x.renewable ? `<button class="btn-emerald" style="padding:4px 8px; font-size:12px;" onclick="subAction(${x.id}, 'renew')">Renew</button>` : ''}
+        <button class="btn-sec" style="padding:4px 8px; font-size:12px;" onclick="openSubscriptionModal(${x.id})" title="View Contract Details & Odoo Smart Stats">🔍 Details</button>
+        ${isStaff() ? `
+          ${NEXT_SUB_STAGE[x.status] ? `<button class="btn-primary" style="padding:4px 8px; font-size:12px;" onclick="subAction(${x.id}, 'status', {status:'${NEXT_SUB_STAGE[x.status]}'})">Advance → ${NEXT_SUB_STAGE[x.status]}</button>` : ''}
+          ${x.status !== 'closed' && x.closable ? `<button class="btn-danger" style="padding:4px 8px; font-size:12px;" onclick="subAction(${x.id}, 'status', {status:'closed'})">Close Early</button>` : ''}
+          ${x.status === 'active' && x.pausable ? (x.paused ? `<button class="btn-sec" style="padding:4px 8px; font-size:12px;" onclick="subAction(${x.id}, 'resume')">Resume</button>` : `<button class="btn-sec" style="padding:4px 8px; font-size:12px;" onclick="subAction(${x.id}, 'pause')">Pause</button>`) : ''}
+          ${['active', 'closed'].includes(x.status) && x.renewable ? `<button class="btn-emerald" style="padding:4px 8px; font-size:12px;" onclick="subAction(${x.id}, 'renew')">Renew</button>` : ''}
+        ` : ''}
       </div>
-    `]] : [])
+    `]
   ], r.rows) + pager(page, r.total, 20, 'subs_page_nav');
 
   $('#appMainStage').innerHTML = html;
@@ -601,6 +617,160 @@ async function subs(page = 1, status = '', q = '') {
   }
 }
 const subs_page_nav = p => subs(p, window._subStatus, window._subQ);
+
+/* Odoo-style Smart Stat Buttons & Contract Detail View */
+async function openSubscriptionModal(subId) {
+  run(async () => {
+    const s = await api(`/subscriptions/${subId}`);
+
+    const stages = ['draft', 'quotation', 'confirmed', 'active', 'closed'];
+    const currentIdx = stages.indexOf(s.status);
+
+    const stagesHtml = `
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px; padding:10px 14px; background:#f8fafc; border-radius:10px; border:1px solid #e2e8f0; overflow-x:auto;">
+        <span style="font-size:11.5px; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.05em; margin-right:4px;">Pipeline:</span>
+        ${stages.map((st, i) => {
+          const isActive = st === s.status;
+          const isPassed = i < currentIdx;
+          const bg = isActive ? 'var(--bl-violet)' : (isPassed ? '#e2e8f0' : '#ffffff');
+          const color = isActive ? '#ffffff' : (isPassed ? '#334155' : '#94a3b8');
+          const border = isActive ? 'var(--bl-violet)' : '#cbd5e1';
+          return `
+            <div style="display:flex; align-items:center; gap:6px;">
+              <span style="padding:3px 9px; border-radius:12px; font-size:11.5px; font-weight:700; text-transform:capitalize; background:${bg}; color:${color}; border:1px solid ${border}; white-space:nowrap;">
+                ${isPassed ? '✓ ' : ''}${st}
+              </span>
+              ${i < stages.length - 1 ? '<span style="color:#cbd5e1; font-weight:700;">→</span>' : ''}
+            </div>
+          `;
+        }).join('')}
+        ${s.paused ? '<span style="margin-left:auto; background:#fef3c7; color:#b45309; padding:3px 9px; border-radius:12px; font-size:11.5px; font-weight:800; border:1px solid #fde68a;">⏸ Paused</span>' : ''}
+      </div>
+    `;
+
+    // Odoo Smart Stat Buttons (Top quick-insight tiles)
+    const smartStatsHtml = `
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:10px; margin-bottom:18px;">
+        <div style="cursor:pointer; background:linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%); border:1px solid #ddd6fe; border-radius:12px; padding:12px; text-align:center; transition:transform 0.15s ease;" onclick="document.getElementById('subModalInvoicesTable')?.scrollIntoView({behavior:'smooth'})" title="Click to view related invoices">
+          <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:#6d28d9; letter-spacing:0.05em;">🧾 Invoices</div>
+          <div style="font-size:20px; font-weight:800; color:#5b21b6; margin-top:2px;">${s.invoice_count}</div>
+          <div style="font-size:11px; color:#7c3aed;">Generated ▾</div>
+        </div>
+        <div style="background:linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border:1px solid #bfdbfe; border-radius:12px; padding:12px; text-align:center;">
+          <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:#1d4ed8; letter-spacing:0.05em;">💰 Billed</div>
+          <div style="font-size:20px; font-weight:800; color:#1e40af; margin-top:2px;">${money(s.total_billed)}</div>
+          <div style="font-size:11px; color:#2563eb;">Lifetime Total</div>
+        </div>
+        <div style="background:linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border:1px solid #a7f3d0; border-radius:12px; padding:12px; text-align:center;">
+          <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:#047857; letter-spacing:0.05em;">💳 Collected</div>
+          <div style="font-size:20px; font-weight:800; color:#065f46; margin-top:2px;">${money(s.total_paid)}</div>
+          <div style="font-size:11px; color:#059669;">Total Paid</div>
+        </div>
+        <div style="background:linear-gradient(135deg, ${s.outstanding_balance > 0 ? '#fff1f2 0%, #ffe4e6 100%' : '#f8fafc 0%, #f1f5f9 100%'}); border:1px solid ${s.outstanding_balance > 0 ? '#fecdd3' : '#e2e8f0'}; border-radius:12px; padding:12px; text-align:center;">
+          <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:${s.outstanding_balance > 0 ? '#be123c' : '#475569'}; letter-spacing:0.05em;">⚖️ Outstanding</div>
+          <div style="font-size:20px; font-weight:800; color:${s.outstanding_balance > 0 ? '#9f1239' : '#334155'}; margin-top:2px;">${money(s.outstanding_balance)}</div>
+          <div style="font-size:11px; color:${s.outstanding_balance > 0 ? '#e11d48' : '#64748b'}; font-weight:600;">${s.outstanding_balance > 0 ? 'Due Pending' : 'Clear'}</div>
+        </div>
+        <div style="background:linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); border:1px solid #fde68a; border-radius:12px; padding:12px; text-align:center;">
+          <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:#b45309; letter-spacing:0.05em;">⏳ Next Billing</div>
+          <div style="font-size:15px; font-weight:800; color:#92400e; margin-top:5px; font-family:monospace;">${s.next_invoice_date || 'N/A'}</div>
+          <div style="font-size:11px; color:#d97706;">Auto-Clamped</div>
+        </div>
+      </div>
+    `;
+
+    // Staff Actions Row inside the modal
+    let actionsHtml = '';
+    if (isStaff()) {
+      actionsHtml = `
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px; padding:10px 14px; background:#f8fafc; border-radius:10px; border:1px solid #e2e8f0; align-items:center;">
+          <span style="font-size:12px; font-weight:800; color:#475569; text-transform:uppercase;">Contract Actions:</span>
+          ${NEXT_SUB_STAGE[s.status] ? `<button class="btn-primary" style="padding:5px 12px; font-size:12px;" onclick="run(async () => { await api('/subscriptions/${s.id}/status', 'POST', {status:'${NEXT_SUB_STAGE[s.status]}'}); showToast('Subscription advanced to ${NEXT_SUB_STAGE[s.status]}'); subs(window._subPage, window._subStatus, window._subQ); openSubscriptionModal(${s.id}); })">Advance → ${NEXT_SUB_STAGE[s.status]}</button>` : ''}
+          ${s.status === 'active' && s.pausable ? (s.paused ? `<button class="btn-sec" style="padding:5px 12px; font-size:12px;" onclick="run(async () => { await api('/subscriptions/${s.id}/resume', 'POST', {}); showToast('Subscription resumed'); subs(window._subPage, window._subStatus, window._subQ); openSubscriptionModal(${s.id}); })">▶️ Resume</button>` : `<button class="btn-sec" style="padding:5px 12px; font-size:12px;" onclick="run(async () => { await api('/subscriptions/${s.id}/pause', 'POST', {}); showToast('Subscription paused'); subs(window._subPage, window._subStatus, window._subQ); openSubscriptionModal(${s.id}); })">⏸ Pause</button>`) : ''}
+          ${['active', 'closed'].includes(s.status) && s.renewable ? `<button class="btn-emerald" style="padding:5px 12px; font-size:12px;" onclick="run(async () => { await api('/subscriptions/${s.id}/renew', 'POST', {}); showToast('Subscription term renewed'); subs(window._subPage, window._subStatus, window._subQ); openSubscriptionModal(${s.id}); })">🔄 Renew Term</button>` : ''}
+          ${s.status !== 'closed' && s.closable ? `<button class="btn-danger" style="padding:5px 12px; font-size:12px;" onclick="run(async () => { if (confirm('Are you sure you want to close this subscription contract early?')) { await api('/subscriptions/${s.id}/status', 'POST', {status:'closed'}); showToast('Subscription closed'); subs(window._subPage, window._subStatus, window._subQ); openSubscriptionModal(${s.id}); } })">🚫 Close Contract</button>` : ''}
+        </div>
+      `;
+    }
+
+    // Contract info cards
+    const infoHtml = `
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin-bottom:18px; background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:14px;">
+        <div>
+          <div style="font-size:11px; text-transform:uppercase; color:#64748b; font-weight:700;">Customer</div>
+          <div style="font-weight:800; color:#0f172a; font-size:14px; margin-top:2px;">${esc(s.customer_name)}</div>
+          <div style="font-size:12px; color:#64748b;">${esc(s.customer_email || '—')}</div>
+        </div>
+        <div>
+          <div style="font-size:11px; text-transform:uppercase; color:#64748b; font-weight:700;">Billing Plan</div>
+          <div style="font-weight:800; color:#0f172a; font-size:14px; margin-top:2px;">${esc(s.plan_name)}</div>
+          <div style="font-size:12px; color:#64748b;">Frequency: <b style="text-transform:capitalize;">${s.billing_period}</b> (${money(s.plan_price)})</div>
+        </div>
+        <div>
+          <div style="font-size:11px; text-transform:uppercase; color:#64748b; font-weight:700;">Term Duration</div>
+          <div style="font-weight:700; color:#0f172a; font-size:13px; margin-top:2px;">${s.start_date} → ${s.expiry_date || 'Indefinite'}</div>
+          <div style="font-size:12px; color:#64748b;">Payment Terms: <b>${esc(s.payment_terms || 'Immediate')}</b></div>
+        </div>
+      </div>
+    `;
+
+    // Committed Line Items Table
+    const linesHtml = `
+      <div style="margin-bottom:18px;">
+        <h4 style="font-size:13.5px; font-weight:800; color:#0f172a; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+          <span>📦 Committed Products & Services</span>
+          <span style="font-size:12px; font-weight:600; color:#64748b;">(${s.lines.length} lines)</span>
+        </h4>
+        ${tableHtml([
+          ['Product', r => `<b>${esc(r.product_name)}</b>`],
+          ['Variant', r => r.variant_attribute ? `<span style="background:#f1f5f9; padding:2px 6px; border-radius:4px; font-size:12px;">${esc(r.variant_attribute)}: ${esc(r.variant_value)} (+₹${r.variant_extra || 0})</span>` : '—'],
+          ['Qty', 'quantity'],
+          ['Unit Price', r => money(r.unit_price)],
+          ['Tax', r => r.tax_rate ? `${r.tax_rate}%` : '0%'],
+          ['Subtotal', r => `<b style="color:var(--bl-violet);">${money(r.quantity * r.unit_price)}</b>`]
+        ], s.lines)}
+      </div>
+    `;
+
+    // Invoices History Table
+    const invoicesHtml = `
+      <div id="subModalInvoicesTable">
+        <h4 style="font-size:13.5px; font-weight:800; color:#0f172a; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+          <span>🧾 Generated Invoices & Payment Status</span>
+          <span style="font-size:12px; font-weight:600; color:#64748b;">(${s.invoices.length} invoices)</span>
+        </h4>
+        ${tableHtml([
+          ['Invoice #', r => `<b style="font-family:monospace; color:var(--bl-violet);">${r.number}</b>`],
+          ['Period', r => `${r.period_start} → ${r.period_end}`],
+          ['Due Date', 'due_date'],
+          ['Total', r => `<b>${money(r.total)}</b>`],
+          ['Paid', r => `<span style="color:#059669; font-weight:700;">${money(r.paid_amount)}</span>`],
+          ['Status', r => badge(r.status)],
+          ['Actions', r => `
+            <div style="display:flex; gap:6px;">
+              <button class="btn-sec" style="padding:3px 8px; font-size:11.5px;" onclick="printInvoice(${r.id})">🖨️ Print</button>
+              ${isStaff() && r.status === 'confirmed' ? `<button class="btn-emerald" style="padding:3px 8px; font-size:11.5px;" onclick="openPaymentModal(${r.id}, '${esc(r.number)}', ${(r.total - r.paid_amount).toFixed(2)})">Pay</button>` : ''}
+            </div>
+          `]
+        ], s.invoices)}
+      </div>
+    `;
+
+    showModal({
+      title: `Contract ${s.number} — ${esc(s.customer_name)}`,
+      maxWidth: '860px',
+      bodyHtml: `
+        ${stagesHtml}
+        ${smartStatsHtml}
+        ${actionsHtml}
+        ${infoHtml}
+        ${linesHtml}
+        ${invoicesHtml}
+      `,
+      hideFooter: true
+    });
+  });
+}
 
 /* --------------------------------------------------
    MODULE 3: INVOICES

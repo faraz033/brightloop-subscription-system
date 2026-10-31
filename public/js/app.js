@@ -1115,6 +1115,18 @@ async function submitCheckoutPayment(invoiceId, method, amount) {
 /* --------------------------------------------------
    MODULE: 1-CLICK INTERACTIVE JURY DEMO TOUR
    -------------------------------------------------- */
+async function ensureAdminSession() {
+  if (!isStaff()) {
+    showToast('Switching session to Demo Admin for showcase access...', false);
+    const res = await api('/auth/login', 'POST', {
+      email: 'admin@brightloop.com',
+      password: 'Admin@12345'
+    });
+    saveSession(res);
+    renderAppShell();
+  }
+}
+
 function startJuryTour() {
   showModal({
     title: '🎯 Odoo Hackathon Jury Tour — Brightloop Architecture',
@@ -1131,7 +1143,7 @@ function startJuryTour() {
         <div class="tour-step-card" style="border-left-color: #7c3aed;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <b style="font-size:14px; color:#0f172a;">1. 📜 Subscription & Quotation Engine (PRD §1 & §4)</b>
-            <button class="btn-sec" style="padding:4px 10px; font-size:12px;" onclick="closeModal(); subs();">⚡ Inspect Subscriptions</button>
+            <button class="btn-sec" style="padding:4px 10px; font-size:12px;" onclick="run(async () => { await ensureAdminSession(); closeModal(); subs(); })">⚡ Inspect Subscriptions</button>
           </div>
           <p style="font-size:12.5px; color:#64748b; margin-top:4px;">
             Supports plans (Daily, Weekly, Monthly, Yearly), product variants with price adders, quotation templates, and automatic multi-tier discount math.
@@ -1141,7 +1153,7 @@ function startJuryTour() {
         <div class="tour-step-card" style="border-left-color: #3b82f6;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <b style="font-size:14px; color:#0f172a;">2. 🔄 Odoo Life-Cycle & Smart Stat Drilldown (PRD §5)</b>
-            <button class="btn-sec" style="padding:4px 10px; font-size:12px;" onclick="run(async () => { closeModal(); const r = await api('/subscriptions?limit=1'); if (r.rows.length) openSubscriptionModal(r.rows[0].id); else subs(); });">⚡ Open Smart Stats</button>
+            <button class="btn-sec" style="padding:4px 10px; font-size:12px;" onclick="run(async () => { await ensureAdminSession(); closeModal(); const r = await api('/subscriptions?limit=1'); if (r.rows && r.rows.length) openSubscriptionModal(r.rows[0].id); else subs(); });">⚡ Open Smart Stats</button>
           </div>
           <p style="font-size:12.5px; color:#64748b; margin-top:4px;">
             Strict state machine (<code>Draft</code> ➔ <code>Quotation</code> ➔ <code>Confirmed</code> ➔ <code>Active</code> ➔ <code>Closed</code>) with Odoo-style smart stat buttons: 🧾 Invoices, 💰 Billed, 💳 Collected, ⚖️ Outstanding, and ⏳ Next Billing.
@@ -1151,7 +1163,7 @@ function startJuryTour() {
         <div class="tour-step-card" style="border-left-color: #f59e0b;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <b style="font-size:14px; color:#0f172a;">3. ⚡ Automated Nightly Scheduler & Leap Clamping (PRD §7)</b>
-            <button class="btn-sec" style="padding:4px 10px; font-size:12px;" onclick="run(async () => { const x = await api('/invoices/generate', 'POST', {}); showToast('Generated: ' + x.created + ' invoices'); inv(); closeModal(); });">⚡ Trigger Invoices</button>
+            <button class="btn-sec" style="padding:4px 10px; font-size:12px;" onclick="run(async () => { await ensureAdminSession(); const x = await api('/invoices/generate', 'POST', {}); showToast('Generated: ' + x.created + ' invoices'); inv(); closeModal(); });">⚡ Trigger Invoices</button>
           </div>
           <p style="font-size:12.5px; color:#64748b; margin-top:4px;">
             Background cron worker backfills missed cycles, executes idempotent single billing, and clamps month-end dates (e.g. Jan 31 ➔ Feb 28 ➔ Mar 31).
@@ -1161,7 +1173,7 @@ function startJuryTour() {
         <div class="tour-step-card" style="border-left-color: #10b981;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
             <b style="font-size:14px; color:#0f172a;">4. 💳 Customer Self-Service Checkout & Live MRR (PRD §6 & §8)</b>
-            <button class="btn-sec" style="padding:4px 10px; font-size:12px;" onclick="closeModal(); dash();">⚡ View Analytics</button>
+            <button class="btn-sec" style="padding:4px 10px; font-size:12px;" onclick="run(async () => { await ensureAdminSession(); closeModal(); dash(); });">⚡ View Analytics</button>
           </div>
           <p style="font-size:12.5px; color:#64748b; margin-top:4px;">
             Simulated instant UPI QR & Card payment checkout, printable PDF invoices/receipts, and real-time MRR, active subscription counters, and CSV export engines.
@@ -1183,6 +1195,7 @@ function startJuryTour() {
 async function runAutoShowcase() {
   closeModal();
   showToast('🎯 Starting 10-Second Jury Demo Tour...');
+  await ensureAdminSession();
   
   await new Promise(r => setTimeout(r, 600));
   showToast('Tour 1/4: Loading Subscriptions & Contracts...');

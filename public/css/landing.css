@@ -1598,3 +1598,17 @@ button:active {
 .dark .lifecycle-node-btn.active .lifecycle-subtitle {
   color: rgba(255, 255, 255, 0.88) !important;
 }
+
+/* Lifecycle & Uniqueness Card Padding */
+.lifecycle-detail-panel {
+  padding: 38px 42px !important;
+  border-radius: 24px !important;
+}
+.uniqueness-card {
+  padding: 38px 42px !important;
+  border-radius: 24px !important;
+}
+.rule-highlight-box {
+  padding: 18px 24px !important;
+  border-radius: 14px !important;
+}

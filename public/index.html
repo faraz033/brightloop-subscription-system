@@ -24,9 +24,9 @@
   </script>
 
   <!-- Design System & Stylesheets -->
-  <link rel="stylesheet" href="/css/design-system.css?v=22">
-  <link rel="stylesheet" href="/css/landing.css?v=22">
-  <link rel="stylesheet" href="/css/auth-app.css?v=22">
+  <link rel="stylesheet" href="/css/design-system.css?v=23">
+  <link rel="stylesheet" href="/css/landing.css?v=23">
+  <link rel="stylesheet" href="/css/auth-app.css?v=23">
 
   <style id="bl-modern-design">
     /* ==========================================================================
@@ -2728,6 +2728,84 @@
       color: #ffffff !important;
     }
 
+  
+    /* ==================================================
+       EXECUTIVE PADDING & INTERNAL MARGINS FOR DETAIL PANELS & CARDS
+       ================================================== */
+    .lifecycle-detail-panel {
+      padding: 38px 42px !important;
+      border-radius: 24px !important;
+      margin-top: 32px !important;
+      background: #ffffff !important;
+      border: 1px solid #e0e0e0 !important;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05) !important;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .dark .lifecycle-detail-panel {
+      background: #18191c !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .uniqueness-card {
+      padding: 38px 42px !important;
+      border-radius: 24px !important;
+      margin-top: 32px !important;
+      background: #ffffff !important;
+      border: 1px solid #e0e0e0 !important;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05) !important;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .dark .uniqueness-card {
+      background: #18191c !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .rule-highlight-box {
+      padding: 18px 24px !important;
+      border-radius: 14px !important;
+      margin-top: 20px !important;
+      background: #f8f9fc !important;
+      border: 1px solid #e0e0e0 !important;
+      color: #1d1d1f !important;
+      font-size: 0.95rem !important;
+      line-height: 1.6 !important;
+    }
+    .rule-highlight-box strong {
+      color: #1d1d1f !important;
+    }
+    .rule-highlight-box code {
+      background: rgba(0, 102, 204, 0.08) !important;
+      color: #0066cc !important;
+      padding: 3px 8px !important;
+      border-radius: 6px !important;
+      font-size: 0.9em !important;
+    }
+    .dark .rule-highlight-box {
+      background: #121316 !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      color: #ffffff !important;
+    }
+    .dark .rule-highlight-box strong {
+      color: #ffffff !important;
+    }
+    .dark .rule-highlight-box code {
+      background: rgba(41, 151, 255, 0.15) !important;
+      color: #2997ff !important;
+    }
+
+    @media (max-width: 768px) {
+      .lifecycle-detail-panel,
+      .uniqueness-card {
+        padding: 24px 20px !important;
+        border-radius: 18px !important;
+      }
+      .rule-highlight-box {
+        padding: 14px 16px !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -4232,7 +4310,7 @@
 
       <!-- Navigation tabs bar -->
       <nav id="appNavTabs" class="app-nav-tabs-bar">
-        <!-- Rendered dynamically by public/js/app.js?v=22 based on user role -->
+        <!-- Rendered dynamically by public/js/app.js?v=23 based on user role -->
       </nav>
 
       <!-- Right actions -->
@@ -4261,8 +4339,8 @@
   </div>
 
   <!-- Scripts -->
-  <script src="/js/landing.js?v=22"></script>
-  <script src="/js/app.js?v=22"></script>
+  <script src="/js/landing.js?v=23"></script>
+  <script src="/js/app.js?v=23"></script>
 </body>
 
 </html>

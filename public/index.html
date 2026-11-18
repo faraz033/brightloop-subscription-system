@@ -21,9 +21,9 @@
   </script>
 
   <!-- Design System & Stylesheets -->
-  <link rel="stylesheet" href="/css/design-system.css?v=15">
-  <link rel="stylesheet" href="/css/landing.css?v=15">
-  <link rel="stylesheet" href="/css/auth-app.css?v=15">
+  <link rel="stylesheet" href="/css/design-system.css?v=16">
+  <link rel="stylesheet" href="/css/landing.css?v=16">
+  <link rel="stylesheet" href="/css/auth-app.css?v=16">
 
   <style id="bl-modern-design">
     /* ==========================================================================
@@ -1239,6 +1239,755 @@
     body:not(.app-mode) #mainNavbar {
       display: flex !important;
     }
+  
+    /* ==================================================
+       AUTHENTICATION MODAL: THEME-ADAPTIVE ENTERPRISE UI
+       ================================================== */
+    .auth-overlay-view {
+      position: fixed !important;
+      inset: 0 !important;
+      z-index: 20000 !important;
+      background: rgba(0, 0, 0, 0.45) !important;
+      backdrop-filter: blur(20px) saturate(180%) !important;
+      -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+      display: none !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 24px !important;
+      overflow-y: auto !important;
+    }
+    .auth-overlay-view.active {
+      display: flex !important;
+    }
+    .dark .auth-overlay-view {
+      background: rgba(0, 0, 0, 0.78) !important;
+    }
+
+    .auth-ambient-blob-1,
+    .auth-ambient-blob-2 {
+      display: none !important;
+    }
+
+    /* Container Card */
+    .auth-card-wrapper {
+      position: relative !important;
+      z-index: 10 !important;
+      width: 100% !important;
+      max-width: 1040px !important;
+      min-height: 610px !important;
+      background: #ffffff !important;
+      border: 1px solid #e0e0e0 !important;
+      border-radius: 24px !important;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.16), 0 0 1px rgba(0, 0, 0, 0.1) !important;
+      display: flex !important;
+      overflow: hidden !important;
+      transition: all 0.25s ease !important;
+    }
+    .dark .auth-card-wrapper {
+      background: #161618 !important;
+      border-color: rgba(255, 255, 255, 0.14) !important;
+      box-shadow: 0 35px 90px rgba(0, 0, 0, 0.85), 0 0 1px rgba(255, 255, 255, 0.12) !important;
+    }
+
+    /* Left Visual Column */
+    .auth-card-visual {
+      flex: 1.05 !important;
+      background: #fbfbfd !important;
+      padding: 34px 30px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+      border-right: 1px solid #e5e5ea !important;
+      position: relative !important;
+    }
+    .dark .auth-card-visual {
+      background: #111113 !important;
+      border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+
+    .auth-visual-inner {
+      display: flex !important;
+      flex-direction: column !important;
+      height: 100% !important;
+      justify-content: space-between !important;
+      gap: 18px !important;
+    }
+
+    .auth-visual-top {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+    }
+
+    .auth-visual-logo {
+      display: flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+      font-family: var(--font-display) !important;
+      font-weight: 700 !important;
+      font-size: 1.25rem !important;
+      color: #1d1d1f !important;
+    }
+    .dark .auth-visual-logo {
+      color: #ffffff !important;
+    }
+
+    .auth-visual-pill {
+      background: rgba(0, 102, 204, 0.08) !important;
+      border: 1px solid rgba(0, 102, 204, 0.2) !important;
+      color: #0066cc !important;
+      font-size: 11.5px !important;
+      font-weight: 600 !important;
+      padding: 4px 12px !important;
+      border-radius: 9999px !important;
+    }
+    .dark .auth-visual-pill {
+      background: rgba(41, 151, 255, 0.15) !important;
+      border-color: rgba(41, 151, 255, 0.3) !important;
+      color: #2997ff !important;
+    }
+
+    /* Subscription Preview Card on Left */
+    .auth-preview-card {
+      background: #ffffff !important;
+      border: 1px solid #e0e0e0 !important;
+      border-radius: 16px !important;
+      padding: 18px !important;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06) !important;
+    }
+    .dark .auth-preview-card {
+      background: #1c1c1e !important;
+      border-color: rgba(255, 255, 255, 0.12) !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    .auth-preview-head {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: flex-start !important;
+      padding-bottom: 12px !important;
+      border-bottom: 1px solid #e0e0e0 !important;
+      margin-bottom: 12px !important;
+    }
+    .dark .auth-preview-head {
+      border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+    }
+
+    .auth-preview-badge {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      padding: 2px 8px !important;
+      border-radius: 9999px !important;
+      background: rgba(52, 199, 89, 0.12) !important;
+      color: #248a3d !important;
+      font-size: 11px !important;
+      font-weight: 700 !important;
+    }
+    .dark .auth-preview-badge {
+      background: rgba(50, 215, 75, 0.18) !important;
+      color: #32d74b !important;
+    }
+
+    .auth-preview-title {
+      font-family: var(--font-display) !important;
+      font-size: 15px !important;
+      font-weight: 600 !important;
+      color: #1d1d1f !important;
+      margin-top: 4px !important;
+    }
+    .dark .auth-preview-title {
+      color: #ffffff !important;
+    }
+
+    .auth-preview-sub {
+      font-size: 11.5px !important;
+      color: #737373 !important;
+    }
+    .dark .auth-preview-sub {
+      color: #86868b !important;
+    }
+
+    .auth-preview-price-box {
+      text-align: right !important;
+    }
+    .auth-preview-price-lbl {
+      display: block !important;
+      font-size: 10px !important;
+      text-transform: uppercase !important;
+      color: #737373 !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.05em !important;
+    }
+    .dark .auth-preview-price-lbl {
+      color: #86868b !important;
+    }
+    .auth-preview-price {
+      font-family: var(--font-display) !important;
+      font-size: 17px !important;
+      font-weight: 700 !important;
+      color: #0066cc !important;
+    }
+    .dark .auth-preview-price {
+      color: #2997ff !important;
+    }
+
+    .auth-preview-stats {
+      display: grid !important;
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 8px !important;
+      margin-bottom: 12px !important;
+    }
+
+    .auth-stat-tile {
+      background: #f5f5f7 !important;
+      border: 1px solid #e0e0e0 !important;
+      border-radius: 9px !important;
+      padding: 7px 4px !important;
+      text-align: center !important;
+    }
+    .dark .auth-stat-tile {
+      background: #252528 !important;
+      border-color: rgba(255, 255, 255, 0.08) !important;
+    }
+    .auth-stat-tile .lbl {
+      display: block !important;
+      font-size: 9.5px !important;
+      color: #737373 !important;
+      font-weight: 600 !important;
+      text-transform: uppercase !important;
+    }
+    .dark .auth-stat-tile .lbl {
+      color: #86868b !important;
+    }
+    .auth-stat-tile .val {
+      display: block !important;
+      font-size: 13.5px !important;
+      font-weight: 700 !important;
+      color: #1d1d1f !important;
+      margin-top: 1px !important;
+    }
+    .dark .auth-stat-tile .val {
+      color: #ffffff !important;
+    }
+    .auth-stat-tile .val.success {
+      color: #248a3d !important;
+    }
+    .dark .auth-stat-tile .val.success {
+      color: #32d74b !important;
+    }
+
+    .auth-preview-engine-status {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 5px !important;
+      background: #f5f5f7 !important;
+      border: 1px solid #e0e0e0 !important;
+      border-radius: 9px !important;
+      padding: 9px 11px !important;
+    }
+    .dark .auth-preview-engine-status {
+      background: #252528 !important;
+      border-color: rgba(255, 255, 255, 0.08) !important;
+    }
+    .engine-row {
+      display: flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      font-size: 11.5px !important;
+      color: #1d1d1f !important;
+    }
+    .dark .engine-row {
+      color: #e5e5ea !important;
+    }
+    .engine-indicator {
+      color: #248a3d !important;
+      font-weight: 700 !important;
+    }
+    .dark .engine-indicator {
+      color: #32d74b !important;
+    }
+    .engine-text {
+      flex: 1 !important;
+      font-weight: 500 !important;
+    }
+    .engine-tag {
+      font-size: 9.5px !important;
+      font-weight: 700 !important;
+      text-transform: uppercase !important;
+      padding: 2px 5px !important;
+      border-radius: 4px !important;
+      background: rgba(0, 102, 204, 0.1) !important;
+      color: #0066cc !important;
+    }
+    .dark .engine-tag {
+      background: rgba(41, 151, 255, 0.15) !important;
+      color: #2997ff !important;
+    }
+
+    .auth-card-visual h3.auth-visual-heading {
+      font-family: var(--font-display) !important;
+      font-size: 17px !important;
+      font-weight: 700 !important;
+      color: #1d1d1f !important;
+      line-height: 1.3 !important;
+      margin-bottom: 4px !important;
+    }
+    .dark .auth-card-visual h3.auth-visual-heading {
+      color: #ffffff !important;
+    }
+
+    .auth-visual-subtext {
+      font-size: 12.5px !important;
+      color: #6e6e73 !important;
+      line-height: 1.45 !important;
+      margin-bottom: 10px !important;
+    }
+    .dark .auth-visual-subtext {
+      color: #86868b !important;
+    }
+
+    .auth-visual-badges-row {
+      display: flex !important;
+      gap: 6px !important;
+      flex-wrap: wrap !important;
+    }
+
+    .auth-badge-pill {
+      font-size: 11px !important;
+      font-weight: 600 !important;
+      background: #f0f0f2 !important;
+      border: 1px solid #e0e0e0 !important;
+      color: #1d1d1f !important;
+      padding: 3px 9px !important;
+      border-radius: 9999px !important;
+    }
+    .dark .auth-badge-pill {
+      background: rgba(255, 255, 255, 0.08) !important;
+      border-color: rgba(255, 255, 255, 0.15) !important;
+      color: #f5f5f7 !important;
+    }
+
+    /* Right Form Column */
+    .auth-card-form {
+      flex: 1 !important;
+      background: #ffffff !important;
+      padding: 34px 38px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      position: relative !important;
+    }
+    .dark .auth-card-form {
+      background: #161618 !important;
+    }
+
+    .auth-top-action-bar {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      margin-bottom: 16px !important;
+    }
+
+    .btn-back-home {
+      color: #6e6e73 !important;
+      font-size: 12.5px !important;
+      font-weight: 600 !important;
+      background: transparent !important;
+      border: none !important;
+      cursor: pointer !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      padding: 4px 0 !important;
+      transition: color 0.15s ease !important;
+    }
+    .btn-back-home:hover {
+      color: #0066cc !important;
+    }
+    .dark .btn-back-home {
+      color: #86868b !important;
+    }
+    .dark .btn-back-home:hover {
+      color: #2997ff !important;
+    }
+
+    .btn-close-auth-x {
+      background: #f5f5f7 !important;
+      border: 1px solid #d2d2d7 !important;
+      color: #6e6e73 !important;
+      width: 30px !important;
+      height: 30px !important;
+      border-radius: 50% !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      cursor: pointer !important;
+      padding: 0 !important;
+      transition: all 0.15s ease !important;
+    }
+    .btn-close-auth-x:hover {
+      background: #e5e5ea !important;
+      color: #1d1d1f !important;
+      transform: scale(1.05);
+    }
+    .dark .btn-close-auth-x {
+      background: rgba(255, 255, 255, 0.08) !important;
+      border-color: rgba(255, 255, 255, 0.15) !important;
+      color: #a1a1a6 !important;
+    }
+    .dark .btn-close-auth-x:hover {
+      background: rgba(255, 255, 255, 0.16) !important;
+      color: #ffffff !important;
+    }
+
+    .auth-form-header h2#authHeadingText {
+      font-family: var(--font-display) !important;
+      font-size: 24px !important;
+      font-weight: 700 !important;
+      color: #1d1d1f !important;
+      margin-bottom: 4px !important;
+      letter-spacing: -0.02em !important;
+      line-height: 1.2 !important;
+    }
+    .dark .auth-form-header h2#authHeadingText {
+      color: #ffffff !important;
+    }
+
+    .auth-form-header p#authSubheadingText {
+      color: #6e6e73 !important;
+      font-size: 13px !important;
+      margin-bottom: 16px !important;
+      line-height: 1.4 !important;
+    }
+    .dark .auth-form-header p#authSubheadingText {
+      color: #86868b !important;
+    }
+
+    /* Segmented Tabs */
+    .auth-mode-tabs {
+      display: flex !important;
+      background: #f0f0f2 !important;
+      border: 1px solid #e0e0e0 !important;
+      border-radius: 10px !important;
+      padding: 3px !important;
+      margin-bottom: 16px !important;
+    }
+    .dark .auth-mode-tabs {
+      background: rgba(255, 255, 255, 0.08) !important;
+      border-color: rgba(255, 255, 255, 0.12) !important;
+    }
+
+    .auth-tab-btn {
+      flex: 1 !important;
+      padding: 8px 12px !important;
+      border: none !important;
+      background: transparent !important;
+      color: #6e6e73 !important;
+      font-weight: 600 !important;
+      font-size: 13px !important;
+      border-radius: 7px !important;
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
+    }
+    .dark .auth-tab-btn {
+      color: #86868b !important;
+    }
+    .auth-tab-btn:hover {
+      color: #1d1d1f !important;
+    }
+    .dark .auth-tab-btn:hover {
+      color: #ffffff !important;
+    }
+    .auth-tab-btn.active {
+      background: #ffffff !important;
+      color: #0066cc !important;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+      font-weight: 700 !important;
+    }
+    .dark .auth-tab-btn.active {
+      background: #2c2c2e !important;
+      color: #2997ff !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    /* Google Sign In */
+    .btn-google-auth-wide {
+      width: 100% !important;
+      height: 40px !important;
+      padding: 0 16px !important;
+      background: #ffffff !important;
+      color: #1d1d1f !important;
+      border: 1px solid #d2d2d7 !important;
+      border-radius: 9999px !important;
+      font-size: 13px !important;
+      font-weight: 600 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 10px !important;
+      cursor: pointer !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+      transition: all 0.2s ease !important;
+      margin-bottom: 14px !important;
+    }
+    .btn-google-auth-wide:hover {
+      background: #f5f5f7 !important;
+      border-color: #86868b !important;
+      transform: translateY(-1px);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08) !important;
+    }
+    .dark .btn-google-auth-wide {
+      background: rgba(255, 255, 255, 0.08) !important;
+      border-color: rgba(255, 255, 255, 0.18) !important;
+      color: #ffffff !important;
+    }
+    .dark .btn-google-auth-wide:hover {
+      background: rgba(255, 255, 255, 0.14) !important;
+      border-color: rgba(255, 255, 255, 0.3) !important;
+    }
+
+    .auth-divider-line {
+      display: flex !important;
+      align-items: center !important;
+      text-align: center !important;
+      margin: 12px 0 16px 0 !important;
+      color: #86868b !important;
+      font-size: 11.5px !important;
+      font-weight: 500 !important;
+    }
+    .auth-divider-line::before,
+    .auth-divider-line::after {
+      content: '' !important;
+      flex: 1 !important;
+      border-bottom: 1px solid #e0e0e0 !important;
+    }
+    .dark .auth-divider-line::before,
+    .dark .auth-divider-line::after {
+      border-bottom-color: rgba(255, 255, 255, 0.12) !important;
+    }
+
+    /* Form Fields */
+    .auth-form-group {
+      margin-bottom: 13px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 4px !important;
+      text-align: left !important;
+    }
+
+    .auth-form-group label {
+      font-size: 12px !important;
+      font-weight: 600 !important;
+      color: #1d1d1f !important;
+      letter-spacing: -0.01em !important;
+    }
+    .dark .auth-form-group label {
+      color: #f5f5f7 !important;
+    }
+
+    .auth-forgot-link {
+      font-size: 12px !important;
+      color: #0066cc !important;
+      text-decoration: none !important;
+      font-weight: 600 !important;
+      transition: color 0.15s ease !important;
+    }
+    .auth-forgot-link:hover {
+      text-decoration: underline !important;
+      color: #0071e3 !important;
+    }
+    .dark .auth-forgot-link {
+      color: #2997ff !important;
+    }
+
+    /* Inputs in Auth */
+    .auth-card-form input.auth-input-dark {
+      width: 100% !important;
+      height: 40px !important;
+      padding: 0 14px !important;
+      border-radius: 9px !important;
+      border: 1px solid #d2d2d7 !important;
+      background: #f5f5f7 !important;
+      color: #1d1d1f !important;
+      font-size: 13.5px !important;
+      transition: all 0.2s ease !important;
+      box-sizing: border-box !important;
+    }
+    .auth-card-form input.auth-input-dark:focus {
+      outline: none !important;
+      background: #ffffff !important;
+      border-color: #0066cc !important;
+      box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.18) !important;
+    }
+    .dark .auth-card-form input.auth-input-dark {
+      background: rgba(255, 255, 255, 0.06) !important;
+      border-color: rgba(255, 255, 255, 0.18) !important;
+      color: #ffffff !important;
+    }
+    .dark .auth-card-form input.auth-input-dark:focus {
+      background: rgba(255, 255, 255, 0.1) !important;
+      border-color: #2997ff !important;
+      box-shadow: 0 0 0 3px rgba(41, 151, 255, 0.25) !important;
+    }
+    .auth-card-form input.auth-input-dark::placeholder {
+      color: #86868b !important;
+    }
+
+    .auth-pw-eye {
+      position: absolute !important;
+      right: 12px !important;
+      background: transparent !important;
+      border: none !important;
+      color: #86868b !important;
+      cursor: pointer !important;
+      padding: 4px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      transition: color 0.15s ease !important;
+    }
+    .auth-pw-eye:hover {
+      color: #1d1d1f !important;
+    }
+    .dark .auth-pw-eye:hover {
+      color: #ffffff !important;
+    }
+
+    .auth-pw-hint {
+      color: #86868b !important;
+      font-size: 11px !important;
+      margin-top: 3px !important;
+      display: block !important;
+    }
+
+    /* Primary Submit Button */
+    .btn-auth-submit {
+      width: 100% !important;
+      height: 42px !important;
+      padding: 0 20px !important;
+      background: #0066cc !important;
+      color: #ffffff !important;
+      border: none !important;
+      border-radius: 9999px !important;
+      font-size: 13.5px !important;
+      font-weight: 700 !important;
+      cursor: pointer !important;
+      box-shadow: 0 4px 12px rgba(0, 102, 204, 0.22) !important;
+      transition: all 0.2s ease !important;
+      margin-top: 6px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+    }
+    .btn-auth-submit:hover {
+      background: #0071e3 !important;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(0, 102, 204, 0.32) !important;
+    }
+    .dark .btn-auth-submit {
+      background: #0066cc !important;
+      box-shadow: 0 4px 16px rgba(0, 102, 204, 0.45) !important;
+    }
+    .dark .btn-auth-submit:hover {
+      background: #0071e3 !important;
+    }
+
+    /* Inline Error Alert */
+    .auth-error-alert {
+      background: rgba(255, 59, 48, 0.1) !important;
+      border: 1px solid rgba(255, 59, 48, 0.3) !important;
+      color: #d70015 !important;
+      padding: 8px 12px !important;
+      border-radius: 9px !important;
+      font-size: 12.5px !important;
+      font-weight: 600 !important;
+      margin-bottom: 12px !important;
+      display: none !important;
+      align-items: center !important;
+      gap: 8px !important;
+    }
+    .dark .auth-error-alert {
+      background: rgba(255, 69, 58, 0.16) !important;
+      border-color: rgba(255, 69, 58, 0.4) !important;
+      color: #ff453a !important;
+    }
+    .auth-error-alert.active {
+      display: flex !important;
+    }
+
+    /* Demo Shortcuts */
+    .auth-demo-shortcuts {
+      margin-top: 16px !important;
+      padding-top: 12px !important;
+      border-top: 1px solid #e0e0e0 !important;
+      text-align: center !important;
+    }
+    .dark .auth-demo-shortcuts {
+      border-top-color: rgba(255, 255, 255, 0.1) !important;
+    }
+
+    .auth-demo-shortcuts small {
+      display: block !important;
+      font-size: 10.5px !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.06em !important;
+      color: #86868b !important;
+      font-weight: 700 !important;
+      margin-bottom: 8px !important;
+    }
+
+    .auth-demo-buttons-row {
+      display: flex !important;
+      gap: 8px !important;
+      justify-content: center !important;
+    }
+
+    .btn-demo-badge {
+      background: #f5f5f7 !important;
+      border: 1px solid #d2d2d7 !important;
+      color: #1d1d1f !important;
+      padding: 5px 13px !important;
+      border-radius: 9999px !important;
+      font-size: 12px !important;
+      font-weight: 600 !important;
+      cursor: pointer !important;
+      transition: all 0.15s ease !important;
+    }
+    .btn-demo-badge:hover,
+    .btn-demo-badge.active-loading {
+      background: #0066cc !important;
+      border-color: #0066cc !important;
+      color: #ffffff !important;
+      transform: translateY(-1px);
+    }
+    .dark .btn-demo-badge {
+      background: rgba(255, 255, 255, 0.08) !important;
+      border-color: rgba(255, 255, 255, 0.16) !important;
+      color: #f5f5f7 !important;
+    }
+    .dark .btn-demo-badge:hover,
+    .dark .btn-demo-badge.active-loading {
+      background: #2997ff !important;
+      border-color: #2997ff !important;
+      color: #ffffff !important;
+    }
+
+    @media (max-width: 860px) {
+      .auth-card-wrapper {
+        flex-direction: column !important;
+        max-width: 440px !important;
+        min-height: auto !important;
+      }
+      .auth-card-visual {
+        display: none !important;
+      }
+      .auth-card-form {
+        padding: 24px 20px !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -2474,32 +3223,69 @@
   <!-- ======================================================================
        2. FULL-SCREEN IMMERSIVE AUTHENTICATION WORKSPACE
        ====================================================================== -->
-  <div id="authOverlay" class="auth-overlay-view">
-    <div class="auth-ambient-blob-1"></div>
-    <div class="auth-ambient-blob-2"></div>
-
-    <div class="auth-card-wrapper">
-      <!-- Left side: 3D Mascot & Universe Showcase -->
+  <div id="authOverlay" class="auth-overlay-view" onclick="handleAuthOverlayClick(event)">
+    <div class="auth-card-wrapper" onclick="event.stopPropagation()">
+      <!-- Left side: Interactive Subscription Showcase & System Intelligence -->
       <div class="auth-card-visual">
         <div class="auth-visual-inner">
           <div class="auth-visual-top">
             <div class="auth-visual-logo">
-              <div class="logo-bolt-icon" style="width: 32px; height: 32px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></div>
+              <div class="logo-bolt-icon" style="width: 28px; height: 28px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></div>
               <span>Brightloop</span>
             </div>
-            <span class="auth-visual-pill">Intelligent Billing</span>
+            <span class="auth-visual-pill">Lifecycle Engine</span>
           </div>
 
-          <div class="auth-illustration-container">
-            <img src="/auth-illustration.jpg" alt="Brightloop Subscription Mascot" class="auth-mascot-hero-art">
+          <!-- Subscription Agreement Live Preview -->
+          <div class="auth-preview-card">
+            <div class="auth-preview-head">
+              <div>
+                <span class="auth-preview-badge">● Active Contract</span>
+                <div class="auth-preview-title">SUB-000004 — Cloud Pro Tier</div>
+                <div class="auth-preview-sub">Acme Corp • Net 15 Terms • Auto-Renew</div>
+              </div>
+              <div class="auth-preview-price-box">
+                <span class="auth-preview-price-lbl">Monthly Rate</span>
+                <span class="auth-preview-price">₹4,120.00</span>
+              </div>
+            </div>
+
+            <div class="auth-preview-stats">
+              <div class="auth-stat-tile">
+                <span class="lbl">Billed Total</span>
+                <span class="val">₹15,480</span>
+              </div>
+              <div class="auth-stat-tile">
+                <span class="lbl">Collected</span>
+                <span class="val success">₹13,620</span>
+              </div>
+              <div class="auth-stat-tile">
+                <span class="lbl">Next Billing</span>
+                <span class="val">Feb 28</span>
+              </div>
+            </div>
+
+            <div class="auth-preview-engine-status">
+              <div class="engine-row">
+                <span class="engine-indicator">✓</span>
+                <span class="engine-text">Zero Duplicate Invoicing Protection</span>
+                <span class="engine-tag">Active</span>
+              </div>
+              <div class="engine-row">
+                <span class="engine-indicator">✓</span>
+                <span class="engine-text">Auto-Clamping Month-End Dates</span>
+                <span class="engine-tag">Verified</span>
+              </div>
+            </div>
           </div>
 
           <div class="auth-visual-bottom">
             <h3 class="auth-visual-heading">Recurring billing that runs like clockwork.</h3>
             <p class="auth-visual-subtext">Automated period invoices, zero duplicate billing protection, and real-time MRR analytics.</p>
             <div class="auth-visual-badges-row">
-              <span class="auth-badge-pill">✓ 100% Duplicate Prevention</span>
+              <span class="auth-badge-pill">100% Duplicate Prevention</span>
               <span class="auth-badge-pill">18% GST Engine</span>
+              <span class="auth-badge-pill">Role Governance</span>
             </div>
           </div>
         </div>
@@ -2509,9 +3295,12 @@
       <div class="auth-card-form">
         <div class="auth-top-action-bar">
           <button type="button" class="btn-back-home" onclick="closeAuthModal()">
-            <span>←</span> <span>Back to Website</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            <span>Back to Website</span>
           </button>
-          <button type="button" class="btn-close-auth-x" onclick="closeAuthModal()" title="Close">✕</button>
+          <button type="button" class="btn-close-auth-x" onclick="closeAuthModal()" title="Close dialog" aria-label="Close dialog">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
         </div>
 
         <div class="auth-form-header">
@@ -2519,7 +3308,7 @@
           <p id="authSubheadingText">Enter your credentials or test with 1-click demo roles.</p>
         </div>
 
-        <!-- Mode switcher tabs -->
+        <!-- Mode switcher tabs (Segmented pill) -->
         <div class="auth-mode-tabs">
           <button type="button" id="authTabLogin" class="auth-tab-btn active">Sign In</button>
           <button type="button" id="authTabSignup" class="auth-tab-btn">Create Account</button>
@@ -2538,63 +3327,63 @@
 
         <div class="auth-divider-line">or continue with work email</div>
 
-        <div id="authErrAlert" class="auth-error-alert"></div>
+        <div id="authErrAlert" class="auth-error-alert" role="alert"></div>
 
         <!-- Sign In Form -->
         <form id="authFormLogin">
           <div class="auth-form-group">
             <label for="loginEmailInput">Email Address</label>
-            <input type="email" id="loginEmailInput" class="auth-input-dark" placeholder="name@company.com" required>
+            <input type="email" id="loginEmailInput" class="auth-input-dark" placeholder="name@company.com" required autocomplete="email">
           </div>
 
           <div class="auth-form-group">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
               <label for="loginPasswordInput" style="margin-bottom: 0;">Password</label>
-              <a href="#" style="font-size: 0.8rem; color: #a855f7; text-decoration: none;" onclick="switchAuthTab('forgot'); return false;">Forgot?</a>
+              <a href="#" class="auth-forgot-link" onclick="switchAuthTab('forgot'); return false;">Forgot?</a>
             </div>
             <div class="input-password-wrap">
-              <input type="password" id="loginPasswordInput" class="auth-input-dark" placeholder="Enter your password" required>
+              <input type="password" id="loginPasswordInput" class="auth-input-dark" placeholder="Enter your password" required autocomplete="current-password">
               <button type="button" class="auth-pw-eye" aria-label="Toggle password visibility"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
             </div>
           </div>
 
-          <button type="submit" class="btn-auth-submit">Sign In to Control Room →</button>
+          <button type="submit" id="btnSubmitLogin" class="btn-auth-submit">Sign In to Control Room →</button>
         </form>
 
         <!-- Create Account Form -->
         <form id="authFormSignup" style="display: none;">
           <div class="auth-form-group">
             <label for="signupNameInput">Full Name</label>
-            <input type="text" id="signupNameInput" class="auth-input-dark" placeholder="Alex Morgan" required>
+            <input type="text" id="signupNameInput" class="auth-input-dark" placeholder="Alex Morgan" required autocomplete="name">
           </div>
 
           <div class="auth-form-group">
             <label for="signupEmailInput">Work Email</label>
-            <input type="email" id="signupEmailInput" class="auth-input-dark" placeholder="alex@company.com" required>
+            <input type="email" id="signupEmailInput" class="auth-input-dark" placeholder="alex@company.com" required autocomplete="email">
           </div>
 
           <div class="auth-form-group">
             <label for="signupPasswordInput">Password</label>
             <div class="input-password-wrap">
-              <input type="password" id="signupPasswordInput" class="auth-input-dark" placeholder="Min 9 chars, upper, lower & symbol" required>
+              <input type="password" id="signupPasswordInput" class="auth-input-dark" placeholder="Min 9 chars, upper, lower & symbol" required autocomplete="new-password">
               <button type="button" class="auth-pw-eye" aria-label="Toggle password visibility"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
             </div>
-            <small style="color: #94a3b8; font-size: 0.72rem; margin-top: 4px;">Min 9 chars with uppercase, lowercase & special symbol.</small>
+            <small class="auth-pw-hint">Min 9 chars with uppercase, lowercase & special symbol.</small>
           </div>
 
-          <button type="submit" class="btn-auth-submit">Create Free Account →</button>
+          <button type="submit" id="btnSubmitSignup" class="btn-auth-submit">Create Free Account →</button>
         </form>
 
         <!-- Forgot Password Form -->
         <form id="authFormForgot" style="display: none;">
           <div class="auth-form-group">
             <label for="forgotEmailInput">Registered Email Address</label>
-            <input type="email" id="forgotEmailInput" class="auth-input-dark" placeholder="name@company.com" required>
+            <input type="email" id="forgotEmailInput" class="auth-input-dark" placeholder="name@company.com" required autocomplete="email">
           </div>
 
-          <button type="submit" class="btn-auth-submit">Send Password Reset Link →</button>
+          <button type="submit" id="btnSubmitForgot" class="btn-auth-submit">Send Password Reset Link →</button>
           <div style="text-align: center; margin-top: 1rem;">
-            <a href="#" style="font-size: 0.85rem; color: #a855f7; text-decoration: none;" onclick="switchAuthTab('login'); return false;">← Back to Sign In</a>
+            <a href="#" class="auth-forgot-link" onclick="switchAuthTab('login'); return false;">← Back to Sign In</a>
           </div>
         </form>
 
@@ -2623,7 +3412,7 @@
 
       <!-- Navigation tabs bar -->
       <nav id="appNavTabs" class="app-nav-tabs-bar">
-        <!-- Rendered dynamically by public/js/app.js?v=15 based on user role -->
+        <!-- Rendered dynamically by public/js/app.js?v=16 based on user role -->
       </nav>
 
       <!-- Right actions -->
@@ -2652,8 +3441,8 @@
   </div>
 
   <!-- Scripts -->
-  <script src="/js/landing.js?v=15"></script>
-  <script src="/js/app.js?v=15"></script>
+  <script src="/js/landing.js?v=16"></script>
+  <script src="/js/app.js?v=16"></script>
 </body>
 
 </html>

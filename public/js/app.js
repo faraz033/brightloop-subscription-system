@@ -301,33 +301,37 @@ function switchAuthTab(mode) {
   const tabSignup = $('#authTabSignup');
   const heading = $('#authHeadingText');
   const subheading = $('#authSubheadingText');
+  const alertEl = $('#authErrAlert');
 
-  $('#authErrAlert').classList.remove('active');
+  if (alertEl) alertEl.classList.remove('active');
 
   if (mode === 'signup') {
-    loginForm.style.display = 'none';
-    forgotForm.style.display = 'none';
-    signupForm.style.display = 'block';
-    tabLogin.classList.remove('active');
-    tabSignup.classList.add('active');
+    if (loginForm) loginForm.style.display = 'none';
+    if (forgotForm) forgotForm.style.display = 'none';
+    if (signupForm) signupForm.style.display = 'block';
+    if (tabLogin) tabLogin.classList.remove('active');
+    if (tabSignup) tabSignup.classList.add('active');
     if (heading) heading.textContent = 'Create your account';
     if (subheading) subheading.textContent = 'Start managing products, plans, and recurring revenue in seconds.';
+    setTimeout(() => $('#signupNameInput')?.focus(), 50);
   } else if (mode === 'forgot') {
-    loginForm.style.display = 'none';
-    signupForm.style.display = 'none';
-    forgotForm.style.display = 'block';
-    tabLogin.classList.remove('active');
-    tabSignup.classList.remove('active');
+    if (loginForm) loginForm.style.display = 'none';
+    if (signupForm) signupForm.style.display = 'none';
+    if (forgotForm) forgotForm.style.display = 'block';
+    if (tabLogin) tabLogin.classList.remove('active');
+    if (tabSignup) tabSignup.classList.remove('active');
     if (heading) heading.textContent = 'Reset your password';
     if (subheading) subheading.textContent = 'Enter your email to receive a password recovery link.';
+    setTimeout(() => $('#forgotEmailInput')?.focus(), 50);
   } else {
-    signupForm.style.display = 'none';
-    forgotForm.style.display = 'none';
-    loginForm.style.display = 'block';
-    tabLogin.classList.add('active');
-    tabSignup.classList.remove('active');
+    if (signupForm) signupForm.style.display = 'none';
+    if (forgotForm) forgotForm.style.display = 'none';
+    if (loginForm) loginForm.style.display = 'block';
+    if (tabLogin) tabLogin.classList.add('active');
+    if (tabSignup) tabSignup.classList.remove('active');
     if (heading) heading.textContent = 'Welcome to Brightloop';
     if (subheading) subheading.textContent = 'Enter your credentials or test with 1-click demo roles.';
+    setTimeout(() => $('#loginEmailInput')?.focus(), 50);
   }
 }
 window.switchAuthTab = switchAuthTab;
@@ -390,53 +394,118 @@ function initAuthLogic() {
   });
 
   // Switch tabs
-  $('#authTabLogin').addEventListener('click', () => switchAuthTab('login'));
-  $('#authTabSignup').addEventListener('click', () => switchAuthTab('signup'));
+  const tabL = $('#authTabLogin');
+  const tabS = $('#authTabSignup');
+  if (tabL) tabL.addEventListener('click', () => switchAuthTab('login'));
+  if (tabS) tabS.addEventListener('click', () => switchAuthTab('signup'));
+
+  // Auto-clear error on typing
+  ['#loginEmailInput', '#loginPasswordInput', '#signupNameInput', '#signupEmailInput', '#signupPasswordInput'].forEach(sel => {
+    const el = document.querySelector(sel);
+    if (el) {
+      el.addEventListener('input', () => {
+        const alertEl = $('#authErrAlert');
+        if (alertEl) alertEl.classList.remove('active');
+      });
+    }
+  });
 
   // Login form submit
-  $('#authFormLogin').onsubmit = e => {
-    e.preventDefault();
-    run(async () => {
-      const email = $('#loginEmailInput').value.trim();
-      const password = $('#loginPasswordInput').value;
-      const res = await api('/auth/login', 'POST', { email, password });
-      saveSession(res);
-      showToast(`Welcome back, ${res.user.name}.`);
-      showAppControlRoom();
-    });
-  };
+  const formLogin = $('#authFormLogin');
+  if (formLogin) {
+    formLogin.onsubmit = e => {
+      e.preventDefault();
+      const btn = $('#btnSubmitLogin');
+      const originalText = btn ? btn.textContent : 'Sign In';
+      if (btn) { btn.disabled = true; btn.textContent = 'Signing in...'; }
+      const alertEl = $('#authErrAlert');
+      if (alertEl) alertEl.classList.remove('active');
+
+      run(async () => {
+        try {
+          const email = $('#loginEmailInput').value.trim();
+          const password = $('#loginPasswordInput').value;
+          const res = await api('/auth/login', 'POST', { email, password });
+          saveSession(res);
+          showToast(`Welcome back, ${res.user.name}.`);
+          showAppControlRoom();
+        } catch (err) {
+          if (alertEl) {
+            alertEl.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg><span>${esc(err.message)}</span>`;
+            alertEl.classList.add('active');
+          }
+          throw err;
+        } finally {
+          if (btn) { btn.disabled = false; btn.textContent = originalText; }
+        }
+      });
+    };
+  }
 
   // Signup form submit
-  $('#authFormSignup').onsubmit = e => {
-    e.preventDefault();
-    run(async () => {
-      const name = $('#signupNameInput').value.trim();
-      const email = $('#signupEmailInput').value.trim();
-      const password = $('#signupPasswordInput').value;
-      const res = await api('/auth/signup', 'POST', { name, email, password });
-      saveSession(res);
-      showToast(`Account created. Welcome, ${res.user.name}.`);
-      showAppControlRoom();
-    });
-  };
+  const formSignup = $('#authFormSignup');
+  if (formSignup) {
+    formSignup.onsubmit = e => {
+      e.preventDefault();
+      const btn = $('#btnSubmitSignup');
+      const originalText = btn ? btn.textContent : 'Create Free Account';
+      if (btn) { btn.disabled = true; btn.textContent = 'Creating account...'; }
+      const alertEl = $('#authErrAlert');
+      if (alertEl) alertEl.classList.remove('active');
+
+      run(async () => {
+        try {
+          const name = $('#signupNameInput').value.trim();
+          const email = $('#signupEmailInput').value.trim();
+          const password = $('#signupPasswordInput').value;
+          const res = await api('/auth/signup', 'POST', { name, email, password });
+          saveSession(res);
+          showToast(`Account created. Welcome, ${res.user.name}.`);
+          showAppControlRoom();
+        } catch (err) {
+          if (alertEl) {
+            alertEl.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg><span>${esc(err.message)}</span>`;
+            alertEl.classList.add('active');
+          }
+          throw err;
+        } finally {
+          if (btn) { btn.disabled = false; btn.textContent = originalText; }
+        }
+      });
+    };
+  }
 
   // Forgot password form
-  $('#authFormForgot').onsubmit = e => {
-    e.preventDefault();
-    run(async () => {
-      const email = $('#forgotEmailInput').value.trim();
-      const res = await api('/auth/forgot', 'POST', { email });
-      showToast(res.message);
-      switchAuthTab('login');
-    });
-  };
+  const formForgot = $('#authFormForgot');
+  if (formForgot) {
+    formForgot.onsubmit = e => {
+      e.preventDefault();
+      const btn = $('#btnSubmitForgot');
+      if (btn) { btn.disabled = true; btn.textContent = 'Sending...'; }
+      run(async () => {
+        try {
+          const email = $('#forgotEmailInput').value.trim();
+          const res = await api('/auth/forgot', 'POST', { email });
+          showToast(res.message);
+          const alertEl = $('#authErrAlert');
+          if (alertEl) {
+            alertEl.innerHTML = `<span style="color:#248a3d">${esc(res.message)}</span>`;
+            alertEl.classList.add('active');
+          }
+          setTimeout(() => switchAuthTab('login'), 2000);
+        } finally {
+          if (btn) { btn.disabled = false; btn.textContent = 'Send Password Reset Link →'; }
+        }
+      });
+    };
+  }
 
-  // WORKING GOOGLE SIGN-IN / SIGN-UP (One-click Google authentication)
+  // WORKING GOOGLE SIGN-IN / SIGN-UP
   document.querySelectorAll('.google-auth-action').forEach(btn => {
     btn.addEventListener('click', e => {
       e.preventDefault();
       run(async () => {
-        showToast('Signing in with Google account...');
+        showToast('Connecting with Google Account...');
         const res = await api('/auth/google', 'POST', {
           email: 'alex.google@brightloop.com',
           name: 'Alex (Google Account)'
@@ -452,15 +521,20 @@ function initAuthLogic() {
   document.querySelectorAll('.btn-demo-badge').forEach(b => {
     b.addEventListener('click', () => {
       const role = b.getAttribute('data-role');
+      document.querySelectorAll('.btn-demo-badge').forEach(x => x.classList.remove('active-loading'));
+      b.classList.add('active-loading');
       if (role === 'admin') {
         $('#loginEmailInput').value = 'admin@brightloop.com';
         $('#loginPasswordInput').value = 'Admin@12345';
+        showToast('Authenticating demo Admin account...');
       } else if (role === 'staff') {
         $('#loginEmailInput').value = 'staff@brightloop.com';
         $('#loginPasswordInput').value = 'Staff@12345';
+        showToast('Authenticating demo Staff account...');
       } else if (role === 'customer') {
         $('#loginEmailInput').value = 'customer@brightloop.com';
         $('#loginPasswordInput').value = 'Customer@12345';
+        showToast('Authenticating demo Customer account...');
       }
       switchAuthTab('login');
       $('#authFormLogin').dispatchEvent(new Event('submit'));
@@ -468,8 +542,10 @@ function initAuthLogic() {
   });
 
   // Back to website button in app header
-  $('#btnBackToLanding').onclick = () => showLandingView();
-  $('#btnSignOutApp').onclick = () => handleLogout();
+  const btnBack = $('#btnBackToLanding');
+  if (btnBack) btnBack.onclick = () => showLandingView();
+  const btnSignOut = $('#btnSignOutApp');
+  if (btnSignOut) btnSignOut.onclick = () => handleLogout();
 }
 
 function saveSession(data) {
@@ -1727,5 +1803,20 @@ document.addEventListener('DOMContentLoaded', () => {
   initAuthLogic();
   if (token && user) {
     showAppControlRoom();
+  }
+});
+
+
+window.handleAuthOverlayClick = function(e) {
+  if (e.target && e.target.id === 'authOverlay') {
+    closeAuthModal();
+  }
+};
+window.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    const auth = document.getElementById('authOverlay');
+    if (auth && auth.classList.contains('active')) {
+      closeAuthModal();
+    }
   }
 });

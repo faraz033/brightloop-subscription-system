@@ -4,6 +4,7 @@
    ========================================================================== */
 
 const $ = s => document.querySelector(s);
+window.$ = $;
 let token = localStorage.getItem('bl_token') || null;
 let user = JSON.parse(localStorage.getItem('bl_user') || 'null');
 
@@ -108,6 +109,7 @@ const run = async fn => {
     showToast(err.message, true);
   }
 };
+window.run = run;
 
 /* --------------------------------------------------
    TABLE & FORM UTILITIES
@@ -259,6 +261,7 @@ function downloadCsv(path, filename) {
    ROUTING & VIEW SWITCHING (LANDING vs APP vs AUTH)
    -------------------------------------------------- */
 function showLandingView() {
+  document.body.classList.remove('app-mode');
   const landing = document.getElementById('landingView');
   if (landing) landing.style.display = 'block';
   const mainNav = document.getElementById('mainNavbar');
@@ -272,17 +275,23 @@ function showLandingView() {
   if (appHeader) appHeader.style.display = 'none';
   const auth = document.getElementById('authOverlay');
   if (auth) auth.classList.remove('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo(0, 0);
 }
+window.showLandingView = showLandingView;
 
 function showAuthModal(mode = 'login') {
   $('#authOverlay').classList.add('active');
   switchAuthTab(mode);
 }
+window.showAuthModal = showAuthModal;
 
 function closeAuthModal() {
   $('#authOverlay').classList.remove('active');
+  if (!user && !document.body.classList.contains('app-mode')) {
+    showLandingView();
+  }
 }
+window.closeAuthModal = closeAuthModal;
 
 function switchAuthTab(mode) {
   const loginForm = $('#authFormLogin');
@@ -321,6 +330,7 @@ function switchAuthTab(mode) {
     if (subheading) subheading.textContent = 'Enter your credentials or test with 1-click demo roles.';
   }
 }
+window.switchAuthTab = switchAuthTab;
 
 function showAppControlRoom() {
   document.body.classList.add('app-mode');
@@ -337,9 +347,14 @@ function showAppControlRoom() {
   }
   const appHeader = document.querySelector('.app-top-header');
   if (appHeader) appHeader.style.display = 'flex';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  renderAppShell();
+  if (!user) {
+    showAuthModal('login');
+  } else {
+    renderAppShell();
+  }
+  window.scrollTo(0, 0);
 }
+window.showAppControlRoom = showAppControlRoom;
 
 /* --------------------------------------------------
    AUTHENTICATION LOGIC & WORKING GOOGLE SIGN-IN
@@ -469,9 +484,11 @@ function handleLogout() {
   user = null;
   localStorage.removeItem('bl_token');
   localStorage.removeItem('bl_user');
+  document.body.classList.remove('app-mode');
   showToast('Signed out successfully.');
   showLandingView();
 }
+window.handleLogout = handleLogout;
 
 /* --------------------------------------------------
    APPLICATION SHELL & NAVIGATION
@@ -624,6 +641,7 @@ const subAction = (id, actionPath, body = {}) => run(async () => {
   showToast('Subscription updated');
   subs(window._subPage || 1, window._subStatus || '', window._subQ || '');
 });
+window.subAction = subAction;
 
 async function subs(page = 1, status = '', q = '') {
   window._subPage = page;
@@ -887,8 +905,10 @@ const invAction = (id, actionPath, b) => run(async () => {
   showToast('Invoice updated');
   inv(window._invPage || 1, window._invStatus || '', window._invOverdue || '', window._invQ || '');
 });
+window.invAction = invAction;
 
 const printInvoice = id => window.open(`/api/invoices/${id}/print?token=${token}`);
+window.printInvoice = printInvoice;
 
 async function inv(page = 1, status = '', overdue = '', q = '') {
   window._invPage = page;
@@ -1658,6 +1678,47 @@ async function staff() {
     staff();
   });
 }
+
+/* --------------------------------------------------
+   GLOBAL EXPORTS (For inline HTML event handlers & inter-script calls)
+   -------------------------------------------------- */
+window.$ = $;
+window.run = run;
+window.api = api;
+window.money = money;
+window.badge = badge;
+window.esc = esc;
+window.showToast = showToast;
+window.tableHtml = tableHtml;
+window.formHtml = formHtml;
+window.downloadCsv = downloadCsv;
+window.printInvoice = printInvoice;
+window.invAction = invAction;
+window.subAction = subAction;
+window.navigateAppTab = navigateAppTab;
+window.dash = dash;
+window.subs = subs;
+window.inv = inv;
+window.pay = pay;
+window.prod = prod;
+window.plan = plan;
+window.tax = tax;
+window.disc = disc;
+window.tpl = tpl;
+window.staff = staff;
+window.subs_page_nav = subs_page_nav;
+window.inv_page_nav = inv_page_nav;
+window.openSubscriptionModal = openSubscriptionModal;
+window.openPaymentModal = openPaymentModal;
+window.openCustomerCheckoutModal = openCustomerCheckoutModal;
+window.showLandingView = showLandingView;
+window.showAppControlRoom = showAppControlRoom;
+window.showAuthModal = showAuthModal;
+window.closeAuthModal = closeAuthModal;
+window.switchAuthTab = switchAuthTab;
+window.handleLogout = handleLogout;
+window.startJuryTour = startJuryTour;
+window.toggleTheme = toggleTheme;
 
 /* --------------------------------------------------
    INITIALIZE ON PAGE LOAD

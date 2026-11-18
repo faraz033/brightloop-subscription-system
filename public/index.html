@@ -21,9 +21,9 @@
   </script>
 
   <!-- Design System & Stylesheets -->
-  <link rel="stylesheet" href="/css/design-system.css?v=11">
-  <link rel="stylesheet" href="/css/landing.css?v=11">
-  <link rel="stylesheet" href="/css/auth-app.css?v=11">
+  <link rel="stylesheet" href="/css/design-system.css?v=12">
+  <link rel="stylesheet" href="/css/landing.css?v=12">
+  <link rel="stylesheet" href="/css/auth-app.css?v=12">
 
   <style id="bl-modern-design">
     /* ==========================================================================
@@ -96,11 +96,13 @@
     }
 
     .dark {
-      --background: #000000;             /* Pure void canvas */
+      --canvas: #0b0c0e;
+      --canvas-parchment: #0b0c0e;
+      --background: #0b0c0e;             /* Pure void canvas */
       --foreground: #ffffff;
-      --card: #272729;                   /* Surface Tile 1 */
+      --card: #18191c;                   /* Obsidian tile */
       --card-foreground: #ffffff;
-      --popover: #272729;
+      --popover: #18191c;
       --popover-foreground: #ffffff;
       --primary: #0066cc;
       --primary-focus: #0071e3;
@@ -116,11 +118,11 @@
       --body-muted: #86868b;
       --muted-foreground: #86868b;
 
-      --secondary: #2a2a2c;              /* Surface Tile 2 */
+      --secondary: #222327;              /* Elevated dark surface */
       --secondary-foreground: #ffffff;
-      --accent: #2a2a2c;
+      --accent: #222327;
       --accent-foreground: #2997ff;
-      --muted: #252527;                  /* Surface Tile 3 */
+      --muted: #1e1f23;
 
       --destructive: #ff453a;
       --warning: #ff9f0a;
@@ -134,6 +136,11 @@
     }
 
     /* Base Typography & Background */
+    html, body {
+      max-width: 100% !important;
+      overflow-x: hidden !important;
+      box-sizing: border-box !important;
+    }
     body {
       font-family: var(--font-text) !important;
       font-size: 17px !important;
@@ -151,7 +158,7 @@
     .dark body,
     html.dark,
     .dark .app-view-container {
-      background-color: #000000 !important;
+      background-color: #0b0c0e !important;
       background-image: none !important;
       color: #ffffff !important;
     }
@@ -343,7 +350,7 @@
       display: none !important;
     }
 
-    /* Sub-nav Frosted in Control Room: 52px height, saturate blur */
+    /* Sub-nav Frosted in Control Room: 56px height, saturate blur */
     .app-top-header {
       box-sizing: border-box !important;
       position: fixed !important;
@@ -351,26 +358,26 @@
       left: 0 !important;
       right: 0 !important;
       transform: none !important;
-      width: 100vw !important;
-      max-width: 100vw !important;
-      height: 52px !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      height: 56px !important;
       border-radius: 0 !important;
-      padding: 0 16px !important;
+      padding: 0 20px !important;
       z-index: 9999 !important;
       display: flex !important;
       align-items: center !important;
       justify-content: space-between !important;
       border: none !important;
       border-bottom: 1px solid var(--border) !important;
-      background: rgba(245, 245, 247, 0.88) !important;
+      background: rgba(255, 255, 255, 0.95) !important;
       backdrop-filter: saturate(180%) blur(20px) !important;
       -webkit-backdrop-filter: saturate(180%) blur(20px) !important;
-      box-shadow: none !important;
-      overflow: hidden !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+      overflow: visible !important;
     }
 
     .dark .app-top-header {
-      background: rgba(22, 22, 24, 0.88) !important;
+      background: rgba(18, 19, 22, 0.95) !important;
       border-bottom-color: rgba(255, 255, 255, 0.12) !important;
     }
 
@@ -769,12 +776,24 @@
 
   
     /* ==========================================================================
-       HIGH-CONTRAST MARKETING LANDING RULES (Museum Gallery Spec)
-       Near-Black Ink #1d1d1f on Light Canvas • White #ffffff on Dark Tiles
+       HIGH-CONTRAST THEME RULES (LIGHT & DARK MODES)
+       Light Mode: #f5f5f7 canvas, #ffffff cards, #1d1d1f headings, #4b4b4e text
+       Dark Mode:  #0b0c0e canvas, #18191c cards, #ffffff headings, #a1a1a6 text
        ========================================================================== */
     .bl-landing-wrapper {
       background-color: #f5f5f7 !important;
       color: #1d1d1f !important;
+      min-height: 100vh;
+    }
+    .bl-landing-wrapper .landing-section {
+      background-color: #f5f5f7 !important;
+      color: #1d1d1f !important;
+    }
+    .bl-landing-wrapper .landing-section.section-white {
+      background-color: #ffffff !important;
+    }
+    .bl-landing-wrapper .landing-section.section-tinted {
+      background-color: #f5f5f7 !important;
     }
     .bl-landing-wrapper h1,
     .bl-landing-wrapper h2,
@@ -794,34 +813,234 @@
     .bl-landing-wrapper .section-desc,
     .bl-landing-wrapper .hero-stat-label,
     .bl-landing-wrapper .footer-col p {
-      color: #737373 !important;
+      color: #4b4b4e !important;
     }
     .bl-landing-wrapper .hero-stat-number {
       color: #0066cc !important;
-      font-weight: 600 !important;
+      font-weight: 700 !important;
     }
     .bl-landing-wrapper .hero-tag,
     .bl-landing-wrapper .section-badge {
       background: rgba(0, 102, 204, 0.08) !important;
       color: #0066cc !important;
-      border: 1px solid rgba(0, 102, 204, 0.2) !important;
+      border: 1px solid rgba(0, 102, 204, 0.22) !important;
+      font-weight: 600 !important;
     }
 
-    /* Dark Tiles Override (#272729) */
-    .bl-landing-wrapper .landing-section.section-dark,
-    .bl-landing-wrapper .landing-section.dark-tile-1 {
-      background-color: #272729 !important;
+    /* Cards in Light Mode */
+    .bl-landing-wrapper .ecosystem-step-card,
+    .bl-landing-wrapper .card,
+    .bl-landing-wrapper .product-matrix-card,
+    .bl-landing-wrapper .cadence-rules-card,
+    .bl-landing-wrapper .uniqueness-card,
+    .bl-landing-wrapper .role-persona-card,
+    .bl-landing-wrapper .hero-product-render-card,
+    .bl-landing-wrapper .split-card,
+    .bl-landing-wrapper .lifecycle-detail-panel {
+      background: #ffffff !important;
+      border: 1px solid #e0e0e0 !important;
+      color: #1d1d1f !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
+    }
+    .bl-landing-wrapper .ecosystem-step-card h4,
+    .bl-landing-wrapper .uniqueness-card h4,
+    .bl-landing-wrapper .role-persona-card h3,
+    .bl-landing-wrapper .split-card h3,
+    .bl-landing-wrapper .split-card h4,
+    .bl-landing-wrapper .product-matrix-card h3,
+    .bl-landing-wrapper .cadence-rules-card h3 {
+      color: #1d1d1f !important;
+    }
+    .bl-landing-wrapper .ecosystem-step-card p,
+    .bl-landing-wrapper .uniqueness-card p,
+    .bl-landing-wrapper .role-persona-card p,
+    .bl-landing-wrapper .role-persona-card li,
+    .bl-landing-wrapper .split-card p,
+    .bl-landing-wrapper .split-card li,
+    .bl-landing-wrapper .product-matrix-card p,
+    .bl-landing-wrapper .cadence-rules-card p {
+      color: #515154 !important;
+    }
+
+    /* Step Num Bubble */
+    .step-num-bubble {
+      width: 36px !important;
+      height: 36px !important;
+      min-width: 36px !important;
+      max-width: 36px !important;
+      border-radius: 50% !important;
+      background: #0066cc !important;
+      color: #ffffff !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-size: 14px !important;
+      font-weight: 600 !important;
+      margin-bottom: 14px !important;
+      flex-shrink: 0 !important;
+    }
+
+    /* DARK MODE MARKETING RULES */
+    .dark .bl-landing-wrapper {
+      background-color: #0b0c0e !important;
       color: #ffffff !important;
     }
-    .bl-landing-wrapper .landing-section.section-dark h1,
-    .bl-landing-wrapper .landing-section.section-dark h2,
-    .bl-landing-wrapper .landing-section.section-dark h3,
-    .bl-landing-wrapper .landing-section.section-dark h4 {
+    .dark .bl-landing-wrapper .landing-section {
+      background-color: #0b0c0e !important;
       color: #ffffff !important;
     }
-    .bl-landing-wrapper .landing-section.section-dark p,
-    .bl-landing-wrapper .landing-section.section-dark .section-desc {
-      color: #cccccc !important;
+    .dark .bl-landing-wrapper .landing-section.section-white,
+    .dark .bl-landing-wrapper .landing-section.section-tinted,
+    .dark .bl-landing-wrapper .landing-section.hero-section {
+      background-color: #0b0c0e !important;
+      color: #ffffff !important;
+    }
+    .dark .bl-landing-wrapper h1,
+    .dark .bl-landing-wrapper h2,
+    .dark .bl-landing-wrapper h3,
+    .dark .bl-landing-wrapper h4,
+    .dark .bl-landing-wrapper h5,
+    .dark .bl-landing-wrapper h6,
+    .dark .bl-landing-wrapper .hero-title,
+    .dark .bl-landing-wrapper .section-title {
+      color: #ffffff !important;
+    }
+    .dark .bl-landing-wrapper p,
+    .dark .bl-landing-wrapper .hero-subtitle,
+    .dark .bl-landing-wrapper .section-desc,
+    .dark .bl-landing-wrapper .hero-stat-label,
+    .dark .bl-landing-wrapper .footer-col p {
+      color: #a1a1a6 !important;
+    }
+    .dark .bl-landing-wrapper .hero-tag,
+    .dark .bl-landing-wrapper .section-badge {
+      background: rgba(41, 151, 255, 0.12) !important;
+      color: #2997ff !important;
+      border-color: rgba(41, 151, 255, 0.28) !important;
+    }
+
+    /* Cards in Dark Mode */
+    .dark .bl-landing-wrapper .ecosystem-step-card,
+    .dark .bl-landing-wrapper .card,
+    .dark .bl-landing-wrapper .product-matrix-card,
+    .dark .bl-landing-wrapper .cadence-rules-card,
+    .dark .bl-landing-wrapper .uniqueness-card,
+    .dark .bl-landing-wrapper .role-persona-card,
+    .dark .bl-landing-wrapper .hero-product-render-card,
+    .dark .bl-landing-wrapper .split-card,
+    .dark .bl-landing-wrapper .lifecycle-detail-panel {
+      background: #18191c !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3) !important;
+    }
+    .dark .bl-landing-wrapper .ecosystem-step-card h4,
+    .dark .bl-landing-wrapper .uniqueness-card h4,
+    .dark .bl-landing-wrapper .role-persona-card h3,
+    .dark .bl-landing-wrapper .split-card h3,
+    .dark .bl-landing-wrapper .split-card h4,
+    .dark .bl-landing-wrapper .product-matrix-card h3,
+    .dark .bl-landing-wrapper .cadence-rules-card h3 {
+      color: #ffffff !important;
+    }
+    .dark .bl-landing-wrapper .ecosystem-step-card p,
+    .dark .bl-landing-wrapper .uniqueness-card p,
+    .dark .bl-landing-wrapper .role-persona-card p,
+    .dark .bl-landing-wrapper .role-persona-card li,
+    .dark .bl-landing-wrapper .split-card p,
+    .dark .bl-landing-wrapper .split-card li,
+    .dark .bl-landing-wrapper .product-matrix-card p,
+    .dark .bl-landing-wrapper .cadence-rules-card p {
+      color: #a1a1a6 !important;
+    }
+    .dark .uniqueness-card .rule-highlight-box {
+      background: #242528 !important;
+      color: #ffffff !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+    .dark .uniqueness-card .rule-highlight-box strong,
+    .dark .uniqueness-card .rule-highlight-box code {
+      color: #ffffff !important;
+    }
+
+    /* Lifecycle Stepper Segmented Controls */
+    .lifecycle-nodes-flow {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      gap: 10px !important;
+      flex-wrap: wrap !important;
+      margin-bottom: 28px !important;
+    }
+    .lifecycle-node-btn {
+      background: #ffffff !important;
+      border: 1px solid #d2d2d7 !important;
+      border-radius: 9999px !important;
+      padding: 8px 16px 8px 10px !important;
+      cursor: pointer !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+      text-decoration: none !important;
+    }
+    .lifecycle-node-btn .lifecycle-stage-num {
+      width: 24px !important;
+      height: 24px !important;
+      border-radius: 50% !important;
+      background: rgba(0, 0, 0, 0.06) !important;
+      color: #1d1d1f !important;
+      font-size: 11px !important;
+      font-weight: 700 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      flex-shrink: 0 !important;
+    }
+    .lifecycle-node-btn .lifecycle-title {
+      font-size: 14px !important;
+      font-weight: 600 !important;
+      color: #1d1d1f !important;
+    }
+    .lifecycle-node-btn .lifecycle-subtitle {
+      font-size: 12px !important;
+      font-weight: 400 !important;
+      color: #737373 !important;
+    }
+    .lifecycle-node-btn.active {
+      background: #0066cc !important;
+      border-color: #0066cc !important;
+      box-shadow: 0 4px 14px rgba(0, 102, 204, 0.35) !important;
+    }
+    .lifecycle-node-btn.active * {
+      color: #ffffff !important;
+    }
+    .lifecycle-node-btn.active .lifecycle-stage-num {
+      background: rgba(255, 255, 255, 0.25) !important;
+      color: #ffffff !important;
+    }
+    .dark .lifecycle-node-btn {
+      background: #18191c !important;
+      border-color: rgba(255, 255, 255, 0.16) !important;
+      box-shadow: none !important;
+    }
+    .dark .lifecycle-node-btn .lifecycle-stage-num {
+      background: rgba(255, 255, 255, 0.12) !important;
+      color: #ffffff !important;
+    }
+    .dark .lifecycle-node-btn .lifecycle-title {
+      color: #ffffff !important;
+    }
+    .dark .lifecycle-node-btn .lifecycle-subtitle {
+      color: #a1a1a6 !important;
+    }
+    .dark .lifecycle-node-btn.active {
+      background: #0066cc !important;
+      border-color: #0066cc !important;
+    }
+    .dark .lifecycle-node-btn.active * {
+      color: #ffffff !important;
     }
 
     /* Secondary buttons on landing */
@@ -835,9 +1054,21 @@
       border-color: #86868b !important;
       color: #0066cc !important;
     }
+    .dark .bl-landing-wrapper .btn-hero-secondary {
+      background: #18191c !important;
+      color: #ffffff !important;
+      border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    }
+    .dark .bl-landing-wrapper .btn-hero-secondary:hover {
+      background: #242528 !important;
+      border-color: #2997ff !important;
+      color: #2997ff !important;
+    }
 
-  
     /* Strict Visibility: Control Room header NEVER leaks onto website */
+    .app-top-header {
+      display: none !important;
+    }
     .app-view-container:not(.active),
     .app-view-container:not(.active) .app-top-header,
     #landingView[style*="block"] ~ #appView,
@@ -846,24 +1077,11 @@
     #landingView:not([style*="none"]) ~ #appView .app-top-header {
       display: none !important;
     }
-
-  
-    /* ABSOLUTE SCOPING: Control Room top header is ONLY visible when appView is active */
-    .app-top-header {
-      display: none !important;
-    }
     .app-view-container.active .app-top-header {
       display: flex !important;
     }
-    .app-view-container:not(.active),
-    .app-view-container:not(.active) .app-top-header {
-      display: none !important;
-    }
 
-  
-    /* ==========================================================================
-       ABSOLUTE VIEW ISOLATION: body.app-mode completely toggles views
-       ========================================================================== */
+    /* ABSOLUTE VIEW ISOLATION: body.app-mode completely toggles views */
     body.app-mode #landingView,
     body.app-mode #mainNavbar {
       display: none !important;
@@ -885,98 +1103,6 @@
     body:not(.app-mode) #mainNavbar {
       display: flex !important;
     }
-
-    /* Section 10 Period Uniqueness Card high-contrast styling */
-    .uniqueness-card {
-      max-width: 900px;
-      margin: 0 auto;
-      background: #ffffff !important;
-      border: 1px solid #e0e0e0 !important;
-      border-radius: 18px;
-      padding: 3rem;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    }
-    .uniqueness-card h4 {
-      color: #1d1d1f !important;
-    }
-    .uniqueness-card p {
-      color: #515154 !important;
-    }
-    .uniqueness-card .rule-highlight-box {
-      background: #f5f5f7 !important;
-      color: #1d1d1f !important;
-      border: 1px solid #e0e0e0 !important;
-      border-radius: 12px;
-      padding: 1rem 1.25rem;
-    }
-
-    .dark .uniqueness-card {
-      background: #1c1c1e !important;
-      border: 1px solid rgba(255, 255, 255, 0.12) !important;
-      box-shadow: none;
-    }
-    .dark .uniqueness-card h4 {
-      color: #ffffff !important;
-    }
-    .dark .uniqueness-card p {
-      color: #cccccc !important;
-    }
-    .dark .uniqueness-card .rule-highlight-box {
-      background: #272729 !important;
-      color: #ffffff !important;
-      border-color: rgba(255, 255, 255, 0.1) !important;
-    }
-
-    /* Section 11 Persona Cards theme styling */
-    .role-persona-card {
-      background: #ffffff !important;
-      border: 1px solid #e0e0e0 !important;
-      border-radius: 18px !important;
-      padding: 32px !important;
-      color: #1d1d1f !important;
-    }
-    .role-persona-card h3 {
-      color: #1d1d1f !important;
-    }
-    .role-persona-card p {
-      color: #515154 !important;
-    }
-    .role-persona-card li {
-      color: #333336 !important;
-    }
-    .role-persona-card .role-avatar-circle {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      background: rgba(0, 102, 204, 0.1);
-      color: #0066cc;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 14px;
-      margin-bottom: 1rem;
-    }
-
-    .dark .role-persona-card {
-      background: #1c1c1e !important;
-      border: 1px solid rgba(255, 255, 255, 0.12) !important;
-      color: #ffffff !important;
-    }
-    .dark .role-persona-card h3 {
-      color: #ffffff !important;
-    }
-    .dark .role-persona-card p {
-      color: #a1a1a6 !important;
-    }
-    .dark .role-persona-card li {
-      color: #cccccc !important;
-    }
-    .dark .role-persona-card .role-avatar-circle {
-      background: rgba(41, 151, 255, 0.15);
-      color: #2997ff;
-    }
-
   </style>
 </head>
 
@@ -1007,6 +1133,7 @@
         </ul>
 
         <div class="bl-nav-actions">
+          <button class="theme-toggle-btn" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme"></button>
           <a href="#" class="btn-nav-login open-login-btn">Log In</a>
           <a href="#" class="btn-primary-glow open-signup-btn">Get Started Free</a>
           <button id="mobileMenuToggle" class="mobile-menu-btn" aria-label="Toggle Navigation Menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
@@ -2360,14 +2487,14 @@
 
       <!-- Navigation tabs bar -->
       <nav id="appNavTabs" class="app-nav-tabs-bar">
-        <!-- Rendered dynamically by public/js/app.js?v=11 based on user role -->
+        <!-- Rendered dynamically by public/js/app.js?v=12 based on user role -->
       </nav>
 
       <!-- Right actions -->
       <div class="app-user-actions-pill">
         <button id="themeToggleBtn" class="theme-toggle-btn" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme"></button>
         <button id="btnJuryTour" class="btn-jury-tour" onclick="startJuryTour()">Jury Tour</button>
-        <button id="btnBackToLanding" class="btn-view-landing-site">Website</button>
+        <button id="btnBackToLanding" class="btn-view-landing-site" onclick="showLandingView()">Website</button>
         <div style="display: flex; align-items: center; gap: 8px;">
           <div id="appUserAvatarLetter" class="user-avatar-circle">A</div>
           <div style="font-size: 13px; font-weight: 700;">
@@ -2375,7 +2502,7 @@
             <span id="appUserRoleTag" class="user-role-badge">admin</span>
           </div>
         </div>
-        <button id="btnSignOutApp" class="btn-signout-link">Sign out</button>
+        <button id="btnSignOutApp" class="btn-signout-link" onclick="handleLogout()">Sign out</button>
       </div>
     </header>
 
@@ -2389,8 +2516,8 @@
   </div>
 
   <!-- Scripts -->
-  <script src="/js/landing.js?v=11"></script>
-  <script src="/js/app.js?v=11"></script>
+  <script src="/js/landing.js?v=12"></script>
+  <script src="/js/app.js?v=12"></script>
 </body>
 
 </html>

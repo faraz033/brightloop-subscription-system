@@ -290,8 +290,8 @@ function initLifecycleExplorer() {
       step: '01',
       title: 'Draft — Order Composition',
       badge: 'Draft Mode',
-      badgeColor: '#737373',
-      badgeBg: 'rgba(0,0,0,0.06)',
+      badgeColor: '#0066cc',
+      badgeBg: 'rgba(0, 102, 204, 0.1)',
       desc: 'When an order is created, it begins in Draft. The administrator or sales rep sets the customer, selects a recurring plan, and attaches products with optional variants and custom quantities. No billing commitments are active yet.',
       capabilities: [
         'Editable line items, quantities, and pricing variants',
@@ -301,7 +301,7 @@ function initLifecycleExplorer() {
       nextAction: 'Advance to Quotation →',
       nextStage: 'quotation',
       statusText: 'Draft Composition',
-      statusColor: '#737373',
+      statusColor: '#0066cc',
       invoiceStatus: 'No Invoices Generated Yet',
       subId: 'SUB-000004'
     },
@@ -328,8 +328,8 @@ function initLifecycleExplorer() {
       step: '03',
       title: 'Confirmed — Agreement Locked',
       badge: 'Agreement Locked',
-      badgeColor: '#1d1d1f',
-      badgeBg: 'rgba(0,0,0,0.08)',
+      badgeColor: '#8b5cf6',
+      badgeBg: 'rgba(139, 92, 246, 0.12)',
       desc: 'Customer approves terms or sales representative confirms the contract. The subscription is locked for start-date initialization and queueing in the recurring billing engine.',
       capabilities: [
         'Locks core subscription parameters to prevent accidental modification',
@@ -339,7 +339,7 @@ function initLifecycleExplorer() {
       nextAction: 'Activate Subscription →',
       nextStage: 'active',
       statusText: 'Contract Signed & Queued',
-      statusColor: '#1d1d1f',
+      statusColor: '#8b5cf6',
       invoiceStatus: 'Initial Invoice Queued for Delivery',
       subId: 'SUB-000004'
     },

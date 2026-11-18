@@ -21,9 +21,9 @@
   </script>
 
   <!-- Design System & Stylesheets -->
-  <link rel="stylesheet" href="/css/design-system.css">
-  <link rel="stylesheet" href="/css/landing.css">
-  <link rel="stylesheet" href="/css/auth-app.css">
+  <link rel="stylesheet" href="/css/design-system.css?v=5">
+  <link rel="stylesheet" href="/css/landing.css?v=5">
+  <link rel="stylesheet" href="/css/auth-app.css?v=5">
 
   <style id="bl-modern-design">
     /* ==========================================================================
@@ -1211,13 +1211,81 @@
           <button class="showcase-tab-btn" data-tab="payments">Payment Ledger</button>
         </div>
 
-        <div class="browser-mockup-frame">
-          <div class="browser-header-bar">
-            <div class="browser-dots">
-              <div class="dot-circle dot-red"></div>
-              <div class="dot-circle dot-yellow"></div>
-              <div class="dot-circle dot-green"></div>
+        <div class="browser-mockup-frame" style="background:#ffffff; border:1px solid #e0e0e0; border-radius:18px; overflow:hidden; box-shadow:rgba(0,0,0,0.12) 0 8px 30px;">
+          <div class="browser-header-bar" style="background:#f5f5f7; padding:12px 20px; display:flex; align-items:center; gap:14px; border-bottom:1px solid #e0e0e0;">
+            <div class="browser-dots" style="display:flex; gap:6px;">
+              <div class="dot-circle" style="width:10px; height:10px; border-radius:50%; background:#ff5f57;"></div>
+              <div class="dot-circle" style="width:10px; height:10px; border-radius:50%; background:#febc2e;"></div>
+              <div class="dot-circle" style="width:10px; height:10px; border-radius:50%; background:#28c840;"></div>
             </div>
+            <div id="showcaseUrlPill" class="browser-url-pill" style="flex-grow:1; background:#ffffff; color:#737373; border:1px solid #e0e0e0; border-radius:9999px; padding:5px 16px; font-size:12px; font-family:var(--font-sans);">https://app.brightloop.com/dashboard/finance</div>
+            <a href="#" class="btn-primary-glow open-app-btn" style="padding:6px 16px; font-size:12px; background:#0066cc; color:#ffffff; border-radius:9999px;">Launch Live App ↗</a>
+          </div>
+
+          <div id="showcaseLiveStage" style="padding:28px; background:#f5f5f7; min-height:400px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+              <div>
+                <h3 id="showcaseStageTitle" style="font-size:20px; font-weight:600; color:#1d1d1f; margin:0 0 4px 0;">Finance Overview</h3>
+                <p id="showcaseStageSub" style="font-size:13px; color:#737373; margin:0;">Live recurring metrics, revenue recognition, and payment status.</p>
+              </div>
+              <span id="showcaseStageBadge" style="font-size:12px; background:#ffffff; border:1px solid #e0e0e0; padding:4px 12px; border-radius:9999px; color:#1d1d1f; font-weight:500;">Fiscal Year 2026</span>
+            </div>
+
+            <!-- 4 Utility Stat Cards -->
+            <div id="showcaseStatsGrid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:14px; margin-bottom:20px;">
+              <div style="background:#ffffff; border:1px solid #e0e0e0; border-radius:18px; padding:18px;">
+                <small style="font-size:11px; text-transform:uppercase; letter-spacing:0.05em; color:#737373; font-weight:600; display:block;">Active Subscriptions</small>
+                <div style="font-family:var(--font-display); font-size:26px; font-weight:600; color:#1d1d1f; margin-top:4px;">10</div>
+              </div>
+              <div style="background:#ffffff; border:1px solid #e0e0e0; border-radius:18px; padding:18px;">
+                <small style="font-size:11px; text-transform:uppercase; letter-spacing:0.05em; color:#737373; font-weight:600; display:block;">Normalized MRR</small>
+                <div style="font-family:var(--font-display); font-size:26px; font-weight:600; color:#0066cc; margin-top:4px;">₹20,600.00</div>
+              </div>
+              <div style="background:#ffffff; border:1px solid #e0e0e0; border-radius:18px; padding:18px;">
+                <small style="font-size:11px; text-transform:uppercase; letter-spacing:0.05em; color:#737373; font-weight:600; display:block;">Revenue Collected</small>
+                <div style="font-family:var(--font-display); font-size:26px; font-weight:600; color:#248a3d; margin-top:4px;">₹16,567.20</div>
+              </div>
+              <div style="background:#ffffff; border:1px solid #e0e0e0; border-radius:18px; padding:18px;">
+                <small style="font-size:11px; text-transform:uppercase; letter-spacing:0.05em; color:#737373; font-weight:600; display:block;">Amount Outstanding</small>
+                <div style="font-family:var(--font-display); font-size:26px; font-weight:600; color:#d70015; margin-top:4px;">₹7,080.00</div>
+              </div>
+            </div>
+
+            <!-- Overdue Invoices Card Table -->
+            <div id="showcaseTableContainer" style="background:#ffffff; border:1px solid #e0e0e0; border-radius:18px; overflow:hidden;">
+              <div style="padding:14px 20px; border-bottom:1px solid #e0e0e0; display:flex; align-items:center; gap:8px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d70015" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                <span id="showcaseTableHeading" style="font-weight:600; font-size:13.5px; color:#1d1d1f;">Overdue Invoices Requiring Follow-up</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; padding:9px 20px; background:#fafafa; border-bottom:1px solid #e0e0e0; font-size:11px; font-weight:600; color:#737373; text-transform:uppercase; letter-spacing:0.05em;">
+                <span>Record #</span>
+                <span>Party</span>
+                <span>Term / Date</span>
+                <span>Status / Balance</span>
+              </div>
+              <div id="showcaseRows">
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 20px; border-bottom:1px solid #f0f0f0; font-size:13px;">
+                  <span style="font-family:var(--font-sans); font-weight:600; color:#0066cc;">INV-000003</span>
+                  <span style="color:#1d1d1f;">Acme Corp</span>
+                  <span style="color:#737373;">2026-09-01</span>
+                  <span style="font-weight:600; color:#d70015;">₹1,180.00</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 20px; border-bottom:1px solid #f0f0f0; font-size:13px;">
+                  <span style="font-family:var(--font-sans); font-weight:600; color:#0066cc;">INV-000008</span>
+                  <span style="color:#1d1d1f;">Beta Labs</span>
+                  <span style="color:#737373;">2026-09-01</span>
+                  <span style="font-weight:600; color:#d70015;">₹1,180.00</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 20px; font-size:13px;">
+                  <span style="font-family:var(--font-sans); font-weight:600; color:#0066cc;">INV-000013</span>
+                  <span style="color:#1d1d1f;">Gamma Digital</span>
+                  <span style="color:#737373;">2026-09-01</span>
+                  <span style="font-weight:600; color:#d70015;">₹1,180.00</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
             <div id="showcaseUrlPill" class="browser-url-pill">https://app.brightloop.com/dashboard/finance</div>
             <a href="#" class="btn-primary-glow open-app-btn" style="padding: 0.35rem 0.95rem; font-size: 0.8rem;">Launch Live App ↗</a>
           </div>
@@ -2038,7 +2106,7 @@
 
       <!-- Navigation tabs bar -->
       <nav id="appNavTabs" class="app-nav-tabs-bar">
-        <!-- Rendered dynamically by public/js/app.js based on user role -->
+        <!-- Rendered dynamically by public/js/app.js?v=5 based on user role -->
       </nav>
 
       <!-- Right actions -->
@@ -2067,7 +2135,7 @@
   </div>
 
   <!-- Scripts -->
-  <script src="/js/landing.js"></script>
+  <script src="/js/landing.js?v=5"></script>
   <script src="/js/app.js"></script>
 </body>
 

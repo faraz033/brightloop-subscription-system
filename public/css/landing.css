@@ -1,6 +1,6 @@
 /* ==========================================================================
-   BRIGHTLOOP LANDING PAGE — MINIMALIST DESIGN SPECIFICATION
-   Action Blue (#0066cc) • High-Contrast Museum Gallery • Inter / SF Pro
+   BRIGHTLOOP LANDING PAGE — MINIMALIST HIGH-CONTRAST DESIGN SPECIFICATION
+   Action Blue (#0066cc) • Alternating Museum Gallery Tiles • Inter / SF Pro
    ========================================================================== */
 
 /* --------------------------------------------------
@@ -20,15 +20,27 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Base Headings on Landing Page */
+.bl-landing-wrapper * {
+  box-sizing: border-box;
+}
+
 .bl-landing-wrapper h1,
 .bl-landing-wrapper h2,
 .bl-landing-wrapper h3,
-.bl-landing-wrapper h4 {
+.bl-landing-wrapper h4,
+.bl-landing-wrapper h5 {
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", system-ui, sans-serif !important;
   font-weight: 600 !important;
   color: #1d1d1f !important;
   letter-spacing: -0.025em !important;
+  margin-top: 0;
+}
+
+.container-full {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  box-sizing: border-box;
 }
 
 /* --------------------------------------------------
@@ -49,7 +61,6 @@
   box-shadow: none !important;
   border-radius: 0 !important;
   padding: 0 24px !important;
-  box-sizing: border-box !important;
 }
 
 .bl-navbar-inner {
@@ -84,7 +95,7 @@
   list-style: none !important;
   margin: 0 !important;
   padding: 0 !important;
-  gap: 8px !important;
+  gap: 6px !important;
 }
 
 .bl-nav-link {
@@ -121,6 +132,19 @@
   color: #2997ff !important;
 }
 
+/* Mobile Menu Button */
+.mobile-menu-btn {
+  display: none !important;
+  background: transparent !important;
+  border: none !important;
+  color: #ffffff !important;
+  padding: 6px !important;
+}
+@media (max-width: 768px) {
+  .bl-nav-links { display: none !important; }
+  .mobile-menu-btn { display: flex !important; }
+}
+
 /* --------------------------------------------------
    3. BUTTONS: ACTION BLUE PILL & SECONDARY PILL
    -------------------------------------------------- */
@@ -151,7 +175,6 @@
   color: #ffffff !important;
 }
 
-/* Active micro-interaction: scale(0.95) */
 .btn-hero-primary:active,
 .btn-hero-secondary:active,
 .btn-primary-glow:active,
@@ -160,7 +183,6 @@ button:active {
   transform: scale(0.95) !important;
 }
 
-/* Secondary Button: Clean light pill with hairline border */
 .btn-hero-secondary,
 .btn-sec {
   background: #ffffff !important;
@@ -197,7 +219,7 @@ button:active {
   box-sizing: border-box !important;
 }
 
-/* LIGHT SECTIONS */
+/* Light Tile (Parchment #f5f5f7 / Pure White #ffffff) */
 .landing-section,
 .landing-section.hero-section,
 .landing-section.section-white,
@@ -210,39 +232,53 @@ button:active {
   background-color: #ffffff !important;
 }
 
-.landing-section.hero-section {
-  padding-top: 108px !important;
-  padding-bottom: 84px !important;
-  background-color: #f5f5f7 !important;
+/* Section Header Center */
+.section-header-center {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 52px auto;
 }
 
-.landing-section.hero-section h1.hero-title,
-.bl-landing-wrapper .hero-title {
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 14px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+  background: rgba(0, 102, 204, 0.08) !important;
+  color: #0066cc !important;
+  border: 1px solid rgba(0, 102, 204, 0.2) !important;
+}
+
+.section-title {
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", sans-serif !important;
-  font-size: 52px !important;
-  line-height: 1.08 !important;
-  letter-spacing: -0.025em !important;
+  font-size: 38px !important;
+  line-height: 1.12 !important;
   font-weight: 600 !important;
+  letter-spacing: -0.02em !important;
   color: #1d1d1f !important;
-  margin: 0 0 16px 0 !important;
+  margin: 0 0 12px 0 !important;
 }
 
-.landing-section.hero-section p.hero-subtitle,
-.bl-landing-wrapper .hero-subtitle {
-  font-size: 19px !important;
+.section-desc {
+  font-size: 17px !important;
   line-height: 1.47 !important;
   color: #737373 !important;
-  margin: 0 0 32px 0 !important;
-  max-width: 520px !important;
+  margin: 0 !important;
 }
 
-/* DARK TILES (#272729 / #000000) */
+/* Dark Tiles (#272729 / #000000) */
 .landing-section.section-dark,
 .landing-section.dark-tile-1 {
   background-color: #272729 !important;
   color: #ffffff !important;
 }
 
+.landing-section.section-dark .section-title,
 .landing-section.section-dark h1,
 .landing-section.section-dark h2,
 .landing-section.section-dark h3,
@@ -250,15 +286,9 @@ button:active {
   color: #ffffff !important;
 }
 
-.landing-section.section-dark p,
-.landing-section.section-dark .section-desc {
+.landing-section.section-dark .section-desc,
+.landing-section.section-dark p {
   color: #cccccc !important;
-}
-
-.landing-section.section-dark .btn-hero-secondary {
-  background: transparent !important;
-  color: #2997ff !important;
-  border-color: rgba(255, 255, 255, 0.25) !important;
 }
 
 /* Hide all old glow blobs */
@@ -274,8 +304,14 @@ button:active {
 }
 
 /* --------------------------------------------------
-   5. HERO CONTENT & SHOWCASE CARD
+   5. SECTION 2: HERO
    -------------------------------------------------- */
+.landing-section.hero-section {
+  padding-top: 110px !important;
+  padding-bottom: 84px !important;
+  background-color: #f5f5f7 !important;
+}
+
 .hero-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -303,6 +339,24 @@ button:active {
   font-weight: 600;
   margin-bottom: 18px;
   border: 1px solid rgba(0, 102, 204, 0.2) !important;
+}
+
+.hero-title {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", sans-serif !important;
+  font-size: 52px !important;
+  line-height: 1.08 !important;
+  letter-spacing: -0.025em !important;
+  font-weight: 600 !important;
+  color: #1d1d1f !important;
+  margin: 0 0 16px 0 !important;
+}
+
+.hero-subtitle {
+  font-size: 19px !important;
+  line-height: 1.47 !important;
+  color: #737373 !important;
+  margin: 0 0 32px 0 !important;
+  max-width: 520px !important;
 }
 
 .hero-cta-group {
@@ -347,159 +401,541 @@ button:active {
   display: block;
 }
 
-/* Hero Showcase Card */
-.hero-product-render-card {
+/* --------------------------------------------------
+   6. SECTION 3: ECOSYSTEM FLOW (FIXED BLUE BAR BUG)
+   -------------------------------------------------- */
+.ecosystem-flow-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+  gap: 18px !important;
+}
+
+.ecosystem-step-card {
+  background: #ffffff !important;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 18px !important;
+  padding: 24px !important;
+  text-align: left !important;
+  box-shadow: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  transition: border-color 0.15s ease !important;
+}
+
+.ecosystem-step-card:hover {
+  border-color: #86868b !important;
+}
+
+.step-num-bubble {
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  max-width: 36px !important;
+  border-radius: 50% !important;
+  background: #0066cc !important;
+  color: #ffffff !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  margin-bottom: 14px !important;
+  flex-shrink: 0 !important;
+}
+
+.ecosystem-step-card h4 {
+  font-size: 17px !important;
+  font-weight: 600 !important;
+  color: #1d1d1f !important;
+  margin: 0 0 6px 0 !important;
+}
+
+.ecosystem-step-card p {
+  font-size: 13.5px !important;
+  color: #737373 !important;
+  line-height: 1.45 !important;
+  margin: 0 !important;
+}
+
+/* --------------------------------------------------
+   7. SECTION 4: PROBLEM VS SOLUTION (SPREADSHEET NIGHTMARE)
+   -------------------------------------------------- */
+.problem-solution-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 24px !important;
+}
+
+@media (max-width: 800px) {
+  .problem-solution-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+.split-card {
+  border-radius: 18px !important;
+  padding: 32px !important;
+  box-shadow: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.split-card.problem-side {
+  background: #ffffff !important;
+  border: 1px solid #e0e0e0 !important;
+  color: #1d1d1f !important;
+}
+
+.split-card.solution-side {
+  background: #272729 !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+}
+
+.split-card-header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+  margin-bottom: 24px !important;
+}
+
+.split-card-icon {
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 11px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 18px !important;
+}
+
+.problem-side .split-card-icon {
+  background: rgba(215, 0, 21, 0.1) !important;
+  color: #d70015 !important;
+}
+
+.solution-side .split-card-icon {
+  background: rgba(0, 102, 204, 0.2) !important;
+  color: #2997ff !important;
+}
+
+.split-card h3 {
+  font-size: 22px !important;
+  margin: 0 0 4px 0 !important;
+}
+
+.problem-side h3 { color: #1d1d1f !important; }
+.solution-side h3 { color: #ffffff !important; }
+
+.split-card p {
+  font-size: 13.5px !important;
+  margin: 0 !important;
+}
+.problem-side p { color: #737373 !important; }
+.solution-side p { color: #cccccc !important; }
+
+.split-list {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+}
+
+.split-list-item {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 10px !important;
+  font-size: 14.5px !important;
+  line-height: 1.45 !important;
+}
+
+.problem-side .split-list-item {
+  color: #1d1d1f !important;
+}
+
+.solution-side .split-list-item {
+  color: #ffffff !important;
+}
+
+/* --------------------------------------------------
+   8. SECTION 5: FEATURES MASONRY GRID (10 MODULES)
+   -------------------------------------------------- */
+.features-masonry-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+  gap: 20px !important;
+}
+
+.feature-rich-card {
   background: #ffffff !important;
   border: 1px solid #e0e0e0 !important;
   border-radius: 18px !important;
   padding: 26px !important;
-  box-shadow: rgba(0, 0, 0, 0.18) 0px 10px 35px 0px !important;
+  box-shadow: none !important;
+  display: flex !important;
+  flex-direction: column !important;
   color: #1d1d1f !important;
-  text-align: left;
+  transition: border-color 0.15s ease !important;
 }
 
-.render-header-row {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  padding-bottom: 14px;
-  border-bottom: 1px solid #e0e0e0;
-  margin-bottom: 16px;
+.feature-rich-card:hover {
+  border-color: #86868b !important;
 }
 
-.render-badge-active {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  border-radius: 9999px;
-  background: rgba(52, 199, 89, 0.12) !important;
-  color: #248a3d !important;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.render-stats-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-bottom: 18px;
-}
-
-.render-stat-tile {
-  background: #f5f5f7 !important;
-  border: 1px solid #e0e0e0 !important;
+.feature-top-icon {
+  width: 44px !important;
+  height: 44px !important;
   border-radius: 11px !important;
-  padding: 12px !important;
-  text-align: center;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-bottom: 16px !important;
+  background: rgba(0, 102, 204, 0.08) !important;
+  color: #0066cc !important;
 }
 
-.render-stat-tile small {
-  display: block;
-  font-size: 11px !important;
-  color: #737373 !important;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 600;
-}
-
-.render-stat-tile .val {
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", sans-serif !important;
-  font-size: 19px !important;
+.feature-title {
+  font-size: 18px !important;
   font-weight: 600 !important;
   color: #1d1d1f !important;
-  margin-top: 3px;
+  margin: 0 0 8px 0 !important;
+}
+
+.feature-desc {
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  color: #737373 !important;
+  margin: 0 0 16px 0 !important;
+  flex-grow: 1 !important;
+}
+
+.feature-pill-tags {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+}
+
+.feature-pill {
+  background: #f5f5f7 !important;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 9999px !important;
+  padding: 3px 10px !important;
+  font-size: 12px !important;
+  color: #1d1d1f !important;
 }
 
 /* --------------------------------------------------
-   6. SECTION HEADERS & UTILITY CARDS
+   9. SECTION 6: PRODUCT SHOWCASE BROWSER MOCKUP
    -------------------------------------------------- */
-.section-header-center {
-  text-align: center;
-  max-width: 720px;
-  margin: 0 auto 52px auto;
+.showcase-tab-bar {
+  display: flex !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  flex-wrap: wrap !important;
+  margin-bottom: 24px !important;
 }
 
-.section-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 4px 12px;
-  border-radius: 9999px;
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 12px;
-  background: rgba(0, 102, 204, 0.08) !important;
-  color: #0066cc !important;
-  border: 1px solid rgba(0, 102, 204, 0.2) !important;
-}
-
-.section-title {
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", sans-serif !important;
-  font-size: 38px !important;
-  line-height: 1.12 !important;
-  font-weight: 600 !important;
-  letter-spacing: -0.02em !important;
+.showcase-tab-btn {
+  background: #ffffff !important;
+  border: 1px solid #d2d2d7 !important;
   color: #1d1d1f !important;
+  border-radius: 9999px !important;
+  padding: 8px 18px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+}
+
+.showcase-tab-btn.active {
+  background: #0066cc !important;
+  color: #ffffff !important;
+  border-color: #0066cc !important;
+}
+
+.browser-mockup-frame {
+  background: #272729 !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  box-shadow: rgba(0, 0, 0, 0.22) 3px 5px 30px 0 !important;
+}
+
+.browser-header-bar {
+  background: #1f1f21 !important;
+  padding: 10px 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.browser-dots {
+  display: flex !important;
+  gap: 6px !important;
+}
+
+.dot-circle {
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 50% !important;
+}
+.dot-red { background: #ff5f57 !important; }
+.dot-yellow { background: #febc2e !important; }
+.dot-green { background: #28c840 !important; }
+
+.browser-url-pill {
+  flex-grow: 1 !important;
+  background: #2a2a2c !important;
+  color: #86868b !important;
+  border-radius: 6px !important;
+  padding: 4px 12px !important;
+  font-size: 12px !important;
+  font-family: monospace !important;
+}
+
+.showcase-img-container img {
+  width: 100% !important;
+  display: block !important;
+}
+
+/* --------------------------------------------------
+   10. SECTION 7: LIFECYCLE INTERACTIVE JOURNEY
+   -------------------------------------------------- */
+.lifecycle-nodes-flow {
+  display: flex !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  flex-wrap: wrap !important;
+  margin-bottom: 24px !important;
+}
+
+.lifecycle-node-btn {
+  background: #ffffff !important;
+  border: 1px solid #d2d2d7 !important;
+  color: #1d1d1f !important;
+  border-radius: 9999px !important;
+  padding: 8px 18px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  transition: all 0.15s ease !important;
+}
+
+.lifecycle-node-btn.active {
+  background: #0066cc !important;
+  color: #ffffff !important;
+  border-color: #0066cc !important;
+}
+
+.stage-details-box {
+  background: #ffffff !important;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 18px !important;
+  padding: 32px !important;
+  box-shadow: none !important;
+  color: #1d1d1f !important;
+}
+
+.stage-details-box h3 {
+  font-size: 22px !important;
+  color: #1d1d1f !important;
+  margin: 0 0 10px 0 !important;
+}
+
+.stage-details-box p {
+  color: #737373 !important;
+  font-size: 15px !important;
+  line-height: 1.5 !important;
+}
+
+.stage-rules-card {
+  background: #f5f5f7 !important;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 11px !important;
+  padding: 20px !important;
+  margin-top: 20px !important;
+}
+
+.stage-rules-card h4 {
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  color: #737373 !important;
   margin: 0 0 12px 0 !important;
 }
 
-.section-desc {
-  font-size: 17px !important;
-  line-height: 1.47 !important;
+.stage-rules-card li {
+  color: #1d1d1f !important;
+  font-size: 14px !important;
+  margin-bottom: 8px !important;
+}
+
+/* --------------------------------------------------
+   11. SECTION 8: 9-STEP BILLING FLOW
+   -------------------------------------------------- */
+.billing-steps-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)) !important;
+  gap: 16px !important;
+}
+
+.billing-step-card {
+  background: #ffffff !important;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 18px !important;
+  padding: 20px !important;
+  color: #1d1d1f !important;
+}
+
+.billing-step-card h4 {
+  font-size: 16px !important;
+  color: #1d1d1f !important;
+  margin: 0 0 6px 0 !important;
+}
+
+.billing-step-card p {
+  font-size: 13.5px !important;
   color: #737373 !important;
   margin: 0 !important;
 }
 
-.landing-section.section-dark .section-title {
-  color: #ffffff !important;
+/* --------------------------------------------------
+   12. SECTION 11: THREE ROLES (ADMIN, STAFF, CUSTOMER)
+   -------------------------------------------------- */
+.experiences-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 24px !important;
 }
 
-.landing-section.section-dark .section-desc {
-  color: #cccccc !important;
+@media (max-width: 900px) {
+  .experiences-grid {
+    grid-template-columns: 1fr !important;
+  }
 }
 
-/* 18px Radius Utility Cards */
-.ecosystem-step-card,
-.feature-card-premium,
-.comparison-card,
-.faq-accordion-item,
-.plan-pricing-card,
-.role-perspective-card,
-.metric-telemetry-card {
+.role-persona-card {
   background: #ffffff !important;
   border: 1px solid #e0e0e0 !important;
   border-radius: 18px !important;
+  padding: 32px !important;
   box-shadow: none !important;
-  padding: 24px !important;
   color: #1d1d1f !important;
+  display: flex !important;
+  flex-direction: column !important;
 }
 
-.ecosystem-step-card h4,
-.feature-card-premium h3,
-.feature-card-premium h4,
-.plan-pricing-card h3,
-.role-perspective-card h4 {
+.role-persona-card h3 {
+  font-size: 22px !important;
   color: #1d1d1f !important;
+  margin: 0 0 4px 0 !important;
 }
 
-.ecosystem-step-card p,
-.feature-card-premium p,
-.plan-pricing-card p,
-.role-perspective-card p {
+.role-persona-card p {
+  font-size: 14px !important;
   color: #737373 !important;
+  margin: 0 0 20px 0 !important;
 }
 
-.step-num-bubble {
-  background: #0066cc !important;
-  color: #ffffff !important;
-  font-weight: 600 !important;
-  border-radius: 9999px !important;
+.role-persona-card ul {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+}
+
+.role-persona-card li {
+  font-size: 13.5px !important;
+  color: #1d1d1f !important;
+  line-height: 1.4 !important;
 }
 
 /* --------------------------------------------------
-   7. FOOTER
+   13. SECTION 14: INTERACTIVE FAQ (18 QUESTIONS)
+   -------------------------------------------------- */
+.faq-search-box {
+  max-width: 600px !important;
+  margin: 0 auto 36px auto !important;
+}
+
+.faq-search-input {
+  width: 100% !important;
+  height: 44px !important;
+  border-radius: 9999px !important;
+  border: 1px solid #e0e0e0 !important;
+  padding: 0 20px !important;
+  font-size: 14px !important;
+  background: #ffffff !important;
+  color: #1d1d1f !important;
+}
+
+.faq-search-input:focus {
+  outline: 2px solid #0071e3 !important;
+}
+
+.faq-accordion-container {
+  max-width: 860px !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+}
+
+.faq-item {
+  background: #ffffff !important;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  transition: border-color 0.15s ease !important;
+}
+
+.faq-item:hover {
+  border-color: #86868b !important;
+}
+
+.faq-question-btn {
+  width: 100% !important;
+  padding: 18px 24px !important;
+  background: transparent !important;
+  border: none !important;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: #1d1d1f !important;
+  text-align: left !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  cursor: pointer !important;
+}
+
+.faq-answer-pane {
+  max-height: 0 !important;
+  overflow: hidden !important;
+  padding: 0 24px !important;
+  color: #737373 !important;
+  font-size: 14.5px !important;
+  line-height: 1.6 !important;
+  transition: max-height 0.3s ease, padding 0.3s ease !important;
+}
+
+.faq-item.open .faq-answer-pane {
+  max-height: 500px !important;
+  padding: 0 24px 20px 24px !important;
+}
+
+/* --------------------------------------------------
+   14. SECTION 16: FOOTER
    -------------------------------------------------- */
 .bl-main-footer {
   background-color: #f5f5f7 !important;
@@ -509,14 +945,33 @@ button:active {
   color: #737373 !important;
 }
 
-.bl-main-footer h5 {
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", sans-serif !important;
+.footer-top-grid {
+  display: grid !important;
+  grid-template-columns: 2fr repeat(4, 1fr) !important;
+  gap: 32px !important;
+  margin-bottom: 48px !important;
+}
+
+@media (max-width: 900px) {
+  .footer-top-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+.footer-col h5 {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif !important;
   font-size: 12px !important;
   font-weight: 600 !important;
   text-transform: uppercase !important;
   letter-spacing: 0.05em !important;
   color: #1d1d1f !important;
   margin: 0 0 16px 0 !important;
+}
+
+.footer-links-list {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .footer-links-list li {
@@ -531,4 +986,14 @@ button:active {
 
 .footer-links-list a:hover {
   color: #0066cc !important;
+}
+
+.footer-bottom-bar {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding-top: 24px !important;
+  border-top: 1px solid #e0e0e0 !important;
+  font-size: 12px !important;
+  color: #737373 !important;
 }

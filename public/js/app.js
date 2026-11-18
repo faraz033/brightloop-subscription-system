@@ -261,6 +261,8 @@ function downloadCsv(path, filename) {
    -------------------------------------------------- */
 function showLandingView() {
   $('#landingView').style.display = 'block';
+  const nav = document.getElementById('mainNavbar');
+  if (nav) nav.style.display = 'flex';
   $('#appView').classList.remove('active');
   $('#authOverlay').classList.remove('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -315,6 +317,8 @@ function switchAuthTab(mode) {
 
 function showAppControlRoom() {
   $('#landingView').style.display = 'none';
+  const nav = document.getElementById('mainNavbar');
+  if (nav) nav.style.display = 'none';
   $('#authOverlay').classList.remove('active');
   $('#appView').classList.add('active');
   renderAppShell();

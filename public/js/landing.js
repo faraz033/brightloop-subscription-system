@@ -124,11 +124,77 @@ const showcaseData = {
 
 function initShowcaseTabs() {
   const tabBtns = document.querySelectorAll('.showcase-tab-btn');
-  const showcaseImg = document.getElementById('showcaseScreenshotImg');
   const showcaseUrl = document.getElementById('showcaseUrlPill');
   const showcaseDesc = document.getElementById('showcaseDescriptionText');
+  const stageTitle = document.getElementById('showcaseStageTitle');
+  const stageSub = document.getElementById('showcaseStageSub');
+  const tableHeading = document.getElementById('showcaseTableHeading');
+  const rowsContainer = document.getElementById('showcaseRows');
 
-  if (!tabBtns.length || !showcaseImg) return;
+  if (!tabBtns.length) return;
+
+  const showcaseMockData = {
+    dashboard: {
+      url: 'https://app.brightloop.com/dashboard/finance',
+      title: 'Finance Overview',
+      sub: 'Live recurring metrics, revenue recognition, and payment status.',
+      tableHead: 'Overdue Invoices Requiring Follow-up',
+      desc: 'Live financial telemetry: Monthly Recurring Revenue (MRR), total collected revenue, outstanding balances, and overdue invoices with zero guesswork.',
+      rows: [
+        ['INV-000003', 'Acme Corp', '2026-09-01', '₹1,180.00', '#d70015'],
+        ['INV-000008', 'Beta Labs', '2026-09-01', '₹1,180.00', '#d70015'],
+        ['INV-000013', 'Gamma Digital', '2026-09-01', '₹1,180.00', '#d70015']
+      ]
+    },
+    subscriptions: {
+      url: 'https://app.brightloop.com/subscriptions/active',
+      title: 'Customer Subscriptions',
+      sub: 'Active contract agreements, line items, and lifecycle stages.',
+      tableHead: 'Recent Active Subscription Contracts',
+      desc: 'Manage subscription records across DRAFT, QUOTATION, CONFIRMED, ACTIVE, and CLOSED stages. Configure line items, quantities, and payment terms.',
+      rows: [
+        ['SUB-000004', 'Cloud Pro Tier', 'Net 15 Terms', 'Active', '#248a3d'],
+        ['SUB-000005', 'Enterprise Suite', 'Immediate', 'Active', '#248a3d'],
+        ['SUB-000006', 'Starter Plan', 'Net 30 Terms', 'Confirmed', '#0066cc']
+      ]
+    },
+    invoices: {
+      url: 'https://app.brightloop.com/invoices/recurring',
+      title: 'Recurring Invoices',
+      sub: 'Period-specific invoices, automated tax calculations, and discount rules.',
+      tableHead: 'Generated Period Invoices',
+      desc: 'Automated invoice generation engine ensures exact period coverage without duplicate billings, applies configured discounts, and manages payment locks.',
+      rows: [
+        ['INV-000004', 'Cloud Pro Tier', 'Jan 1 → Jan 31', 'Paid (₹3,313.44)', '#248a3d'],
+        ['INV-000005', 'Cloud Pro Tier', 'Feb 1 → Feb 28', 'Confirmed (₹4,120.00)', '#0066cc'],
+        ['INV-000006', 'Enterprise Suite', 'Feb 1 → Feb 28', 'Draft (₹15,480.00)', '#737373']
+      ]
+    },
+    products: {
+      url: 'https://app.brightloop.com/products/catalog',
+      title: 'Product Catalog & Add-ons',
+      sub: 'Base offerings, pricing tiers, and variant matrices.',
+      tableHead: 'Configured Product Catalog',
+      desc: 'Organize software subscriptions, physical goods, and professional services with dynamic pricing attributes and variant add-ons.',
+      rows: [
+        ['PROD-01', 'Cloud Infrastructure', 'Base ₹1,000.00', 'Active Offering', '#0066cc'],
+        ['PROD-02', 'Dedicated Support', 'Base ₹500.00', 'Active Add-on', '#0066cc'],
+        ['PROD-03', 'Custom Storage Block', 'Base ₹250.00', 'Active Offering', '#0066cc']
+      ]
+    },
+    payments: {
+      url: 'https://app.brightloop.com/payments/ledger',
+      title: 'Payment Ledger',
+      sub: 'Multi-method transactions, automated balance settlements, and audit trails.',
+      tableHead: 'Reconciled Payment Transactions',
+      desc: 'Track partial and full invoice payments across Bank Transfer, UPI, Credit Card, and Cash with zero duplicate processing.',
+      rows: [
+        ['PAY-000001', 'Bank Transfer', 'Jan 15, 2026', 'Settled (₹1,000.00)', '#248a3d'],
+        ['PAY-000002', 'UPI Instant', 'Jan 15, 2026', 'Settled (₹2,313.44)', '#248a3d'],
+        ['PAY-000003', 'Credit Card', 'Feb 02, 2026', 'Settled (₹4,120.00)', '#248a3d']
+      ]
+    }
+  };
 
   tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -136,17 +202,24 @@ function initShowcaseTabs() {
       btn.classList.add('active');
 
       const tabKey = btn.getAttribute('data-tab');
-      const data = showcaseData[tabKey] || showcaseData.dashboard;
+      const data = showcaseMockData[tabKey] || showcaseMockData.dashboard;
 
-      // Smooth fade transition
-      showcaseImg.style.opacity = '0';
-      setTimeout(() => {
-        showcaseImg.src = data.img;
-        showcaseImg.alt = data.title;
-        showcaseImg.style.opacity = '1';
-        if (showcaseUrl) showcaseUrl.textContent = data.url;
-        if (showcaseDesc) showcaseDesc.textContent = data.desc;
-      }, 150);
+      if (showcaseUrl) showcaseUrl.textContent = data.url;
+      if (showcaseDesc) showcaseDesc.textContent = data.desc;
+      if (stageTitle) stageTitle.textContent = data.title;
+      if (stageSub) stageSub.textContent = data.sub;
+      if (tableHeading) tableHeading.textContent = data.tableHead;
+
+      if (rowsContainer) {
+        rowsContainer.innerHTML = data.rows.map((r, i) => `
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 20px; ${i < data.rows.length - 1 ? 'border-bottom:1px solid #f0f0f0;' : ''} font-size:13px;">
+            <span style="font-family:var(--font-sans); font-weight:600; color:#0066cc;">${r[0]}</span>
+            <span style="color:#1d1d1f;">${r[1]}</span>
+            <span style="color:#737373;">${r[2]}</span>
+            <span style="font-weight:600; color:${r[4]};">${r[3]}</span>
+          </div>
+        `).join('');
+      }
     });
   });
 }

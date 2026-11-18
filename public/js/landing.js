@@ -214,8 +214,8 @@ function initShowcaseTabs() {
         rowsContainer.innerHTML = data.rows.map((r, i) => `
           <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 20px; ${i < data.rows.length - 1 ? 'border-bottom:1px solid #f0f0f0;' : ''} font-size:13px;">
             <span style="font-family:var(--font-sans); font-weight:600; color:#0066cc;">${r[0]}</span>
-            <span style="color:#1d1d1f;">${r[1]}</span>
-            <span style="color:#737373;">${r[2]}</span>
+            <span style="color:var(--foreground);">${r[1]}</span>
+            <span style="color:var(--muted-foreground);">${r[2]}</span>
             <span style="font-weight:600; color:${r[4]};">${r[3]}</span>
           </div>
         `).join('');
@@ -397,14 +397,14 @@ function initLifecycleExplorer() {
             <span style="font-size:12px; font-weight:600; color:${s.badgeColor}; background:${s.badgeBg}; padding:4px 12px; border-radius:9999px;">${s.badge}</span>
           </div>
 
-          <h3 style="font-size:26px; font-weight:600; color:#1d1d1f; margin:0 0 12px 0; line-height:1.2;">${s.title}</h3>
-          <p style="font-size:15px; line-height:1.6; color:#737373; margin:0 0 24px 0;">${s.desc}</p>
+          <h3 style="font-size:26px; font-weight:600; color:var(--foreground); margin:0 0 12px 0; line-height:1.2;">${s.title}</h3>
+          <p style="font-size:15px; line-height:1.6; color:var(--muted-foreground); margin:0 0 24px 0;">${s.desc}</p>
 
           <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:28px;">
             ${s.capabilities.map(c => `
-              <div style="display:flex; align-items:center; gap:12px; background:#f5f5f7; border:1px solid #e0e0e0; border-radius:12px; padding:12px 16px;">
+              <div style="display:flex; align-items:center; gap:12px; background:var(--secondary); border:1px solid var(--border); border-radius:12px; padding:12px 16px;">
                 <div style="width:22px; height:22px; border-radius:50%; background:#0066cc; color:#ffffff; display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0;">✓</div>
-                <span style="font-size:13.5px; font-weight:500; color:#1d1d1f;">${c}</span>
+                <span style="font-size:13.5px; font-weight:500; color:var(--foreground);">${c}</span>
               </div>
             `).join('')}
           </div>
@@ -416,12 +416,12 @@ function initLifecycleExplorer() {
 
         <!-- Right: Sleek Interactive Contract Preview Card -->
         <div>
-          <div style="background:#ffffff; border:1px solid #e0e0e0; border-radius:18px; padding:28px; box-shadow:rgba(0,0,0,0.12) 0 8px 30px;">
+          <div style="background:var(--card); border:1px solid var(--border); border-radius:18px; padding:28px; box-shadow:rgba(0,0,0,0.12) 0 8px 30px;">
             <div style="display:flex; justify-content:space-between; align-items:flex-start; padding-bottom:16px; border-bottom:1px solid #e0e0e0; margin-bottom:16px;">
               <div>
-                <span style="font-size:11px; font-weight:700; color:#737373; text-transform:uppercase; letter-spacing:0.05em;">Contract Agreement</span>
-                <div style="font-family:var(--font-display); font-size:20px; font-weight:600; color:#1d1d1f; margin-top:2px;">${s.subId} — Cloud Pro</div>
-                <div style="font-size:12.5px; color:#737373; margin-top:2px;">Acme Corp • Net 15 Terms</div>
+                <span style="font-size:11px; font-weight:700; color:var(--muted-foreground); text-transform:uppercase; letter-spacing:0.05em;">Contract Agreement</span>
+                <div style="font-family:var(--font-display); font-size:20px; font-weight:600; color:var(--foreground); margin-top:2px;">${s.subId} — Cloud Pro</div>
+                <div style="font-size:12.5px; color:var(--muted-foreground); margin-top:2px;">Acme Corp • Net 15 Terms</div>
               </div>
               <div style="text-align:right;">
                 <span style="display:inline-block; padding:4px 12px; border-radius:9999px; font-size:12px; font-weight:600; color:${s.badgeColor}; background:${s.badgeBg};">${s.statusText}</span>
@@ -431,7 +431,7 @@ function initLifecycleExplorer() {
 
             <!-- Stepper Progress Bar -->
             <div style="margin-bottom:20px;">
-              <div style="display:flex; justify-content:space-between; font-size:11px; font-weight:600; color:#737373; text-transform:uppercase; margin-bottom:8px;">
+              <div style="display:flex; justify-content:space-between; font-size:11px; font-weight:600; color:var(--muted-foreground); text-transform:uppercase; margin-bottom:8px;">
                 <span>Draft</span>
                 <span>Quotation</span>
                 <span>Confirmed</span>
@@ -444,19 +444,19 @@ function initLifecycleExplorer() {
             </div>
 
             <!-- Operational Status Callout -->
-            <div style="background:#f5f5f7; border:1px solid #e0e0e0; border-radius:12px; padding:14px; margin-bottom:16px;">
-              <div style="font-size:11.5px; text-transform:uppercase; font-weight:700; color:#737373; letter-spacing:0.05em;">Engine Status</div>
-              <div style="font-size:13.5px; font-weight:600; color:#1d1d1f; margin-top:3px;">${s.invoiceStatus}</div>
+            <div style="background:var(--secondary); border:1px solid var(--border); border-radius:12px; padding:14px; margin-bottom:16px;">
+              <div style="font-size:11.5px; text-transform:uppercase; font-weight:700; color:var(--muted-foreground); letter-spacing:0.05em;">Engine Status</div>
+              <div style="font-size:13.5px; font-weight:600; color:var(--foreground); margin-top:3px;">${s.invoiceStatus}</div>
             </div>
 
             <!-- Mini Summary Details -->
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; font-size:12.5px;">
-              <div style="background:#ffffff; border:1px solid #e0e0e0; border-radius:10px; padding:10px 14px;">
-                <div style="color:#737373; font-size:11px;">Frequency</div>
-                <div style="font-weight:600; color:#1d1d1f; margin-top:2px;">Monthly Recurring</div>
+              <div style="background:var(--card); border:1px solid var(--border); border-radius:10px; padding:10px 14px;">
+                <div style="color:var(--muted-foreground); font-size:11px;">Frequency</div>
+                <div style="font-weight:600; color:var(--foreground); margin-top:2px;">Monthly Recurring</div>
               </div>
-              <div style="background:#ffffff; border:1px solid #e0e0e0; border-radius:10px; padding:10px 14px;">
-                <div style="color:#737373; font-size:11px;">Auto-Clamping</div>
+              <div style="background:var(--card); border:1px solid var(--border); border-radius:10px; padding:10px 14px;">
+                <div style="color:var(--muted-foreground); font-size:11px;">Auto-Clamping</div>
                 <div style="font-weight:600; color:#248a3d; margin-top:2px;">Verified Active</div>
               </div>
             </div>

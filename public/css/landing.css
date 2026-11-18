@@ -219,17 +219,127 @@ button:active {
   box-sizing: border-box !important;
 }
 
-/* Light Tile (Parchment #f5f5f7 / Pure White #ffffff) */
-.landing-section,
-.landing-section.hero-section,
-.landing-section.section-white,
-.landing-section.section-tinted {
+/* --------------------------------------------------
+   LIGHT THEME (Default) — Museum Gallery Aesthetic
+   -------------------------------------------------- */
+.bl-landing-wrapper {
   background-color: #f5f5f7 !important;
   color: #1d1d1f !important;
 }
 
-.landing-section.section-white {
+.landing-section {
   background-color: #ffffff !important;
+  color: #1d1d1f !important;
+}
+
+.landing-section.hero-section,
+.landing-section.section-tinted,
+.landing-section.section-white {
+  background-color: #f5f5f7 !important;
+  color: #1d1d1f !important;
+}
+
+.landing-section .section-title,
+.landing-section h1,
+.landing-section h2,
+.landing-section h3,
+.landing-section h4 {
+  color: #1d1d1f !important;
+}
+
+.landing-section .section-desc {
+  color: #515154 !important;
+  font-weight: 400 !important;
+}
+
+.landing-section p {
+  color: #333336 !important;
+}
+
+.timeline-pill-box,
+.billing-step-card,
+.problem-solution-card,
+.experience-tile,
+.card,
+.faq-accordion-item {
+  background-color: #ffffff !important;
+  border: 1px solid #e0e0e0 !important;
+  color: #1d1d1f !important;
+}
+
+.timeline-pill-box h3,
+.billing-step-card h4,
+.problem-solution-card h3,
+.problem-solution-card h4,
+.faq-accordion-item h4 {
+  color: #1d1d1f !important;
+}
+
+.timeline-pill-box p,
+.billing-step-card p,
+.faq-accordion-item p {
+  color: #515154 !important;
+}
+
+/* --------------------------------------------------
+   DARK THEME (.dark) — Pure Void Black & Obsidian Surface
+   -------------------------------------------------- */
+.dark .bl-landing-wrapper {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.dark .landing-section {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.dark .landing-section.hero-section,
+.dark .landing-section.section-tinted,
+.dark .landing-section.section-white {
+  background-color: #161618 !important;
+  color: #ffffff !important;
+}
+
+.dark .landing-section .section-title,
+.dark .landing-section h1,
+.dark .landing-section h2,
+.dark .landing-section h3,
+.dark .landing-section h4 {
+  color: #ffffff !important;
+}
+
+.dark .landing-section .section-desc {
+  color: #a1a1a6 !important;
+}
+
+.dark .landing-section p {
+  color: #cccccc !important;
+}
+
+.dark .timeline-pill-box,
+.dark .billing-step-card,
+.dark .problem-solution-card,
+.dark .experience-tile,
+.dark .card,
+.dark .faq-accordion-item {
+  background-color: #272729 !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+}
+
+.dark .timeline-pill-box h3,
+.dark .billing-step-card h4,
+.dark .problem-solution-card h3,
+.dark .problem-solution-card h4,
+.dark .faq-accordion-item h4 {
+  color: #ffffff !important;
+}
+
+.dark .timeline-pill-box p,
+.dark .billing-step-card p,
+.dark .faq-accordion-item p {
+  color: #a1a1a6 !important;
 }
 
 /* Section Header Center */

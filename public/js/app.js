@@ -41,23 +41,22 @@ const TAB_ICONS = {
 // Theme Toggle & Persistence (poulo.site spec - default: dark, localStorage key 'theme')
 function initTheme() {
   const t = localStorage.getItem('theme') || 'dark';
-  document.documentElement.classList.toggle('dark', t === 'dark');
-  const btn = $('#themeToggleBtn');
-  if (btn) {
-    btn.innerHTML = t === 'dark' ? SVG_SUN : SVG_MOON;
-    btn.setAttribute('aria-label', t === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
-    btn.setAttribute('title', t === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
-  }
+  const isDark = t === 'dark';
+  document.documentElement.classList.toggle('dark', isDark);
+  document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
+    btn.innerHTML = isDark ? SVG_SUN : SVG_MOON;
+    btn.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+    btn.setAttribute('title', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+  });
 }
 function toggleTheme() {
   const isDark = document.documentElement.classList.toggle('dark');
   localStorage.setItem('theme', isDark ? 'dark' : 'light');
-  const btn = $('#themeToggleBtn');
-  if (btn) {
+  document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
     btn.innerHTML = isDark ? SVG_SUN : SVG_MOON;
     btn.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
     btn.setAttribute('title', isDark ? 'Switch to light theme' : 'Switch to dark theme');
-  }
+  });
 }
 window.toggleTheme = toggleTheme;
 setTimeout(initTheme, 0);
@@ -260,11 +259,17 @@ function downloadCsv(path, filename) {
    ROUTING & VIEW SWITCHING (LANDING vs APP vs AUTH)
    -------------------------------------------------- */
 function showLandingView() {
-  $('#landingView').style.display = 'block';
-  const nav = document.getElementById('mainNavbar');
-  if (nav) nav.style.display = 'flex';
-  $('#appView').classList.remove('active');
-  $('#authOverlay').classList.remove('active');
+  const landing = document.getElementById('landingView');
+  if (landing) landing.style.display = 'block';
+  const mainNav = document.getElementById('mainNavbar');
+  if (mainNav) mainNav.style.display = 'flex';
+  const appV = document.getElementById('appView');
+  if (appV) {
+    appV.style.display = 'none';
+    appV.classList.remove('active');
+  }
+  const auth = document.getElementById('authOverlay');
+  if (auth) auth.classList.remove('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -316,15 +321,18 @@ function switchAuthTab(mode) {
 }
 
 function showAppControlRoom() {
-  $('#landingView').style.display = 'none';
+  const landing = document.getElementById('landingView');
+  if (landing) landing.style.display = 'none';
   const mainNav = document.getElementById('mainNavbar');
   if (mainNav) mainNav.style.display = 'none';
-  $('#authOverlay').classList.remove('active');
+  const auth = document.getElementById('authOverlay');
+  if (auth) auth.classList.remove('active');
   const appV = document.getElementById('appView');
   if (appV) {
     appV.style.display = 'flex';
     appV.classList.add('active');
   }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
   renderAppShell();
 }
 
@@ -506,8 +514,21 @@ function renderAppShell() {
 }
 
 function navigateAppTab(tabKey) {
+  // Always ensure Control Room is displayed and landing page is hidden
+  const landing = document.getElementById('landingView');
+  if (landing && landing.style.display !== 'none') {
+    landing.style.display = 'none';
+  }
+  const mainNav = document.getElementById('mainNavbar');
+  if (mainNav) mainNav.style.display = 'none';
+  const appV = document.getElementById('appView');
+  if (appV) {
+    appV.style.display = 'flex';
+    appV.classList.add('active');
+  }
+
   document.querySelectorAll('.app-tab-link').forEach(el => el.classList.remove('active'));
-  const activeEl = $(`#nav-${tabKey}`);
+  const activeEl = document.getElementById('nav-' + tabKey);
   if (activeEl) activeEl.classList.add('active');
 
   const tabHandlers = { dash, subs, inv, pay, prod, plan, tax, disc, tpl, staff };
@@ -764,7 +785,7 @@ async function openSubscriptionModal(subId) {
     if (isStaff()) {
       actionsHtml = `
         <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px; padding:10px 14px; background:#f8fafc; border-radius:10px; border:1px solid #e2e8f0; align-items:center;">
-          <span style="font-size:12px; font-weight:800; color:#475569; text-transform:uppercase;">Contract Actions:</span>
+          <span style="font-size:12px; font-weight:800; color:var(--muted-foreground); text-transform:uppercase;">Contract Actions:</span>
           ${NEXT_SUB_STAGE[s.status] ? `<button class="btn-primary" style="padding:5px 12px; font-size:12px;" onclick="run(async () => { await api('/subscriptions/${s.id}/status', 'POST', {status:'${NEXT_SUB_STAGE[s.status]}'}); showToast('Subscription advanced to ${NEXT_SUB_STAGE[s.status]}'); subs(window._subPage, window._subStatus, window._subQ); openSubscriptionModal(${s.id}); })">Advance → ${NEXT_SUB_STAGE[s.status]}</button>` : ''}
           ${s.status === 'active' && s.pausable ? (s.paused ? `<button class="btn-sec" style="padding:5px 12px; font-size:12px;" onclick="run(async () => { await api('/subscriptions/${s.id}/resume', 'POST', {}); showToast('Subscription resumed'); subs(window._subPage, window._subStatus, window._subQ); openSubscriptionModal(${s.id}); })">Resume</button>` : `<button class="btn-sec" style="padding:5px 12px; font-size:12px;" onclick="run(async () => { await api('/subscriptions/${s.id}/pause', 'POST', {}); showToast('Subscription paused'); subs(window._subPage, window._subStatus, window._subQ); openSubscriptionModal(${s.id}); })">Pause</button>`) : ''}
           ${['active', 'closed'].includes(s.status) && s.renewable ? `<button class="btn-emerald" style="padding:5px 12px; font-size:12px;" onclick="run(async () => { await api('/subscriptions/${s.id}/renew', 'POST', {}); showToast('Subscription term renewed'); subs(window._subPage, window._subStatus, window._subQ); openSubscriptionModal(${s.id}); })">Renew Term</button>` : ''}
@@ -778,17 +799,17 @@ async function openSubscriptionModal(subId) {
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin-bottom:18px; background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:14px;">
         <div>
           <div style="font-size:11px; text-transform:uppercase; color:#64748b; font-weight:700;">Customer</div>
-          <div style="font-weight:800; color:#0f172a; font-size:14px; margin-top:2px;">${esc(s.customer_name)}</div>
+          <div style="font-weight:800; color:var(--foreground); font-size:14px; margin-top:2px;">${esc(s.customer_name)}</div>
           <div style="font-size:12px; color:#64748b;">${esc(s.customer_email || '—')}</div>
         </div>
         <div>
           <div style="font-size:11px; text-transform:uppercase; color:#64748b; font-weight:700;">Billing Plan</div>
-          <div style="font-weight:800; color:#0f172a; font-size:14px; margin-top:2px;">${esc(s.plan_name)}</div>
+          <div style="font-weight:800; color:var(--foreground); font-size:14px; margin-top:2px;">${esc(s.plan_name)}</div>
           <div style="font-size:12px; color:#64748b;">Frequency: <b style="text-transform:capitalize;">${s.billing_period}</b> (${money(s.plan_price)})</div>
         </div>
         <div>
           <div style="font-size:11px; text-transform:uppercase; color:#64748b; font-weight:700;">Term Duration</div>
-          <div style="font-weight:700; color:#0f172a; font-size:13px; margin-top:2px;">${s.start_date} → ${s.expiry_date || 'Indefinite'}</div>
+          <div style="font-weight:700; color:var(--foreground); font-size:13px; margin-top:2px;">${s.start_date} → ${s.expiry_date || 'Indefinite'}</div>
           <div style="font-size:12px; color:#64748b;">Payment Terms: <b>${esc(s.payment_terms || 'Immediate')}</b></div>
         </div>
       </div>
@@ -797,7 +818,7 @@ async function openSubscriptionModal(subId) {
     // Committed Line Items Table
     const linesHtml = `
       <div style="margin-bottom:18px;">
-        <h4 style="font-size:13.5px; font-weight:800; color:#0f172a; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+        <h4 style="font-size:13.5px; font-weight:800; color:var(--foreground); margin-bottom:8px; display:flex; align-items:center; gap:6px;">
           <span>Committed Products & Services</span>
           <span style="font-size:12px; font-weight:600; color:#64748b;">(${s.lines.length} lines)</span>
         </h4>
@@ -815,7 +836,7 @@ async function openSubscriptionModal(subId) {
     // Invoices History Table
     const invoicesHtml = `
       <div id="subModalInvoicesTable">
-        <h4 style="font-size:13.5px; font-weight:800; color:#0f172a; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+        <h4 style="font-size:13.5px; font-weight:800; color:var(--foreground); margin-bottom:8px; display:flex; align-items:center; gap:6px;">
           <span>Generated Invoices & Payment Status</span>
           <span style="font-size:12px; font-weight:600; color:#64748b;">(${s.invoices.length} invoices)</span>
         </h4>
@@ -1010,7 +1031,7 @@ function openCustomerCheckoutModal(invoiceId, invoiceNo, balance) {
               <circle cx="90" cy="90" r="18" fill="#7c3aed"/>
               <path d="M92 80 L82 92 L89 92 L87 102 L98 90 L91 90 Z" fill="#ffffff"/>
             </svg>
-            <div style="font-size:11px; font-weight:800; color:#475569; margin-top:6px; letter-spacing:0.02em;">UPI ID: billing@brightloop</div>
+            <div style="font-size:11px; font-weight:800; color:var(--muted-foreground); margin-top:6px; letter-spacing:0.02em;">UPI ID: billing@brightloop</div>
           </div>
           <div style="font-size:12.5px; color:#64748b; margin-bottom:12px;">Scan with <b>Google Pay</b>, <b>PhonePe</b>, <b>Paytm</b>, or <b>BHIM</b></div>
           <button class="btn-emerald" style="width:100%; height:44px; justify-content:center; font-size:14px; font-weight:800;" onclick="submitCheckoutPayment(${invoiceId}, 'upi', ${balance})">
@@ -1042,14 +1063,14 @@ function openCustomerCheckoutModal(invoiceId, invoiceNo, balance) {
           </div>
 
           <div style="display:flex; flex-direction:column; gap:10px;">
-            <label style="font-size:12.5px; font-weight:700; color:#475569;">Card Number
+            <label style="font-size:12.5px; font-weight:700; color:var(--muted-foreground);">Card Number
               <input type="text" value="4242 •••• •••• 4242" readonly style="background:#f8fafc; font-family:monospace;">
             </label>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-              <label style="font-size:12.5px; font-weight:700; color:#475569;">Expiry Date
+              <label style="font-size:12.5px; font-weight:700; color:var(--muted-foreground);">Expiry Date
                 <input type="text" value="12/28" readonly style="background:#f8fafc; text-align:center;">
               </label>
-              <label style="font-size:12.5px; font-weight:700; color:#475569;">CVV / CVC
+              <label style="font-size:12.5px; font-weight:700; color:var(--muted-foreground);">CVV / CVC
                 <input type="password" value="888" readonly style="background:#f8fafc; text-align:center;">
               </label>
             </div>
@@ -1124,7 +1145,7 @@ async function submitCheckoutPayment(invoiceId, method, amount) {
     bodyHtml: `
       <div style="text-align:center; padding:30px 10px;">
         <div style="width:48px; height:48px; border:4px solid #e2e8f0; border-top-color:var(--bl-violet); border-radius:50%; margin:0 auto 16px auto; animation:spin 0.8s linear infinite;"></div>
-        <h3 style="font-size:16px; font-weight:800; color:#0f172a; margin-bottom:6px;">Connecting to Bank Gateway</h3>
+        <h3 style="font-size:16px; font-weight:800; color:var(--foreground); margin-bottom:6px;">Connecting to Bank Gateway</h3>
         <p style="font-size:13px; color:#64748b;">Simulating real-time settlement & webhook callbacks...</p>
       </div>
       <style>@keyframes spin { 0% { transform:rotate(0deg); } 100% { transform:rotate(360deg); } }</style>
@@ -1157,7 +1178,7 @@ async function submitCheckoutPayment(invoiceId, method, amount) {
           </div>
 
           <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:14px; margin-bottom:18px; font-size:13px; display:flex; flex-direction:column; gap:8px;">
-            <div style="display:flex; justify-content:space-between;"><span style="color:#64748b;">Transaction Reference:</span> <b style="font-family:monospace; color:#0f172a;">${txnId}</b></div>
+            <div style="display:flex; justify-content:space-between;"><span style="color:#64748b;">Transaction Reference:</span> <b style="font-family:monospace; color:var(--foreground);">${txnId}</b></div>
             <div style="display:flex; justify-content:space-between;"><span style="color:#64748b;">Payment Method:</span> <b style="text-transform:uppercase;">${method}</b></div>
             <div style="display:flex; justify-content:space-between;"><span style="color:#64748b;">Date & Time:</span> <b>${new Date().toLocaleString()}</b></div>
             <div style="display:flex; justify-content:space-between;"><span style="color:#64748b;">Status:</span> <span class="b paid">paid</span></div>
@@ -1198,7 +1219,7 @@ function startJuryTour() {
     hideFooter: true,
     bodyHtml: `
       <div style="margin-bottom:16px;">
-        <p style="font-size:13.5px; color:#475569; line-height:1.5;">
+        <p style="font-size:13.5px; color:var(--muted-foreground); line-height:1.5;">
           Welcome to Brightloop! Built for the <b>Odoo x FLUX Hackathon '26</b>, this system implements an enterprise-grade subscription lifecycle, automated periodic billing scheduler, smart clamping, and real-time financial intelligence.
         </p>
       </div>
@@ -1206,7 +1227,7 @@ function startJuryTour() {
       <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
         <div class="tour-step-card" style="border-left-color: #7c3aed;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <b style="font-size:14px; color:#0f172a;">1. Subscription & Quotation Engine (PRD §1 & §4)</b>
+            <b style="font-size:14px; color:var(--foreground);">1. Subscription & Quotation Engine (PRD §1 & §4)</b>
             <button class="btn-sec" style="padding:4px 10px; font-size:12px;" onclick="run(async () => { await ensureAdminSession(); closeModal(); subs(); })">Inspect Subscriptions</button>
           </div>
           <p style="font-size:12.5px; color:#64748b; margin-top:4px;">
@@ -1216,7 +1237,7 @@ function startJuryTour() {
 
         <div class="tour-step-card" style="border-left-color: #3b82f6;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <b style="font-size:14px; color:#0f172a;">2. Lifecycle State Machine & Smart Stats (PRD §5)</b>
+            <b style="font-size:14px; color:var(--foreground);">2. Lifecycle State Machine & Smart Stats (PRD §5)</b>
             <button class="btn-sec" style="padding:4px 10px; font-size:12px;" onclick="run(async () => { await ensureAdminSession(); closeModal(); const r = await api('/subscriptions?limit=1'); if (r.rows && r.rows.length) openSubscriptionModal(r.rows[0].id); else subs(); });">Open Smart Stats</button>
           </div>
           <p style="font-size:12.5px; color:#64748b; margin-top:4px;">
@@ -1226,7 +1247,7 @@ function startJuryTour() {
 
         <div class="tour-step-card" style="border-left-color: #f59e0b;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <b style="font-size:14px; color:#0f172a;">3. Automated Billing Scheduler & Clamping (PRD §7)</b>
+            <b style="font-size:14px; color:var(--foreground);">3. Automated Billing Scheduler & Clamping (PRD §7)</b>
             <button class="btn-sec" style="padding:4px 10px; font-size:12px;" onclick="run(async () => { await ensureAdminSession(); const x = await api('/invoices/generate', 'POST', {}); showToast('Generated: ' + x.created + ' invoices'); inv(); closeModal(); });">Generate Invoices</button>
           </div>
           <p style="font-size:12.5px; color:#64748b; margin-top:4px;">
@@ -1236,7 +1257,7 @@ function startJuryTour() {
 
         <div class="tour-step-card" style="border-left-color: #10b981;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <b style="font-size:14px; color:#0f172a;">4. Customer Self-Service & Analytics (PRD §6 & §8)</b>
+            <b style="font-size:14px; color:var(--foreground);">4. Customer Self-Service & Analytics (PRD §6 & §8)</b>
             <button class="btn-sec" style="padding:4px 10px; font-size:12px;" onclick="run(async () => { await ensureAdminSession(); closeModal(); dash(); });">View Analytics</button>
           </div>
           <p style="font-size:12.5px; color:#64748b; margin-top:4px;">

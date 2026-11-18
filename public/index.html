@@ -21,9 +21,9 @@
   </script>
 
   <!-- Design System & Stylesheets -->
-  <link rel="stylesheet" href="/css/design-system.css?v=6">
-  <link rel="stylesheet" href="/css/landing.css?v=6">
-  <link rel="stylesheet" href="/css/auth-app.css?v=6">
+  <link rel="stylesheet" href="/css/design-system.css?v=7">
+  <link rel="stylesheet" href="/css/landing.css?v=7">
+  <link rel="stylesheet" href="/css/auth-app.css?v=7">
 
   <style id="bl-modern-design">
     /* ==========================================================================
@@ -345,25 +345,65 @@
 
     /* Sub-nav Frosted in Control Room: 52px height, saturate blur */
     .app-top-header {
+      box-sizing: border-box !important;
       position: fixed !important;
       top: 0 !important;
       left: 0 !important;
+      right: 0 !important;
       transform: none !important;
-      width: 100% !important;
-      max-width: 100% !important;
+      width: 100vw !important;
+      max-width: 100vw !important;
       height: 52px !important;
       border-radius: 0 !important;
-      padding: 0 24px !important;
+      padding: 0 16px !important;
       z-index: 9999 !important;
       display: flex !important;
       align-items: center !important;
       justify-content: space-between !important;
       border: none !important;
       border-bottom: 1px solid var(--border) !important;
-      background: rgba(245, 245, 247, 0.85) !important;
+      background: rgba(245, 245, 247, 0.88) !important;
       backdrop-filter: saturate(180%) blur(20px) !important;
       -webkit-backdrop-filter: saturate(180%) blur(20px) !important;
       box-shadow: none !important;
+      overflow: hidden !important;
+    }
+
+    .dark .app-top-header {
+      background: rgba(22, 22, 24, 0.88) !important;
+      border-bottom-color: rgba(255, 255, 255, 0.12) !important;
+    }
+
+    .app-nav-tabs-bar {
+      flex: 1 1 auto !important;
+      min-width: 0 !important;
+      margin: 0 8px !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 3px !important;
+      overflow-x: auto !important;
+      white-space: nowrap !important;
+      scrollbar-width: none !important;
+    }
+    .app-nav-tabs-bar::-webkit-scrollbar {
+      display: none !important;
+    }
+
+    .app-user-actions-pill {
+      flex-shrink: 0 !important;
+      margin-left: auto !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+    }
+
+    .btn-signout-link {
+      flex-shrink: 0 !important;
+      white-space: nowrap !important;
+      padding: 4px 10px !important;
+      color: #ef4444 !important;
+      font-weight: 600 !important;
+      font-size: 13px !important;
     }
 
     .dark .app-top-header {
@@ -799,7 +839,11 @@
   
     /* Strict Visibility: Control Room header NEVER leaks onto website */
     .app-view-container:not(.active),
-    .app-view-container:not(.active) .app-top-header {
+    .app-view-container:not(.active) .app-top-header,
+    #landingView[style*="block"] ~ #appView,
+    #landingView[style*="block"] ~ #appView .app-top-header,
+    #landingView:not([style*="none"]) ~ #appView,
+    #landingView:not([style*="none"]) ~ #appView .app-top-header {
       display: none !important;
     }
 
@@ -1447,35 +1491,35 @@
 
         <div class="timeline-duo-container">
           <div class="timeline-pill-box">
-            <h3 style="font-size: 1.5rem; color: #ffffff; margin-bottom: 1rem;">Product & Variant Architecture</h3>
-            <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.5rem;">
+            <h3 style="font-size: 1.5rem; color: var(--foreground); margin-bottom: 1rem;">Product & Variant Architecture</h3>
+            <p style="color: var(--muted-foreground); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.5rem;">
               Brightloop treats products and variants as first-class citizens. Whether selling software seats, physical hardware, or recurring retainer hours, configure base sales and cost prices with variant surcharges.
             </p>
             <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-              <div style="background: rgba(255, 255, 255, 0.05); padding: 0.85rem 1.15rem; border-radius: var(--r-md); border: 1px solid rgba(255, 255, 255, 0.1);">
-                <div style="font-weight: 700; color: #ffffff; font-size: 0.95rem;">Product Types</div>
-                <div style="font-size: 0.85rem; color: #94a3b8;">Distinguish consumable goods from recurring services.</div>
+              <div style="background: var(--card); padding: 0.85rem 1.15rem; border-radius: var(--r-md); border: 1px solid var(--border);">
+                <div style="font-weight: 700; color: var(--foreground); font-size: 0.95rem;">Product Types</div>
+                <div style="font-size: 0.85rem; color: var(--muted-foreground);">Distinguish consumable goods from recurring services.</div>
               </div>
-              <div style="background: rgba(255, 255, 255, 0.05); padding: 0.85rem 1.15rem; border-radius: var(--r-md); border: 1px solid rgba(255, 255, 255, 0.1);">
-                <div style="font-weight: 700; color: #ffffff; font-size: 0.95rem;">Multi-Variant Price Matrices</div>
-                <div style="font-size: 0.85rem; color: #94a3b8;">Add custom tiers (e.g. 50GB extra storage, priority support) with dedicated price deltas.</div>
+              <div style="background: var(--card); padding: 0.85rem 1.15rem; border-radius: var(--r-md); border: 1px solid var(--border);">
+                <div style="font-weight: 700; color: var(--foreground); font-size: 0.95rem;">Multi-Variant Price Matrices</div>
+                <div style="font-size: 0.85rem; color: var(--muted-foreground);">Add custom tiers (e.g. 50GB extra storage, priority support) with dedicated price deltas.</div>
               </div>
             </div>
           </div>
 
           <div class="timeline-pill-box">
-            <h3 style="font-size: 1.5rem; color: #ffffff; margin-bottom: 1rem;">Plan Lifecycle Rules</h3>
-            <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.5rem;">
+            <h3 style="font-size: 1.5rem; color: var(--foreground); margin-bottom: 1rem;">Plan Lifecycle Rules</h3>
+            <p style="color: var(--muted-foreground); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.5rem;">
               Subscription plans enforce automated billing behavior. Specify minimum purchase quantities, automated contract closure, early cancellation rules, and renewal behavior.
             </p>
             <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-              <div style="background: rgba(255, 255, 255, 0.05); padding: 0.85rem 1.15rem; border-radius: var(--r-md); border: 1px solid rgba(255, 255, 255, 0.1);">
-                <div style="font-weight: 700; color: #ffffff; font-size: 0.95rem;">Cadence Controls</div>
-                <div style="font-size: 0.85rem; color: #94a3b8;">Daily, weekly, monthly, and yearly recurring periods.</div>
+              <div style="background: var(--card); padding: 0.85rem 1.15rem; border-radius: var(--r-md); border: 1px solid var(--border);">
+                <div style="font-weight: 700; color: var(--foreground); font-size: 0.95rem;">Cadence Controls</div>
+                <div style="font-size: 0.85rem; color: var(--muted-foreground);">Daily, weekly, monthly, and yearly recurring periods.</div>
               </div>
-              <div style="background: rgba(255, 255, 255, 0.05); padding: 0.85rem 1.15rem; border-radius: var(--r-md); border: 1px solid rgba(255, 255, 255, 0.1);">
-                <div style="font-weight: 700; color: #ffffff; font-size: 0.95rem;">Auto-Closure & Pausing</div>
-                <div style="font-size: 0.85rem; color: #94a3b8;">Automatically mark expired contracts closed or pause during temporary breaks.</div>
+              <div style="background: var(--card); padding: 0.85rem 1.15rem; border-radius: var(--r-md); border: 1px solid var(--border);">
+                <div style="font-weight: 700; color: var(--foreground); font-size: 0.95rem;">Auto-Closure & Pausing</div>
+                <div style="font-size: 0.85rem; color: var(--muted-foreground);">Automatically mark expired contracts closed or pause during temporary breaks.</div>
               </div>
             </div>
           </div>
@@ -1494,19 +1538,19 @@
           </p>
         </div>
 
-        <div style="max-width: 900px; margin: 0 auto; background: #111827; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: var(--r-xl); padding: 3rem;">
+        <div style="max-width: 900px; margin: 0 auto; background: var(--card); border: 1px solid var(--border); border-radius: var(--r-xl); padding: 3rem;">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
             <div style="display: flex; align-items: center; gap: 1rem;">
-              <div style="width: 48px; height: 48px; border-radius: 14px; background: rgba(16, 185, 129, 0.2); color: #34d399; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">⚡</div>
+              <div style="width: 48px; height: 48px; border-radius: 14px; background: rgba(16, 185, 129, 0.2); color: #34d399; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></div>
               <div>
-                <h4 style="font-size: 1.25rem; font-weight: 800; color: #ffffff;">The Period Uniqueness Guarantee</h4>
-                <p style="font-size: 0.85rem; color: #94a3b8;">Preventing duplicate recurring runs automatically</p>
+                <h4 style="font-size: 1.25rem; font-weight: 800; color: var(--foreground);">The Period Uniqueness Guarantee</h4>
+                <p style="font-size: 0.85rem; color: var(--muted-foreground);">Preventing duplicate recurring runs automatically</p>
               </div>
             </div>
             <span class="status-badge active" style="font-size: 0.85rem;">Enforced by Database</span>
           </div>
 
-          <p style="color: #cbd5e1; font-size: 1.025rem; line-height: 1.7; margin-bottom: 1.5rem;">
+          <p style="color: var(--muted-foreground); font-size: 1.025rem; line-height: 1.7; margin-bottom: 1.5rem;">
             When the invoice generator runs, it calculates each subscription's elapsed period start date and period end date. If an invoice has already been created for that exact subscription and period window, the generator skips it cleanly. Running the generator twice produces 0 duplicate records.
           </p>
 
@@ -2113,7 +2157,7 @@
 
       <!-- Navigation tabs bar -->
       <nav id="appNavTabs" class="app-nav-tabs-bar">
-        <!-- Rendered dynamically by public/js/app.js?v=6 based on user role -->
+        <!-- Rendered dynamically by public/js/app.js?v=7 based on user role -->
       </nav>
 
       <!-- Right actions -->
@@ -2142,8 +2186,8 @@
   </div>
 
   <!-- Scripts -->
-  <script src="/js/landing.js?v=6"></script>
-  <script src="/js/app.js"></script>
+  <script src="/js/landing.js?v=7"></script>
+  <script src="/js/app.js?v=7"></script>
 </body>
 
 </html>

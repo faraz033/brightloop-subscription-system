@@ -24,9 +24,9 @@
   </script>
 
   <!-- Design System & Stylesheets -->
-  <link rel="stylesheet" href="/css/design-system.css?v=17">
-  <link rel="stylesheet" href="/css/landing.css?v=17">
-  <link rel="stylesheet" href="/css/auth-app.css?v=17">
+  <link rel="stylesheet" href="/css/design-system.css?v=18">
+  <link rel="stylesheet" href="/css/landing.css?v=18">
+  <link rel="stylesheet" href="/css/auth-app.css?v=18">
 
   <style id="bl-modern-design">
     /* ==========================================================================
@@ -2051,13 +2051,35 @@
     }
     .bl-brand-name .brand-stem {
       font-weight: 700 !important;
-      color: #ffffff !important;
+      color: var(--foreground) !important;
       letter-spacing: -0.03em !important;
     }
+    /* Fixed dark navbar: Always white */
+    .bl-navbar .bl-brand-name .brand-stem {
+      color: #ffffff !important;
+    }
+    /* Auth Modal Visual Logo: Adaptive contrast */
+    .auth-visual-logo .bl-brand-name .brand-stem {
+      color: #1d1d1f !important;
+    }
+    .dark .auth-visual-logo .bl-brand-name .brand-stem {
+      color: #ffffff !important;
+    }
+    /* Control Room Header: Adaptive */
     .app-header-brand .bl-brand-name .brand-stem {
       color: #1d1d1f !important;
     }
     .dark .app-header-brand .bl-brand-name .brand-stem {
+      color: #ffffff !important;
+    }
+    /* Footer: Adaptive */
+    .bl-main-footer .bl-brand-name .brand-stem {
+      color: #1d1d1f !important;
+    }
+    .dark .bl-main-footer .bl-brand-name .brand-stem {
+      color: #ffffff !important;
+    }
+    .dark .bl-brand-name .brand-stem {
       color: #ffffff !important;
     }
     .bl-brand-name .brand-cadence {
@@ -2067,12 +2089,6 @@
       -webkit-background-clip: text !important;
       -webkit-text-fill-color: transparent !important;
       display: inline-block !important;
-    }
-    .bl-main-footer .bl-brand-name .brand-stem {
-      color: #1d1d1f !important;
-    }
-    .dark .bl-main-footer .bl-brand-name .brand-stem {
-      color: #ffffff !important;
     }
 
     .bl-brand-logo {
@@ -3537,7 +3553,7 @@
 
       <!-- Navigation tabs bar -->
       <nav id="appNavTabs" class="app-nav-tabs-bar">
-        <!-- Rendered dynamically by public/js/app.js?v=17 based on user role -->
+        <!-- Rendered dynamically by public/js/app.js?v=18 based on user role -->
       </nav>
 
       <!-- Right actions -->
@@ -3566,8 +3582,8 @@
   </div>
 
   <!-- Scripts -->
-  <script src="/js/landing.js?v=17"></script>
-  <script src="/js/app.js?v=17"></script>
+  <script src="/js/landing.js?v=18"></script>
+  <script src="/js/app.js?v=18"></script>
 </body>
 
 </html>

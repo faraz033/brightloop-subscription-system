@@ -21,9 +21,9 @@
   </script>
 
   <!-- Design System & Stylesheets -->
-  <link rel="stylesheet" href="/css/design-system.css?v=14">
-  <link rel="stylesheet" href="/css/landing.css?v=14">
-  <link rel="stylesheet" href="/css/auth-app.css?v=14">
+  <link rel="stylesheet" href="/css/design-system.css?v=15">
+  <link rel="stylesheet" href="/css/landing.css?v=15">
+  <link rel="stylesheet" href="/css/auth-app.css?v=15">
 
   <style id="bl-modern-design">
     /* ==========================================================================
@@ -282,22 +282,71 @@
       background: rgba(215, 0, 21, 0.08) !important;
     }
 
-    /* Theme Toggle Button (Circular capsule) */
+    /* Theme Toggle Button Base */
     .theme-toggle-btn {
-      width: 36px !important;
-      height: 36px !important;
-      border-radius: var(--radius-pill) !important;
-      background: transparent !important;
-      border: 1px solid var(--border) !important;
-      color: var(--foreground) !important;
-      display: flex !important;
+      width: 34px !important;
+      height: 34px !important;
+      border-radius: 50% !important;
+      display: inline-flex !important;
       align-items: center !important;
       justify-content: center !important;
       padding: 0 !important;
-      transition: transform 0.1s ease, background 0.15s ease;
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
     }
-    .theme-toggle-btn:hover {
-      background: var(--secondary) !important;
+    .theme-toggle-btn svg {
+      width: 17px !important;
+      height: 17px !important;
+      display: block !important;
+      stroke-width: 2.2 !important;
+    }
+
+    /* Marketing Navbar Theme Toggle: Always white/high-contrast on the dark navbar */
+    .bl-navbar .theme-toggle-btn {
+      background: rgba(255, 255, 255, 0.12) !important;
+      border: 1px solid rgba(255, 255, 255, 0.28) !important;
+      color: #ffffff !important;
+    }
+    .bl-navbar .theme-toggle-btn:hover {
+      background: rgba(255, 255, 255, 0.25) !important;
+      border-color: rgba(255, 255, 255, 0.55) !important;
+      color: #ffffff !important;
+      transform: scale(1.05);
+    }
+    .bl-navbar .theme-toggle-btn svg {
+      stroke: #ffffff !important;
+      color: #ffffff !important;
+    }
+
+    /* Control Room (App Header) Theme Toggle */
+    .app-top-header .theme-toggle-btn {
+      background: #f5f5f7 !important;
+      border: 1px solid #d2d2d7 !important;
+      color: #1d1d1f !important;
+    }
+    .app-top-header .theme-toggle-btn:hover {
+      background: #e5e5ea !important;
+      border-color: #86868b !important;
+      color: #000000 !important;
+    }
+    .app-top-header .theme-toggle-btn svg {
+      stroke: #1d1d1f !important;
+      color: #1d1d1f !important;
+    }
+
+    .dark .app-top-header .theme-toggle-btn {
+      background: #222327 !important;
+      border-color: rgba(255, 255, 255, 0.22) !important;
+      color: #ffffff !important;
+    }
+    .dark .app-top-header .theme-toggle-btn:hover {
+      background: #2c2d33 !important;
+      border-color: rgba(255, 255, 255, 0.45) !important;
+      color: #ffffff !important;
+    }
+    .dark .app-top-header .theme-toggle-btn svg {
+      stroke: #ffffff !important;
+      color: #ffffff !important;
     }
 
     /* Jury Tour Pill */
@@ -2574,7 +2623,7 @@
 
       <!-- Navigation tabs bar -->
       <nav id="appNavTabs" class="app-nav-tabs-bar">
-        <!-- Rendered dynamically by public/js/app.js?v=14 based on user role -->
+        <!-- Rendered dynamically by public/js/app.js?v=15 based on user role -->
       </nav>
 
       <!-- Right actions -->
@@ -2603,8 +2652,8 @@
   </div>
 
   <!-- Scripts -->
-  <script src="/js/landing.js?v=14"></script>
-  <script src="/js/app.js?v=14"></script>
+  <script src="/js/landing.js?v=15"></script>
+  <script src="/js/app.js?v=15"></script>
 </body>
 
 </html>

@@ -1107,3 +1107,327 @@ button:active {
   font-size: 12px !important;
   color: #737373 !important;
 }
+
+
+
+/* ==========================================================================
+   ENHANCED THEME STYLING: LIFECYCLE BUTTONS, MATRIX CARDS, & ACCORDION
+   ========================================================================== */
+
+/* Section 7: Lifecycle Node Buttons (Segmented Controls) */
+.lifecycle-node-btn {
+  background: rgba(0, 0, 0, 0.04) !important;
+  border: 1px solid #d2d2d7 !important;
+  color: #1d1d1f !important;
+  border-radius: 9999px !important;
+  padding: 8px 20px !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+.lifecycle-node-btn:hover {
+  background: rgba(0, 0, 0, 0.08) !important;
+  border-color: #86868b !important;
+  transform: translateY(-1px) !important;
+}
+
+.lifecycle-node-btn.active {
+  background: #0066cc !important;
+  color: #ffffff !important;
+  border-color: #0066cc !important;
+  box-shadow: 0 4px 14px rgba(0, 102, 204, 0.35) !important;
+}
+
+/* DARK MODE: Lifecycle Buttons */
+.dark .lifecycle-node-btn {
+  background: #1c1c1e !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  color: #e2e8f0 !important;
+  box-shadow: none !important;
+}
+
+.dark .lifecycle-node-btn:hover {
+  background: #272729 !important;
+  border-color: rgba(255, 255, 255, 0.28) !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
+}
+
+.dark .lifecycle-node-btn.active {
+  background: #0066cc !important;
+  color: #ffffff !important;
+  border-color: #0066cc !important;
+  box-shadow: 0 4px 14px rgba(0, 102, 204, 0.5) !important;
+}
+
+/* Section 9: Product Matrix & Cadence Cards */
+.timeline-duo-container {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 28px !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+}
+
+@media (max-width: 900px) {
+  .timeline-duo-container {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+.product-matrix-card {
+  background: #ffffff !important;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 18px !important;
+  padding: 28px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+.dark .product-matrix-card {
+  background: #1c1c1e !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: none !important;
+}
+
+.matrix-tag {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: #0066cc !important;
+  background: rgba(0, 102, 204, 0.08) !important;
+  padding: 4px 10px !important;
+  border-radius: 9999px !important;
+  letter-spacing: 0.05em !important;
+}
+
+.dark .matrix-tag {
+  color: #2997ff !important;
+  background: rgba(41, 151, 255, 0.15) !important;
+}
+
+.matrix-tag-accent {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  color: #737373 !important;
+  background: rgba(0, 0, 0, 0.05) !important;
+  padding: 4px 10px !important;
+  border-radius: 9999px !important;
+}
+
+.dark .matrix-tag-accent {
+  color: #a1a1a6 !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.matrix-preview-surface {
+  background: #f5f5f7 !important;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 14px !important;
+  padding: 18px !important;
+  margin: 8px 0 16px 0 !important;
+}
+
+.dark .matrix-preview-surface {
+  background: #272729 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.variant-surcharge-pill {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  background: #ffffff !important;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+}
+
+.dark .variant-surcharge-pill {
+  background: #1c1c1e !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.variant-check {
+  width: 18px !important;
+  height: 18px !important;
+  border-radius: 50% !important;
+  background: #0066cc !important;
+  color: #ffffff !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 10px !important;
+  flex-shrink: 0 !important;
+}
+
+.matrix-bullet-chip {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-size: 12.5px !important;
+  color: #515154 !important;
+}
+
+.dark .matrix-bullet-chip {
+  color: #a1a1a6 !important;
+}
+
+.bullet-dot {
+  width: 6px !important;
+  height: 6px !important;
+  border-radius: 50% !important;
+  background: #0066cc !important;
+}
+
+.cadence-chip {
+  background: #ffffff !important;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 8px !important;
+  padding: 8px 4px !important;
+  text-align: center !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #515154 !important;
+}
+
+.dark .cadence-chip {
+  background: #1c1c1e !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #a1a1a6 !important;
+}
+
+.cadence-chip.active {
+  background: #0066cc !important;
+  color: #ffffff !important;
+  border-color: #0066cc !important;
+}
+
+.cadence-rule-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 6px 0 !important;
+}
+
+.rule-badge {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: var(--foreground) !important;
+  background: rgba(0, 0, 0, 0.05) !important;
+  padding: 3px 8px !important;
+  border-radius: 6px !important;
+}
+
+.dark .rule-badge {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Section 14: FAQ Modern Accordion Overhaul */
+.faq-search-input {
+  width: 100% !important;
+  height: 48px !important;
+  border-radius: 9999px !important;
+  border: 1px solid #d2d2d7 !important;
+  padding: 0 24px !important;
+  font-size: 15px !important;
+  background: #ffffff !important;
+  color: #1d1d1f !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+  transition: all 0.2s ease !important;
+}
+
+.dark .faq-search-input {
+  background: #1c1c1e !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+.faq-search-input:focus {
+  outline: 2px solid #0071e3 !important;
+  border-color: #0071e3 !important;
+}
+
+.faq-accordion-container {
+  max-width: 860px !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+}
+
+.faq-item {
+  background: #ffffff !important;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 14px !important;
+  overflow: hidden !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+}
+
+.faq-item:hover {
+  border-color: #86868b !important;
+  transform: translateY(-1px) !important;
+}
+
+.dark .faq-item {
+  background: #1c1c1e !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: none !important;
+}
+
+.dark .faq-item:hover {
+  background: #242426 !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+}
+
+.faq-question-btn {
+  width: 100% !important;
+  padding: 18px 24px !important;
+  background: transparent !important;
+  border: none !important;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: #1d1d1f !important;
+  text-align: left !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  cursor: pointer !important;
+}
+
+.dark .faq-question-btn {
+  color: #ffffff !important;
+}
+
+.faq-item.open .faq-chevron {
+  transform: rotate(180deg) !important;
+}
+
+.faq-answer-pane {
+  max-height: 0 !important;
+  overflow: hidden !important;
+  padding: 0 24px !important;
+  color: #515154 !important;
+  font-size: 14.5px !important;
+  line-height: 1.65 !important;
+  transition: max-height 0.3s ease, padding 0.3s ease !important;
+}
+
+.dark .faq-answer-pane {
+  color: #a1a1a6 !important;
+}
+
+.faq-item.open .faq-answer-pane {
+  max-height: 500px !important;
+  padding: 0 24px 20px 24px !important;
+}

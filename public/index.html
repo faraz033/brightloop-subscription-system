@@ -21,9 +21,9 @@
   </script>
 
   <!-- Design System & Stylesheets -->
-  <link rel="stylesheet" href="/css/design-system.css?v=7">
-  <link rel="stylesheet" href="/css/landing.css?v=7">
-  <link rel="stylesheet" href="/css/auth-app.css?v=7">
+  <link rel="stylesheet" href="/css/design-system.css?v=8">
+  <link rel="stylesheet" href="/css/landing.css?v=8">
+  <link rel="stylesheet" href="/css/auth-app.css?v=8">
 
   <style id="bl-modern-design">
     /* ==========================================================================
@@ -847,6 +847,19 @@
       display: none !important;
     }
 
+  
+    /* ABSOLUTE SCOPING: Control Room top header is ONLY visible when appView is active */
+    .app-top-header {
+      display: none !important;
+    }
+    .app-view-container.active .app-top-header {
+      display: flex !important;
+    }
+    .app-view-container:not(.active),
+    .app-view-container:not(.active) .app-top-header {
+      display: none !important;
+    }
+
   </style>
 </head>
 
@@ -1485,41 +1498,114 @@
           <span class="section-badge badge-purple">Flexibility</span>
           <h2 class="section-title">Your Products. Your Plans. Your Rules.</h2>
           <p class="section-desc">
-            Define granular pricing tiers and lifecycle constraints tailored to your exact subscription business model.
+            Define granular pricing tiers, multi-variant matrices, and strict lifecycle constraints tailored to your exact business model.
           </p>
         </div>
 
         <div class="timeline-duo-container">
-          <div class="timeline-pill-box">
-            <h3 style="font-size: 1.5rem; color: var(--foreground); margin-bottom: 1rem;">Product & Variant Architecture</h3>
-            <p style="color: var(--muted-foreground); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.5rem;">
+          <!-- Card 1: Product & Variant Architecture -->
+          <div class="product-matrix-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+              <span class="matrix-tag">CATALOG MATRIX</span>
+              <span class="matrix-tag-accent">Services & Goods</span>
+            </div>
+            <h3 style="font-size: 1.45rem; font-weight: 600; margin-bottom: 0.65rem; color: var(--foreground);">Product & Variant Architecture</h3>
+            <p style="color: var(--muted-foreground); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.25rem;">
               Brightloop treats products and variants as first-class citizens. Whether selling software seats, physical hardware, or recurring retainer hours, configure base sales and cost prices with variant surcharges.
             </p>
-            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-              <div style="background: var(--card); padding: 0.85rem 1.15rem; border-radius: var(--r-md); border: 1px solid var(--border);">
-                <div style="font-weight: 700; color: var(--foreground); font-size: 0.95rem;">Product Types</div>
-                <div style="font-size: 0.85rem; color: var(--muted-foreground);">Distinguish consumable goods from recurring services.</div>
+
+            <!-- Visual Matrix Component -->
+            <div class="matrix-preview-surface">
+              <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:10px; border-bottom:1px solid var(--border);">
+                <div>
+                  <div style="font-weight:700; font-size:14px; color:var(--foreground);">Cloud Pro SaaS License</div>
+                  <div style="font-size:12px; color:var(--muted-foreground);">Monthly Recurring • Product ID #PRD-001</div>
+                </div>
+                <div style="font-weight:700; color:#0066cc; font-size:15px;">₹3,490.00 / mo</div>
               </div>
-              <div style="background: var(--card); padding: 0.85rem 1.15rem; border-radius: var(--r-md); border: 1px solid var(--border);">
-                <div style="font-weight: 700; color: var(--foreground); font-size: 0.95rem;">Multi-Variant Price Matrices</div>
-                <div style="font-size: 0.85rem; color: var(--muted-foreground);">Add custom tiers (e.g. 50GB extra storage, priority support) with dedicated price deltas.</div>
+
+              <div style="margin-top:12px; display:flex; flex-direction:column; gap:8px;">
+                <div class="variant-surcharge-pill">
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <div class="variant-check">✓</div>
+                    <span style="font-size:12.5px; font-weight:500; color:var(--foreground);">+50GB Dedicated NVMe Storage</span>
+                  </div>
+                  <span style="font-size:12px; font-weight:600; color:var(--foreground);">+₹250.00</span>
+                </div>
+                <div class="variant-surcharge-pill">
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <div class="variant-check">✓</div>
+                    <span style="font-size:12.5px; font-weight:500; color:var(--foreground);">24/7 Enterprise Support SLA</span>
+                  </div>
+                  <span style="font-size:12px; font-weight:600; color:var(--foreground);">+₹380.00</span>
+                </div>
+              </div>
+
+              <div style="margin-top:14px; padding-top:10px; border-top:1px dashed var(--border); display:flex; justify-content:space-between; align-items:center; font-size:13px;">
+                <span style="color:var(--muted-foreground); font-weight:500;">Calculated Line Total</span>
+                <span style="font-weight:700; font-size:15px; color:#0066cc;">₹4,120.00 / mo</span>
+              </div>
+            </div>
+
+            <!-- Feature bullets -->
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:16px;">
+              <div class="matrix-bullet-chip">
+                <div class="bullet-dot"></div>
+                <span>Consumables vs Services</span>
+              </div>
+              <div class="matrix-bullet-chip">
+                <div class="bullet-dot"></div>
+                <span>Multi-Variant Matrices</span>
               </div>
             </div>
           </div>
 
-          <div class="timeline-pill-box">
-            <h3 style="font-size: 1.5rem; color: var(--foreground); margin-bottom: 1rem;">Plan Lifecycle Rules</h3>
-            <p style="color: var(--muted-foreground); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.5rem;">
-              Subscription plans enforce automated billing behavior. Specify minimum purchase quantities, automated contract closure, early cancellation rules, and renewal behavior.
+          <!-- Card 2: Plan Lifecycle Rules -->
+          <div class="product-matrix-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+              <span class="matrix-tag">CADENCE ENGINE</span>
+              <span class="matrix-tag-accent" style="color:#34c759; background:rgba(52,199,89,0.1);">Automated Rules</span>
+            </div>
+            <h3 style="font-size: 1.45rem; font-weight: 600; margin-bottom: 0.65rem; color: var(--foreground);">Plan Lifecycle Rules</h3>
+            <p style="color: var(--muted-foreground); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.25rem;">
+              Subscription plans enforce automated billing behavior. Specify recurring cadence intervals, automated contract closure, early cancellation rules, and renewal behavior.
             </p>
-            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-              <div style="background: var(--card); padding: 0.85rem 1.15rem; border-radius: var(--r-md); border: 1px solid var(--border);">
-                <div style="font-weight: 700; color: var(--foreground); font-size: 0.95rem;">Cadence Controls</div>
-                <div style="font-size: 0.85rem; color: var(--muted-foreground);">Daily, weekly, monthly, and yearly recurring periods.</div>
+
+            <!-- Visual Cadence Component -->
+            <div class="matrix-preview-surface">
+              <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--muted-foreground); margin-bottom:8px;">Supported Billing Cadences</div>
+              <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; margin-bottom:14px;">
+                <div class="cadence-chip">Daily</div>
+                <div class="cadence-chip">Weekly</div>
+                <div class="cadence-chip active">Monthly</div>
+                <div class="cadence-chip">Yearly</div>
               </div>
-              <div style="background: var(--card); padding: 0.85rem 1.15rem; border-radius: var(--r-md); border: 1px solid var(--border);">
-                <div style="font-weight: 700; color: var(--foreground); font-size: 0.95rem;">Auto-Closure & Pausing</div>
-                <div style="font-size: 0.85rem; color: var(--muted-foreground);">Automatically mark expired contracts closed or pause during temporary breaks.</div>
+
+              <div style="display:flex; flex-direction:column; gap:8px;">
+                <div class="cadence-rule-row">
+                  <span class="rule-badge">Month-End Clamping</span>
+                  <span style="font-size:12px; color:var(--muted-foreground);">Feb 28 ➔ Mar 31 safe cadence</span>
+                </div>
+                <div class="cadence-rule-row">
+                  <span class="rule-badge">Auto-Closure Policy</span>
+                  <span style="font-size:12px; color:var(--muted-foreground);">Halt runs on contract expiration</span>
+                </div>
+                <div class="cadence-rule-row">
+                  <span class="rule-badge">Zero Duplication</span>
+                  <span style="font-size:12px; color:var(--muted-foreground);">Unique constraint on period start</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Feature bullets -->
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:16px;">
+              <div class="matrix-bullet-chip">
+                <div class="bullet-dot"></div>
+                <span>Min Order Quantities</span>
+              </div>
+              <div class="matrix-bullet-chip">
+                <div class="bullet-dot"></div>
+                <span>Auto-Closure & Renewal</span>
               </div>
             </div>
           </div>
@@ -1723,7 +1809,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>1. What is Brightloop?</span>
-              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.25s ease; color:#0066cc; flex-shrink:0;"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
             <div class="faq-answer-pane">
               Brightloop is a full-featured subscription management and recurring billing platform. It centralizes product catalogs, pricing variants, quotation proposals, customer contracts, automated recurring invoicing, tax and discount engines, payment ledgering, and financial telemetry in one intelligent system.
@@ -1734,7 +1820,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>2. Who can use Brightloop?</span>
-              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.25s ease; color:#0066cc; flex-shrink:0;"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
             <div class="faq-answer-pane">
               Brightloop is built for three primary audiences: Administrators (who govern products, plans, taxes, discounts, and staff), Staff Members (who manage daily customer orders, quotations, and invoice payments), and Customers (who access their own self-service portal to view contracts and invoices).
@@ -1745,7 +1831,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>3. How does subscription management work?</span>
-              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.25s ease; color:#0066cc; flex-shrink:0;"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
             <div class="faq-answer-pane">
               A subscription binds a customer to a recurring plan and one or more product line items with quantities and variants. Subscriptions progress through structured lifecycle stages (Draft ➜ Quotation ➜ Confirmed ➜ Active ➜ Closed), ensuring orderly contract execution.
@@ -1756,7 +1842,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>4. Can I create different subscription plans?</span>
-              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.25s ease; color:#0066cc; flex-shrink:0;"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
             <div class="faq-answer-pane">
               Yes! Administrators can configure custom plans with specific billing cadences, minimum order quantities, start/end availability windows, and automated closure options.
@@ -1767,7 +1853,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>5. Which billing frequencies are supported?</span>
-              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.25s ease; color:#0066cc; flex-shrink:0;"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
             <div class="faq-answer-pane">
               Brightloop natively supports four recurring billing frequencies: Daily, Weekly, Monthly, and Yearly. The automated invoice generator calculates elapsed periods precisely according to the selected frequency.
@@ -1778,7 +1864,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>6. Can products have different variants?</span>
-              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.25s ease; color:#0066cc; flex-shrink:0;"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
             <div class="faq-answer-pane">
               Yes. Products support multi-tier variants (e.g., storage capacities, user seat tiers, or service levels) with customizable surcharge price deltas attached to the base product price.
@@ -1789,7 +1875,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>7. How do quotations become subscriptions?</span>
-              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.25s ease; color:#0066cc; flex-shrink:0;"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
             <div class="faq-answer-pane">
               A quotation is an early stage of a subscription record. Once the customer reviews the proposal and terms, staff or administrators update its status to "Confirmed" and then "Active", which unlocks recurring billing generation.
@@ -1800,7 +1886,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>8. How are recurring invoices generated?</span>
-              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.25s ease; color:#0066cc; flex-shrink:0;"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
             <div class="faq-answer-pane">
               Invoices can be generated automatically in batch runs via the recurring billing engine. The engine inspects active subscriptions, determines due billing windows, applies applicable tax and discount rules, and records draft or confirmed invoices.
@@ -1811,7 +1897,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>9. Can invoices include taxes and discounts?</span>
-              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.25s ease; color:#0066cc; flex-shrink:0;"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
             <div class="faq-answer-pane">
               Yes. Brightloop computes itemized discounts (fixed amount or percentage based on eligibility and quantity) and applies configured regional tax rates (such as standard 18% GST) directly into invoice totals.
@@ -1822,7 +1908,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>10. Can I record partial payments?</span>
-              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.25s ease; color:#0066cc; flex-shrink:0;"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
             <div class="faq-answer-pane">
               Yes. Payments can be recorded in partial installments or full settlements via Bank Transfer, UPI, Credit Card, or Cash. The system tracks remaining balances and marks the invoice "Paid" once the full amount is satisfied.
@@ -1833,7 +1919,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>11. Can customers access their own subscriptions?</span>
-              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.25s ease; color:#0066cc; flex-shrink:0;"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
             <div class="faq-answer-pane">
               Yes! Customers log into a dedicated self-service Customer Portal where they can view their active subscriptions, inspect itemized invoices, check payment records, and review contract details.
@@ -1844,7 +1930,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>12. What can administrators control?</span>
-              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.25s ease; color:#0066cc; flex-shrink:0;"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
             <div class="faq-answer-pane">
               Administrators possess complete system governance: creating products, configuring plans, setting tax rates, defining discount rules, onboarding staff accounts, and reviewing live financial reports.
@@ -1855,7 +1941,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>13. Can staff members access the system?</span>
-              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.25s ease; color:#0066cc; flex-shrink:0;"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
             <div class="faq-answer-pane">
               Yes. Staff accounts are created by administrators. Staff members handle operational workflows such as preparing quotations, managing subscriptions, confirming invoices, and recording payments, while being restricted from altering tax rates or adding other staff.
@@ -1866,7 +1952,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>14. Can subscriptions be paused or renewed?</span>
-              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.25s ease; color:#0066cc; flex-shrink:0;"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
             <div class="faq-answer-pane">
               Yes. Active subscriptions can be temporarily paused (which pauses invoice generation) and subsequently resumed, or renewed upon contract expiration according to plan configuration rules.
@@ -1877,7 +1963,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>15. How does duplicate invoice prevention work?</span>
-              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.25s ease; color:#0066cc; flex-shrink:0;"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
             <div class="faq-answer-pane">
               Brightloop enforces a composite database uniqueness rule on (subscription_id, period_start). Even if the recurring generation batch runs multiple times, existing periods are detected and skipped with zero duplicate billing.
@@ -1888,7 +1974,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>16. Can I see outstanding and overdue invoices?</span>
-              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.25s ease; color:#0066cc; flex-shrink:0;"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
             <div class="faq-answer-pane">
               Yes. The Finance Overview monitors outstanding balances and overdue invoices based on agreed payment terms (Immediate, Net 15, Net 30), providing clear visibility into cash flow.
@@ -1899,7 +1985,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>17. Can I manage multiple customers?</span>
-              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.25s ease; color:#0066cc; flex-shrink:0;"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
             <div class="faq-answer-pane">
               Yes. Brightloop supports an unlimited number of customer accounts, each linked securely to their own unique subscriptions, invoices, and transaction logs.
@@ -1910,7 +1996,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>18. How do I create an account?</span>
-              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.25s ease; color:#0066cc; flex-shrink:0;"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
             <div class="faq-answer-pane">
               Click the "Get Started" button in the navigation bar to register with your name, email, and a secure password (minimum 8 characters with uppercase, lowercase, and special character), or sign in instantly with Google!
@@ -2157,7 +2243,7 @@
 
       <!-- Navigation tabs bar -->
       <nav id="appNavTabs" class="app-nav-tabs-bar">
-        <!-- Rendered dynamically by public/js/app.js?v=7 based on user role -->
+        <!-- Rendered dynamically by public/js/app.js?v=8 based on user role -->
       </nav>
 
       <!-- Right actions -->
@@ -2186,8 +2272,8 @@
   </div>
 
   <!-- Scripts -->
-  <script src="/js/landing.js?v=7"></script>
-  <script src="/js/app.js?v=7"></script>
+  <script src="/js/landing.js?v=8"></script>
+  <script src="/js/app.js?v=8"></script>
 </body>
 
 </html>

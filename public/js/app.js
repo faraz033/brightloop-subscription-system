@@ -268,6 +268,8 @@ function showLandingView() {
     appV.style.display = 'none';
     appV.classList.remove('active');
   }
+  const appHeader = document.querySelector('.app-top-header');
+  if (appHeader) appHeader.style.display = 'none';
   const auth = document.getElementById('authOverlay');
   if (auth) auth.classList.remove('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -332,6 +334,8 @@ function showAppControlRoom() {
     appV.style.display = 'flex';
     appV.classList.add('active');
   }
+  const appHeader = document.querySelector('.app-top-header');
+  if (appHeader) appHeader.style.display = 'flex';
   window.scrollTo({ top: 0, behavior: 'smooth' });
   renderAppShell();
 }

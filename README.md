@@ -1,6 +1,6 @@
 # ⚡ Brightloop — Subscription Management & Recurring Billing Platform
 
-> **Odoo x FLUX Lucknow Hackathon '26** — Virtual Round Project  
+> Enterprise-grade Subscription Management, Automated Recurring Billing Engine, and Financial Intelligence Platform.  
 > 🌐 **Live Deployed Application:** [https://brightloop-subscription-system.onrender.com](https://brightloop-subscription-system.onrender.com)
 
 ---
@@ -8,7 +8,7 @@
 ## 🚀 Live Demo & Quick Access
 
 - **Production URL:** [https://brightloop-subscription-system.onrender.com](https://brightloop-subscription-system.onrender.com)
-- **⚡ 1-Click Jury Demo Tour:** Click the **`🎯 1-Click Demo`** button in the top navigation bar inside the Control Room for an automated 10-second guided system showcase.
+- **⚡ Interactive System Tour:** Click the **`Jury Tour`** button in the top navigation bar inside the Control Room for an automated interactive system walkthrough.
 
 ### 👥 Test Credentials (or use the 1-Click Demo Badges on the Sign-in modal)
 | Role | Email | Password | Permissions |
@@ -19,10 +19,10 @@
 
 ---
 
-## ✨ Standout Features & Hackathon Differentiators
+## ✨ Core Architecture & Key Platform Features
 
-### 1. 🔄 Odoo Life-Cycle Pipeline & Smart Stat Drill-Down
-- **Odoo-Style Smart Stat Buttons:** Every subscription features real-time quick-stat tiles:
+### 1. 🔄 Enterprise Subscription Lifecycle & Metric Drill-Down
+- **Interactive Smart Stat Tiles:** Every subscription features real-time operational tiles:
   - 🧾 **Invoices Count:** Lifetime generated invoices with smooth scroll anchor.
   - 💰 **Total Billed:** Cumulative value invoiced over the contract term.
   - 💳 **Total Collected:** Total payments successfully settled.
@@ -32,18 +32,18 @@
 
 ### 2. ⚡ Automated Nightly Billing Scheduler & Date Clamping
 - **Background Cron Worker:** Simulates automated midnight billing runs with a dedicated `billing_runs` audit log table.
-- **Leap Year & Month-End Clamping (PRD §7):** Intelligent date arithmetic ensuring end-of-month contracts anchor correctly without skipping months (e.g., `Jan 31` ➔ `Feb 28` ➔ `Mar 31`).
+- **Leap Year & Month-End Clamping:** Intelligent date arithmetic ensuring end-of-month contracts anchor correctly without skipping months (e.g., `Jan 31` ➔ `Feb 28` ➔ `Mar 31`).
 - **Idempotency Guarantee:** Composite database constraint (`subscription_id` + `period_start`) ensures zero duplicate billing.
 
 ### 3. 💳 Customer Instant "Pay Now" Checkout Portal
 - **Multi-Method Payment Gateway Simulation:**
   - 📱 **UPI QR / App:** Dynamic SVG QR code branded with Brightloop bolt icon (`billing@brightloop`), simulating instant PhonePe, GPay, and Paytm approvals.
-  - 💳 **3D Card Checkout:** Sleek glassmorphism credit card preview with 1-click test card authorization.
-  - 🏦 **Net Banking:** Instant bank authorization across top Indian institutions.
+  - 💳 **Card Checkout:** Modern credit card preview with 1-click test card authorization.
+  - 🏦 **Net Banking:** Instant bank authorization across top institutions.
   - **Instant Payment Receipts:** Generates official printable PDF receipts with unique transaction references (`TXN-...`).
 
-### 4. 🎨 poulo.site-Inspired Minimalist Design System
-- Built with a high-contrast monochrome dark canvas (`#0a0a0a`), Inter typography, floating glassmorphism navigation pill (`backdrop-filter: blur(12px)`), and a signature lime brand accent (`#adfa1d`).
+### 4. 🎨 Minimalist Design System & Theme Engine
+- Built with high-contrast surfaces, SF Pro & Inter typography, Action Blue interactive accents, and a clean responsive layout.
 - Includes a persistent **☀️ / 🌙 Light & Dark mode toggle** saved in `localStorage`.
 
 ### 5. 📊 Real-Time Financial Analytics & CSV Data Engine
@@ -99,9 +99,9 @@ brightloop/
 ├── seed-demo-users.js    # Demo accounts seeder (Admin, Staff, Customer)
 ├── package.json          # Node configuration & scripts
 └── public/
-    ├── index.html        # App shell with poulo.site design system & theme toggle
+    ├── index.html        # App shell with design system & theme toggle
     ├── js/
-    │   ├── app.js        # SaaS control room, Odoo smart stats, checkout modal & jury tour
+    │   ├── app.js        # SaaS control room, smart stat analytics, checkout modal & interactive tour
     │   └── landing.js    # Landing page animations & interactions
     └── css/
         ├── design-system.css # Base design tokens & typography
@@ -111,6 +111,6 @@ brightloop/
 
 ---
 
-## 📄 License & Attribution
+## 📄 License
 
-Built for the **Odoo x FLUX Lucknow Hackathon '26**. Licensed under the [MIT License](LICENSE).
+Licensed under the [MIT License](LICENSE).

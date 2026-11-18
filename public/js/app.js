@@ -1322,7 +1322,7 @@ function startJuryTour() {
     bodyHtml: `
       <div style="margin-bottom:16px;">
         <p style="font-size:13.5px; color:var(--muted-foreground); line-height:1.5;">
-          Welcome to Brightloop! Built for the <b>Odoo x FLUX Hackathon '26</b>, this system implements an enterprise-grade subscription lifecycle, automated periodic billing scheduler, smart clamping, and real-time financial intelligence.
+          Welcome to Brightloop! This system implements an enterprise-grade subscription lifecycle, automated periodic billing scheduler, smart clamping, and real-time financial intelligence.
         </p>
       </div>
 
@@ -1343,7 +1343,7 @@ function startJuryTour() {
             <button class="btn-sec" style="padding:4px 10px; font-size:12px;" onclick="run(async () => { await ensureAdminSession(); closeModal(); const r = await api('/subscriptions?limit=1'); if (r.rows && r.rows.length) openSubscriptionModal(r.rows[0].id); else subs(); });">Open Smart Stats</button>
           </div>
           <p style="font-size:12.5px; color:#64748b; margin-top:4px;">
-            Strict state machine (<code>Draft</code> &rarr; <code>Quotation</code> &rarr; <code>Confirmed</code> &rarr; <code>Active</code> &rarr; <code>Closed</code>) with Odoo-style smart stat buttons: Invoices, Billed, Collected, Outstanding, and Next Billing.
+            Strict state machine (<code>Draft</code> &rarr; <code>Quotation</code> &rarr; <code>Confirmed</code> &rarr; <code>Active</code> &rarr; <code>Closed</code>) with interactive smart stat tiles: Invoices, Billed, Collected, Outstanding, and Next Billing.
           </p>
         </div>
 

@@ -1,197 +1,153 @@
 /* ==========================================================================
-   BRIGHTLOOP LANDING PAGE — CLEAN MINIMALIST DESIGN SPECIFICATION
-   Action Blue (#0066cc) • Alternating Full-Bleed Tiles • SF Pro • Flat Elevation
+   BRIGHTLOOP LANDING PAGE — MINIMALIST DESIGN SPECIFICATION
+   Action Blue (#0066cc) • High-Contrast Museum Gallery • Inter / SF Pro
    ========================================================================== */
 
 /* --------------------------------------------------
-   1. GLOBAL LANDING WRAPPER & FULL-BLEED TILES
+   1. GLOBAL RESET & BASE TYPOGRAPHY
    -------------------------------------------------- */
 .bl-landing-wrapper {
   width: 100%;
   overflow-x: hidden;
-  background-color: var(--canvas-parchment);
-  color: var(--ink);
+  background-color: #f5f5f7;
+  color: #1d1d1f;
   position: relative;
-  font-family: var(--font-text);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", system-ui, sans-serif !important;
   font-size: 17px;
   line-height: 1.47;
   letter-spacing: -0.022em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.landing-section {
-  position: relative;
-  width: 100%;
-  padding: 80px 24px;
-  box-sizing: border-box;
-}
-
-/* Light Tile (Pure White) */
-.landing-section,
-.landing-section.section-white {
-  background-color: var(--canvas);
-  color: var(--ink);
-}
-
-/* Light Parchment Tile (Signature off-white) */
-.landing-section.section-tinted,
-.landing-section.section-parchment {
-  background-color: var(--canvas-parchment);
-  color: var(--ink);
-}
-
-/* Dark Tile 1 (#272729) */
-.landing-section.section-dark,
-.landing-section.dark-tile-1 {
-  background-color: var(--surface-tile-1);
-  color: #ffffff;
-}
-
-.landing-section.section-dark h2,
-.landing-section.section-dark h3,
-.landing-section.section-dark h4 {
-  color: #ffffff;
-}
-
-.landing-section.section-dark .section-desc,
-.landing-section.section-dark p {
-  color: #cccccc;
-}
-
-/* Hide all neon ambient glow blobs */
-.hero-glow-blob-1,
-.hero-glow-blob-2,
-.auth-ambient-blob-1,
-.auth-ambient-blob-2,
-.mascot-glow-underlay,
-.mascot-orbit-ring,
-.mascot-circle-backdrop {
-  display: none !important;
-}
-
-/* Container */
-.container-full {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
-  box-sizing: border-box;
+/* Base Headings on Landing Page */
+.bl-landing-wrapper h1,
+.bl-landing-wrapper h2,
+.bl-landing-wrapper h3,
+.bl-landing-wrapper h4 {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", system-ui, sans-serif !important;
+  font-weight: 600 !important;
+  color: #1d1d1f !important;
+  letter-spacing: -0.025em !important;
 }
 
 /* --------------------------------------------------
-   2. TOP NAVIGATION: GLOBAL NAV (44px) & FROSTED SUB-NAV
+   2. TOP NAVIGATION: 44px GLOBAL NAV (#000000)
    -------------------------------------------------- */
 .bl-navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 44px;
-  background-color: #000000;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  z-index: 10000;
-  display: flex;
-  align-items: center;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 44px !important;
+  background-color: #000000 !important;
+  border: none !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+  z-index: 10000 !important;
+  display: flex !important;
+  align-items: center !important;
   box-shadow: none !important;
   border-radius: 0 !important;
-  padding: 0;
+  padding: 0 24px !important;
+  box-sizing: border-box !important;
 }
 
 .bl-navbar-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  height: 100%;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  height: 100% !important;
 }
 
 .bl-brand-logo {
-  font-family: var(--font-display);
-  font-size: 15px;
-  font-weight: 600;
-  color: #ffffff;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  letter-spacing: -0.02em;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
 }
 
 .bl-brand-logo .logo-bolt-icon {
-  color: var(--primary);
+  color: #0066cc !important;
   display: flex;
-  align-items: center;
 }
 
 .bl-nav-links {
-  display: flex;
-  align-items: center;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  gap: 4px;
+  display: flex !important;
+  align-items: center !important;
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  gap: 8px !important;
 }
 
 .bl-nav-link {
-  font-size: 12px;
-  font-weight: 400;
-  letter-spacing: -0.12px;
-  color: #cccccc;
-  text-decoration: none;
-  padding: 6px 12px;
-  border-radius: var(--radius-sm);
-  transition: color 0.15s ease;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  letter-spacing: -0.12px !important;
+  color: #cccccc !important;
+  text-decoration: none !important;
+  padding: 4px 10px !important;
+  border-radius: 8px !important;
+  transition: color 0.15s ease !important;
 }
 
 .bl-nav-link:hover,
 .bl-nav-link.active {
-  color: #ffffff;
+  color: #ffffff !important;
 }
 
 .bl-nav-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
 }
 
 .btn-nav-login {
-  font-size: 12px;
-  color: #ffffff;
-  text-decoration: none;
-  padding: 6px 14px;
-  font-weight: 400;
-  border-radius: var(--radius-pill);
-  transition: opacity 0.15s ease;
+  font-size: 12px !important;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  padding: 6px 14px !important;
+  font-weight: 400 !important;
+  border-radius: 9999px !important;
 }
 .btn-nav-login:hover {
-  opacity: 0.8;
+  color: #2997ff !important;
 }
 
 /* --------------------------------------------------
-   3. BUTTONS: ACTION BLUE PILL & GHOST PILL
+   3. BUTTONS: ACTION BLUE PILL & SECONDARY PILL
    -------------------------------------------------- */
 .btn-hero-primary,
 .btn-primary-glow,
 .btn-primary {
-  background: var(--primary) !important;
+  background: #0066cc !important;
   color: #ffffff !important;
   border: none !important;
-  border-radius: var(--radius-pill) !important;
+  border-radius: 9999px !important;
   padding: 10px 22px !important;
   font-size: 14px !important;
   font-weight: 400 !important;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  text-decoration: none;
-  cursor: pointer;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
   box-shadow: none !important;
-  transition: transform 0.1s ease, background-color 0.15s ease;
+  transition: transform 0.1s ease, background-color 0.15s ease !important;
 }
 
 .btn-hero-primary:hover,
 .btn-primary-glow:hover,
 .btn-primary:hover {
-  background: var(--primary-focus) !important;
+  background: #0071e3 !important;
   color: #ffffff !important;
 }
 
@@ -204,45 +160,129 @@ button:active {
   transform: scale(0.95) !important;
 }
 
+/* Secondary Button: Clean light pill with hairline border */
 .btn-hero-secondary,
 .btn-sec {
-  background: transparent !important;
-  color: var(--primary) !important;
-  border: 1px solid var(--primary) !important;
-  border-radius: var(--radius-pill) !important;
+  background: #ffffff !important;
+  color: #1d1d1f !important;
+  border: 1px solid #d2d2d7 !important;
+  border-radius: 9999px !important;
   padding: 10px 22px !important;
   font-size: 14px !important;
   font-weight: 400 !important;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  text-decoration: none;
-  cursor: pointer;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
   box-shadow: none !important;
-  transition: transform 0.1s ease, background-color 0.15s ease;
+  transition: transform 0.1s ease, background-color 0.15s ease, border-color 0.15s ease !important;
 }
 
 .btn-hero-secondary:hover,
 .btn-sec:hover {
-  background: rgba(0, 102, 204, 0.06) !important;
+  background: #f5f5f7 !important;
+  border-color: #86868b !important;
+  color: #0066cc !important;
 }
 
 /* --------------------------------------------------
-   4. HERO SECTION (MUSEUM GALLERY MINIMALIST)
+   4. FULL-BLEED SECTIONS & TILES
    -------------------------------------------------- */
-.hero-section {
-  padding-top: 120px !important;
-  padding-bottom: 96px !important;
-  background-color: var(--canvas-parchment) !important;
-  border-bottom: 1px solid var(--border);
+.landing-section {
+  position: relative !important;
+  width: 100% !important;
+  padding: 84px 24px !important;
+  box-sizing: border-box !important;
 }
 
+/* LIGHT SECTIONS */
+.landing-section,
+.landing-section.hero-section,
+.landing-section.section-white,
+.landing-section.section-tinted {
+  background-color: #f5f5f7 !important;
+  color: #1d1d1f !important;
+}
+
+.landing-section.section-white {
+  background-color: #ffffff !important;
+}
+
+.landing-section.hero-section {
+  padding-top: 108px !important;
+  padding-bottom: 84px !important;
+  background-color: #f5f5f7 !important;
+}
+
+.landing-section.hero-section h1.hero-title,
+.bl-landing-wrapper .hero-title {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", sans-serif !important;
+  font-size: 52px !important;
+  line-height: 1.08 !important;
+  letter-spacing: -0.025em !important;
+  font-weight: 600 !important;
+  color: #1d1d1f !important;
+  margin: 0 0 16px 0 !important;
+}
+
+.landing-section.hero-section p.hero-subtitle,
+.bl-landing-wrapper .hero-subtitle {
+  font-size: 19px !important;
+  line-height: 1.47 !important;
+  color: #737373 !important;
+  margin: 0 0 32px 0 !important;
+  max-width: 520px !important;
+}
+
+/* DARK TILES (#272729 / #000000) */
+.landing-section.section-dark,
+.landing-section.dark-tile-1 {
+  background-color: #272729 !important;
+  color: #ffffff !important;
+}
+
+.landing-section.section-dark h1,
+.landing-section.section-dark h2,
+.landing-section.section-dark h3,
+.landing-section.section-dark h4 {
+  color: #ffffff !important;
+}
+
+.landing-section.section-dark p,
+.landing-section.section-dark .section-desc {
+  color: #cccccc !important;
+}
+
+.landing-section.section-dark .btn-hero-secondary {
+  background: transparent !important;
+  color: #2997ff !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Hide all old glow blobs */
+.hero-glow-blob-1,
+.hero-glow-blob-2,
+.auth-ambient-blob-1,
+.auth-ambient-blob-2,
+.mascot-stage-wrapper,
+.floating-sub-card,
+.floating-invoice-card,
+.floating-payment-pill {
+  display: none !important;
+}
+
+/* --------------------------------------------------
+   5. HERO CONTENT & SHOWCASE CARD
+   -------------------------------------------------- */
 .hero-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: 48px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 @media (max-width: 900px) {
@@ -255,39 +295,21 @@ button:active {
 .hero-tag {
   display: inline-flex;
   align-items: center;
-  padding: 4px 12px;
-  background: rgba(0, 102, 204, 0.08);
-  color: var(--primary);
-  border-radius: var(--radius-pill);
+  padding: 5px 14px;
+  background: rgba(0, 102, 204, 0.08) !important;
+  color: #0066cc !important;
+  border-radius: 9999px;
   font-size: 13px;
   font-weight: 600;
   margin-bottom: 18px;
-  border: 1px solid rgba(0, 102, 204, 0.2);
-}
-
-.hero-title {
-  font-family: var(--font-display) !important;
-  font-size: 48px !important;
-  line-height: 1.08 !important;
-  letter-spacing: -0.28px !important;
-  font-weight: 600 !important;
-  color: var(--ink) !important;
-  margin: 0 0 16px 0;
-}
-
-.hero-subtitle {
-  font-size: 18px;
-  line-height: 1.47;
-  color: var(--muted-foreground);
-  margin: 0 0 32px 0;
-  max-width: 520px;
+  border: 1px solid rgba(0, 102, 204, 0.2) !important;
 }
 
 .hero-cta-group {
   display: flex;
   align-items: center;
   gap: 14px;
-  margin-bottom: 40px;
+  margin-bottom: 36px;
   flex-wrap: wrap;
 }
 
@@ -301,7 +323,7 @@ button:active {
   display: flex;
   gap: 32px;
   padding-top: 24px;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid #e0e0e0;
 }
 
 @media (max-width: 900px) {
@@ -310,64 +332,38 @@ button:active {
   }
 }
 
-.hero-stat-item {
-  display: flex;
-  flex-direction: column;
-}
-
 .hero-stat-number {
-  font-family: var(--font-display);
-  font-size: 24px;
-  font-weight: 600;
-  color: var(--ink);
-  letter-spacing: -0.02em;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", sans-serif !important;
+  font-size: 26px !important;
+  font-weight: 600 !important;
+  color: #0066cc !important;
+  display: block;
 }
 
 .hero-stat-label {
-  font-size: 12px;
-  color: var(--muted-foreground);
+  font-size: 12.5px !important;
+  color: #737373 !important;
   margin-top: 2px;
+  display: block;
 }
 
-/* Clean Gradient Replacements */
-.gradient-text-purple,
-.gradient-text-gold,
-.gradient-text-fire,
-.gradient-text-cyan,
-.gradient-text-emerald {
-  background: none !important;
-  -webkit-background-clip: unset !important;
-  -webkit-text-fill-color: unset !important;
-  color: var(--primary) !important;
-}
-
-/* --------------------------------------------------
-   5. HERO PRODUCT SHOWCASE CARD (Replaces Mascot Cartoon)
-   Single Soft Drop-Shadow: rgba(0, 0, 0, 0.22) 3px 5px 30px
-   -------------------------------------------------- */
-.hero-visual-stage {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
+/* Hero Showcase Card */
 .hero-product-render-card {
-  background: var(--canvas);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  box-shadow: rgba(0, 0, 0, 0.22) 3px 5px 30px 0 !important;
-  position: relative;
-  overflow: hidden;
+  background: #ffffff !important;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 18px !important;
+  padding: 26px !important;
+  box-shadow: rgba(0, 0, 0, 0.18) 0px 10px 35px 0px !important;
+  color: #1d1d1f !important;
+  text-align: left;
 }
 
 .render-header-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   padding-bottom: 14px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #e0e0e0;
   margin-bottom: 16px;
 }
 
@@ -375,10 +371,10 @@ button:active {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 3px 10px;
-  border-radius: var(--radius-pill);
-  background: rgba(52, 199, 89, 0.12);
-  color: var(--success);
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: rgba(52, 199, 89, 0.12) !important;
+  color: #248a3d !important;
   font-size: 12px;
   font-weight: 600;
 }
@@ -391,80 +387,80 @@ button:active {
 }
 
 .render-stat-tile {
-  background: var(--canvas-parchment);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 12px;
+  background: #f5f5f7 !important;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 11px !important;
+  padding: 12px !important;
   text-align: center;
 }
 
 .render-stat-tile small {
   display: block;
-  font-size: 11px;
-  color: var(--muted-foreground);
+  font-size: 11px !important;
+  color: #737373 !important;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 600;
 }
 
 .render-stat-tile .val {
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--ink);
-  margin-top: 2px;
-}
-
-/* Hide old mascot floating containers */
-.mascot-stage-wrapper,
-.floating-sub-card,
-.floating-invoice-card,
-.floating-payment-pill {
-  display: none !important;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", sans-serif !important;
+  font-size: 19px !important;
+  font-weight: 600 !important;
+  color: #1d1d1f !important;
+  margin-top: 3px;
 }
 
 /* --------------------------------------------------
-   6. STORE UTILITY CARDS & SECTION GRIDS (18px Radius)
+   6. SECTION HEADERS & UTILITY CARDS
    -------------------------------------------------- */
 .section-header-center {
   text-align: center;
   max-width: 720px;
-  margin: 0 auto 56px auto;
+  margin: 0 auto 52px auto;
 }
 
 .section-badge {
   display: inline-flex;
   align-items: center;
   padding: 4px 12px;
-  border-radius: var(--radius-pill);
+  border-radius: 9999px;
   font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 12px;
-  background: rgba(0, 102, 204, 0.08);
-  color: var(--primary);
-  border: 1px solid rgba(0, 102, 204, 0.2);
+  background: rgba(0, 102, 204, 0.08) !important;
+  color: #0066cc !important;
+  border: 1px solid rgba(0, 102, 204, 0.2) !important;
 }
 
 .section-title {
-  font-family: var(--font-display);
-  font-size: 36px;
-  line-height: 1.12;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  color: var(--ink);
-  margin: 0 0 12px 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", sans-serif !important;
+  font-size: 38px !important;
+  line-height: 1.12 !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.02em !important;
+  color: #1d1d1f !important;
+  margin: 0 0 12px 0 !important;
 }
 
 .section-desc {
-  font-size: 17px;
-  line-height: 1.47;
-  color: var(--muted-foreground);
-  margin: 0;
+  font-size: 17px !important;
+  line-height: 1.47 !important;
+  color: #737373 !important;
+  margin: 0 !important;
 }
 
-/* Utility Cards: 18px radius, hairline border, flat elevation */
+.landing-section.section-dark .section-title {
+  color: #ffffff !important;
+}
+
+.landing-section.section-dark .section-desc {
+  color: #cccccc !important;
+}
+
+/* 18px Radius Utility Cards */
 .ecosystem-step-card,
 .feature-card-premium,
 .comparison-card,
@@ -472,89 +468,67 @@ button:active {
 .plan-pricing-card,
 .role-perspective-card,
 .metric-telemetry-card {
-  background: var(--canvas) !important;
-  border: 1px solid var(--border) !important;
-  border-radius: var(--radius-lg) !important;
+  background: #ffffff !important;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 18px !important;
   box-shadow: none !important;
   padding: 24px !important;
-  transition: border-color 0.15s ease;
+  color: #1d1d1f !important;
 }
 
-.ecosystem-step-card:hover,
-.feature-card-premium:hover,
-.plan-pricing-card:hover {
-  border-color: var(--border-strong) !important;
+.ecosystem-step-card h4,
+.feature-card-premium h3,
+.feature-card-premium h4,
+.plan-pricing-card h3,
+.role-perspective-card h4 {
+  color: #1d1d1f !important;
+}
+
+.ecosystem-step-card p,
+.feature-card-premium p,
+.plan-pricing-card p,
+.role-perspective-card p {
+  color: #737373 !important;
 }
 
 .step-num-bubble {
-  background: var(--primary) !important;
+  background: #0066cc !important;
   color: #ffffff !important;
-  font-family: var(--font-display) !important;
   font-weight: 600 !important;
-  border-radius: var(--radius-pill) !important;
+  border-radius: 9999px !important;
 }
 
 /* --------------------------------------------------
-   7. FOOTER (PARCHMENT CANVAS, RELAXED 2.41 LINE-HEIGHT)
+   7. FOOTER
    -------------------------------------------------- */
 .bl-main-footer {
-  background-color: var(--canvas-parchment);
-  border-top: 1px solid var(--border);
-  padding: 64px 24px 32px 24px;
-  font-size: 12px;
-  color: var(--muted-foreground);
+  background-color: #f5f5f7 !important;
+  border-top: 1px solid #e0e0e0 !important;
+  padding: 64px 24px 32px 24px !important;
+  font-size: 12px !important;
+  color: #737373 !important;
 }
 
-.footer-top-grid {
-  display: grid;
-  grid-template-columns: 2fr repeat(4, 1fr);
-  gap: 32px;
-  margin-bottom: 48px;
-}
-
-@media (max-width: 900px) {
-  .footer-top-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.footer-col h5 {
-  font-family: var(--font-display);
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--ink);
-  margin: 0 0 16px 0;
-}
-
-.footer-links-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.bl-main-footer h5 {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  color: #1d1d1f !important;
+  margin: 0 0 16px 0 !important;
 }
 
 .footer-links-list li {
-  line-height: 2.41;
+  line-height: 2.41 !important;
 }
 
 .footer-links-list a {
-  color: var(--muted-foreground);
-  text-decoration: none;
-  font-size: 13px;
-  transition: color 0.15s ease;
+  color: #737373 !important;
+  text-decoration: none !important;
+  font-size: 13px !important;
 }
 
 .footer-links-list a:hover {
-  color: var(--primary);
-}
-
-.footer-bottom-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 24px;
-  border-top: 1px solid var(--border);
-  font-size: 12px;
-  color: var(--muted-foreground);
+  color: #0066cc !important;
 }

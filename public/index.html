@@ -90,9 +90,9 @@
       --radius: 18px;
 
       /* Typography */
-      --font-display: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
-      --font-text: "SF Pro Text", -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
-      --font-sans: "SF Pro Text", -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif;
+      --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", system-ui, sans-serif;
+      --font-text: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", system-ui, sans-serif;
+      --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", system-ui, sans-serif;
     }
 
     .dark {
@@ -727,6 +727,75 @@
       color: var(--primary) !important;
     }
 
+  
+    /* ==========================================================================
+       HIGH-CONTRAST MARKETING LANDING RULES (Museum Gallery Spec)
+       Near-Black Ink #1d1d1f on Light Canvas • White #ffffff on Dark Tiles
+       ========================================================================== */
+    .bl-landing-wrapper {
+      background-color: #f5f5f7 !important;
+      color: #1d1d1f !important;
+    }
+    .bl-landing-wrapper h1,
+    .bl-landing-wrapper h2,
+    .bl-landing-wrapper h3,
+    .bl-landing-wrapper h4,
+    .bl-landing-wrapper h5,
+    .bl-landing-wrapper h6,
+    .bl-landing-wrapper .hero-title,
+    .bl-landing-wrapper .section-title {
+      color: #1d1d1f !important;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", sans-serif !important;
+      font-weight: 600 !important;
+      letter-spacing: -0.025em !important;
+    }
+    .bl-landing-wrapper p,
+    .bl-landing-wrapper .hero-subtitle,
+    .bl-landing-wrapper .section-desc,
+    .bl-landing-wrapper .hero-stat-label,
+    .bl-landing-wrapper .footer-col p {
+      color: #737373 !important;
+    }
+    .bl-landing-wrapper .hero-stat-number {
+      color: #0066cc !important;
+      font-weight: 600 !important;
+    }
+    .bl-landing-wrapper .hero-tag,
+    .bl-landing-wrapper .section-badge {
+      background: rgba(0, 102, 204, 0.08) !important;
+      color: #0066cc !important;
+      border: 1px solid rgba(0, 102, 204, 0.2) !important;
+    }
+
+    /* Dark Tiles Override (#272729) */
+    .bl-landing-wrapper .landing-section.section-dark,
+    .bl-landing-wrapper .landing-section.dark-tile-1 {
+      background-color: #272729 !important;
+      color: #ffffff !important;
+    }
+    .bl-landing-wrapper .landing-section.section-dark h1,
+    .bl-landing-wrapper .landing-section.section-dark h2,
+    .bl-landing-wrapper .landing-section.section-dark h3,
+    .bl-landing-wrapper .landing-section.section-dark h4 {
+      color: #ffffff !important;
+    }
+    .bl-landing-wrapper .landing-section.section-dark p,
+    .bl-landing-wrapper .landing-section.section-dark .section-desc {
+      color: #cccccc !important;
+    }
+
+    /* Secondary buttons on landing */
+    .bl-landing-wrapper .btn-hero-secondary {
+      background: #ffffff !important;
+      color: #1d1d1f !important;
+      border: 1px solid #d2d2d7 !important;
+    }
+    .bl-landing-wrapper .btn-hero-secondary:hover {
+      background: #f5f5f7 !important;
+      border-color: #86868b !important;
+      color: #0066cc !important;
+    }
+
   </style>
 </head>
 
@@ -812,54 +881,54 @@
         </div>
 
         <div id="heroVisualStage" class="hero-visual-stage">
-          <!-- Sleek Subscription Product Showcase Card (Museum Gallery Render) -->
-          <div class="hero-product-render-card">
-            <div class="render-header-row">
+          <!-- Sleek Subscription Product Showcase Card -->
+          <div class="hero-product-render-card" style="background:#ffffff; color:#1d1d1f; border:1px solid #e0e0e0; border-radius:18px; padding:26px; box-shadow:rgba(0,0,0,0.16) 0px 10px 35px 0px;">
+            <div class="render-header-row" style="display:flex; justify-content:space-between; align-items:flex-start; padding-bottom:14px; border-bottom:1px solid #e0e0e0; margin-bottom:16px;">
               <div>
-                <span class="render-badge-active">● Active Contract</span>
-                <div style="font-family: var(--font-display); font-size: 18px; font-weight: 600; color: var(--ink); margin-top: 4px;">SUB-000004 — Cloud Pro Tier</div>
-                <div style="font-size: 12px; color: var(--muted-foreground);">Acme Corp • Net 15 Terms • Auto-Renew</div>
+                <span class="render-badge-active" style="display:inline-flex; align-items:center; gap:6px; padding:3px 10px; border-radius:9999px; background:rgba(52,199,89,0.12); color:#248a3d; font-size:12px; font-weight:600;">● Active Contract</span>
+                <div style="font-family:-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', sans-serif; font-size:18px; font-weight:600; color:#1d1d1f; margin-top:4px;">SUB-000004 — Cloud Pro Tier</div>
+                <div style="font-size:12.5px; color:#737373;">Acme Corp • Net 15 Terms • Auto-Renew</div>
               </div>
-              <div style="text-align: right;">
-                <div style="font-size: 11px; text-transform: uppercase; color: var(--muted-foreground); font-weight: 600; letter-spacing: 0.05em;">Monthly Rate</div>
-                <div style="font-family: var(--font-display); font-size: 20px; font-weight: 600; color: var(--primary);">₹4,120.00</div>
+              <div style="text-align:right;">
+                <div style="font-size:11px; text-transform:uppercase; color:#737373; font-weight:600; letter-spacing:0.05em;">Monthly Rate</div>
+                <div style="font-family:-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', sans-serif; font-size:20px; font-weight:600; color:#0066cc;">₹4,120.00</div>
               </div>
             </div>
 
-            <div class="render-stats-grid">
-              <div class="render-stat-tile">
-                <small>Billed Total</small>
-                <div class="val">₹15,480</div>
+            <div class="render-stats-grid" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin-bottom:18px;">
+              <div class="render-stat-tile" style="background:#f5f5f7; border:1px solid #e0e0e0; border-radius:11px; padding:12px; text-align:center;">
+                <small style="display:block; font-size:11px; color:#737373; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Billed Total</small>
+                <div class="val" style="font-family:-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', sans-serif; font-size:18px; font-weight:600; color:#1d1d1f; margin-top:2px;">₹15,480</div>
               </div>
-              <div class="render-stat-tile">
-                <small>Collected</small>
-                <div class="val" style="color: var(--success);">₹13,620</div>
+              <div class="render-stat-tile" style="background:#f5f5f7; border:1px solid #e0e0e0; border-radius:11px; padding:12px; text-align:center;">
+                <small style="display:block; font-size:11px; color:#737373; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Collected</small>
+                <div class="val" style="font-family:-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', sans-serif; font-size:18px; font-weight:600; color:#248a3d; margin-top:2px;">₹13,620</div>
               </div>
-              <div class="render-stat-tile">
-                <small>Next Billing</small>
-                <div class="val">Feb 28</div>
+              <div class="render-stat-tile" style="background:#f5f5f7; border:1px solid #e0e0e0; border-radius:11px; padding:12px; text-align:center;">
+                <small style="display:block; font-size:11px; color:#737373; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Next Billing</small>
+                <div class="val" style="font-family:-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', sans-serif; font-size:18px; font-weight:600; color:#1d1d1f; margin-top:2px;">Feb 28</div>
               </div>
             </div>
 
             <!-- In-Card Mini Table -->
-            <div style="background: var(--canvas-parchment); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden;">
-              <div style="display: flex; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid var(--border); font-size: 11px; font-weight: 600; color: var(--muted-foreground); text-transform: uppercase;">
+            <div style="background:#f5f5f7; border:1px solid #e0e0e0; border-radius:11px; overflow:hidden;">
+              <div style="display:flex; justify-content:space-between; padding:9px 14px; border-bottom:1px solid #e0e0e0; font-size:11px; font-weight:600; color:#737373; text-transform:uppercase; letter-spacing:0.05em;">
                 <span>Invoice #</span>
                 <span>Billing Period</span>
                 <span>Amount</span>
                 <span>Status</span>
               </div>
-              <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; font-size: 13px; border-bottom: 1px solid var(--border);">
-                <span style="font-family: monospace; font-weight: 600; color: var(--primary);">INV-000004</span>
-                <span style="color: var(--muted-foreground); font-size: 12px;">Jan 1 → Jan 31</span>
-                <span style="font-weight: 600;">₹3,313.44</span>
-                <span style="background: rgba(52, 199, 89, 0.12); color: var(--success); padding: 2px 8px; border-radius: var(--radius-pill); font-size: 11px; font-weight: 600;">Paid</span>
+              <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; font-size:13px; border-bottom:1px solid #e0e0e0; background:#ffffff;">
+                <span style="font-family:-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Segoe UI', sans-serif; font-weight:600; color:#0066cc;">INV-000004</span>
+                <span style="color:#737373; font-size:12px;">Jan 1 → Jan 31</span>
+                <span style="font-weight:600; color:#1d1d1f;">₹3,313.44</span>
+                <span style="background:rgba(52,199,89,0.12); color:#248a3d; padding:2px 8px; border-radius:9999px; font-size:11px; font-weight:600;">Paid</span>
               </div>
-              <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; font-size: 13px;">
-                <span style="font-family: monospace; font-weight: 600; color: var(--primary);">INV-000005</span>
-                <span style="color: var(--muted-foreground); font-size: 12px;">Feb 1 → Feb 28</span>
-                <span style="font-weight: 600;">₹4,120.00</span>
-                <span style="background: rgba(0, 102, 204, 0.1); color: var(--primary); padding: 2px 8px; border-radius: var(--radius-pill); font-size: 11px; font-weight: 600;">Confirmed</span>
+              <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; font-size:13px; background:#ffffff;">
+                <span style="font-family:-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Segoe UI', sans-serif; font-weight:600; color:#0066cc;">INV-000005</span>
+                <span style="color:#737373; font-size:12px;">Feb 1 → Feb 28</span>
+                <span style="font-weight:600; color:#1d1d1f;">₹4,120.00</span>
+                <span style="background:rgba(0,102,204,0.1); color:#0066cc; padding:2px 8px; border-radius:9999px; font-size:11px; font-weight:600;">Confirmed</span>
               </div>
             </div>
           </div>

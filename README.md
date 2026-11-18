@@ -8,13 +8,13 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
 
 > Enterprise-grade Subscription Management, Automated Recurring Billing Engine, and Financial Intelligence Platform.  
-> 🌐 **Live Deployed Application:** [https://brightloop-subscription-system.onrender.com](https://brightloop-subscription-system.onrender.com)
+> 🌐 **Live Deployed Application:** [https://brightloop-subscription-system.onrender.com/](https://brightloop-subscription-system.onrender.com)
 
 ---
 
 ## 🚀 Live Demo & Quick Access
 
-- **Production URL:** [https://brightloop-subscription-system.onrender.com](https://brightloop-subscription-system.onrender.com)
+- **Production URL:** [https://brightloop-subscription-system.onrender.com/](https://brightloop-subscription-system.onrender.com)
 - **⚡ Interactive System Tour:** Click the **`Guided Tour`** button in the top navigation bar inside the Control Room for an automated interactive system walkthrough.
 
 ### 👥 Test Credentials (or use the 1-Click Demo Badges on the Sign-in modal)

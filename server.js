@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const zlib = require('node:zlib');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -19,6 +20,7 @@ app.use((req, res, next) => {
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
   res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none';");
   next();
 });
 
@@ -64,6 +66,56 @@ app.use((req, res, next) => {
 
 // Payload Body Limiter to prevent DoS
 app.use(express.json({ limit: '500kb' }));
+
+// Built-in Static Asset Compression Middleware (HTML, CSS, JS, SVG, JSON)
+const STATIC_DIR = path.join(__dirname, 'public');
+const MIME_MAP = {
+  '.html': 'text/html; charset=utf-8',
+  '.css': 'text/css; charset=utf-8',
+  '.js': 'application/javascript; charset=utf-8',
+  '.json': 'application/json; charset=utf-8',
+  '.svg': 'image/svg+xml'
+};
+app.use((req, res, next) => {
+  if (req.method !== 'GET' && req.method !== 'HEAD') return next();
+  const enc = req.headers['accept-encoding'] || '';
+  if (!enc.includes('gzip')) return next();
+  
+  let reqPath = req.path;
+  if (reqPath === '/' || !reqPath) reqPath = '/index.html';
+  const filePath = path.join(STATIC_DIR, reqPath);
+  if (!filePath.startsWith(STATIC_DIR)) return next();
+  
+  const ext = path.extname(filePath).toLowerCase();
+  const mimeType = MIME_MAP[ext];
+  if (!mimeType) return next();
+
+  fs.stat(filePath, (err, stats) => {
+    if (err || !stats.isFile() || stats.size < 512) return next();
+    
+    const etag = '"' + stats.mtimeMs.toString(16) + '-' + stats.size.toString(16) + '"';
+    res.setHeader('Content-Type', mimeType);
+    res.setHeader('Content-Encoding', 'gzip');
+    res.setHeader('Vary', 'Accept-Encoding');
+    res.setHeader('ETag', etag);
+    if (ext === '.html') {
+      res.setHeader('Cache-Control', 'no-cache');
+    } else {
+      res.setHeader('Cache-Control', 'public, max-age=86400');
+    }
+
+    if (req.headers['if-none-match'] === etag) {
+      return res.status(304).end();
+    }
+    if (req.method === 'HEAD') {
+      return res.status(200).end();
+    }
+
+    const stream = fs.createReadStream(filePath);
+    const gz = zlib.createGzip({ level: 6 });
+    stream.pipe(gz).pipe(res);
+  });
+});
 
 // Static Assets with Caching Headers
 app.use(express.static(path.join(__dirname, 'public'), {
@@ -157,7 +209,7 @@ const pwOk = p => typeof p === 'string' && p.length > 8 && /[A-Z]/.test(p) && /[
 function auth(...roles) {
   return (req, res, next) => {
     const t = (req.headers.authorization || '').replace('Bearer ', '') || req.query.token;
-    try { req.user = jwt.verify(t, SECRET); } catch { return res.status(401).json({ error: 'Please log in' }); }
+    try { req.user = jwt.verify(t, SECRET, { algorithms: ['HS256'] }); } catch { return res.status(401).json({ error: 'Please log in' }); }
     if (roles.length && !roles.includes(req.user.role)) return res.status(403).json({ error: 'Not allowed for your role' });
     next();
   };

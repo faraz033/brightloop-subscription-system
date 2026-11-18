@@ -12,18 +12,52 @@ const money = n => '₹' + Number(n || 0).toLocaleString('en-IN', { minimumFract
 const badge = s => `<span class="b ${s}">${s}</span>`;
 const yn = [['1', 'Yes'], ['0', 'No']];
 
+// Accessible SVG Icons (Zero unnecessary emojis - enterprise grade)
+const SVG_SUN = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
+const SVG_MOON = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
+const SVG_ALERT = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="status-icon" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`;
+const SVG_CHECK = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="status-icon" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+const SVG_DOWNLOAD = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-right:5px; vertical-align:-2px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>`;
+const SVG_PRINT = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-right:4px; vertical-align:-2px;"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>`;
+const SVG_CARD = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-right:4px; vertical-align:-2px;"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>`;
+const SVG_PLAY = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-right:4px; vertical-align:-2px;"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>`;
+const SVG_EYE = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+const SVG_EYE_OFF = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`;
+
+const TAB_ICONS = {
+  dash: `<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1"></rect><rect x="14" y="3" width="7" height="5" rx="1"></rect><rect x="14" y="12" width="7" height="9" rx="1"></rect><rect x="3" y="16" width="7" height="5" rx="1"></rect></svg>`,
+  subs: `<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>`,
+  inv: `<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"></path><line x1="8" y1="7" x2="16" y2="7"></line><line x1="8" y1="11" x2="16" y2="11"></line></svg>`,
+  pay: `<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>`,
+  prod: `<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>`,
+  plan: `<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`,
+  tax: `<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="5" x2="5" y2="19"></line><circle cx="6.5" cy="6.5" r="2.5"></circle><circle cx="17.5" cy="17.5" r="2.5"></circle></svg>`,
+  disc: `<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>`,
+  tpl: `<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`,
+  staff: `<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>`
+};
+
+
 // Theme Toggle & Persistence (poulo.site spec - default: dark, localStorage key 'theme')
 function initTheme() {
   const t = localStorage.getItem('theme') || 'dark';
   document.documentElement.classList.toggle('dark', t === 'dark');
   const btn = $('#themeToggleBtn');
-  if (btn) btn.innerHTML = t === 'dark' ? '☀️' : '🌙';
+  if (btn) {
+    btn.innerHTML = t === 'dark' ? SVG_SUN : SVG_MOON;
+    btn.setAttribute('aria-label', t === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+    btn.setAttribute('title', t === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+  }
 }
 function toggleTheme() {
   const isDark = document.documentElement.classList.toggle('dark');
   localStorage.setItem('theme', isDark ? 'dark' : 'light');
   const btn = $('#themeToggleBtn');
-  if (btn) btn.innerHTML = isDark ? '☀️' : '🌙';
+  if (btn) {
+    btn.innerHTML = isDark ? SVG_SUN : SVG_MOON;
+    btn.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+    btn.setAttribute('title', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+  }
 }
 window.toggleTheme = toggleTheme;
 setTimeout(initTheme, 0);
@@ -56,7 +90,10 @@ async function api(path, method = 'GET', body = null) {
 function showToast(msg, isBad = false) {
   const t = document.createElement('div');
   t.className = 'toast' + (isBad ? ' bad' : '');
-  t.innerHTML = `${isBad ? '⚠️' : '⚡'} <span>${esc(msg)}</span>`;
+  t.setAttribute('role', 'status');
+  t.setAttribute('aria-live', 'polite');
+  const icon = isBad ? SVG_ALERT : SVG_CHECK;
+  t.innerHTML = `${icon} <span>${esc(msg)}</span>`;
   document.body.appendChild(t);
   setTimeout(() => {
     t.style.opacity = '0';
@@ -78,13 +115,13 @@ const run = async fn => {
    -------------------------------------------------- */
 function tableHtml(cols, rows) {
   if (!rows || !rows.length) {
-    return '<div class="empty-table-state">No records found.</div>';
+    return '<div class="empty-table-state" role="status">No records found.</div>';
   }
   return `
-    <div class="table-scroll-wrap">
+    <div class="table-scroll-wrap" tabindex="0" role="region" aria-label="Data Table">
       <table class="app-table">
         <thead>
-          <tr>${cols.map(c => `<th>${c[0]}</th>`).join('')}</tr>
+          <tr>${cols.map(c => `<th scope="col">${c[0]}</th>`).join('')}</tr>
         </thead>
         <tbody>
           ${rows.map(r => `
@@ -100,19 +137,25 @@ function tableHtml(cols, rows) {
 
 function formHtml(id, fields) {
   return `
-    <form id="${id}" class="form-grid">
-      ${fields.map(f => `
-        <label>
-          ${f.l}
-          ${f.t === 'select'
-            ? `<select name="${f.n}">${(f.o || []).map(o => `<option value="${esc(o[0])}">${esc(o[1])}</option>`).join('')}</select>`
-            : `<input name="${f.n}" type="${f.t || 'text'}" ${f.v !== undefined ? `value="${esc(f.v)}"` : ''} ${f.req ? 'required' : ''} ${f.t === 'number' ? 'step="any"' : ''} placeholder="${esc(f.p || '')}">`
-          }
-        </label>
-      `).join('')}
-      <label>&nbsp;
+    <form id="${id}" class="form-grid" novalidate>
+      ${fields.map(f => {
+        const inputId = `${id}_${f.n}`;
+        return `
+          <div class="form-field-group">
+            <label for="${inputId}">
+              ${f.l} ${f.req ? '<span class="req-star" aria-hidden="true">*</span>' : ''}
+            </label>
+            ${f.t === 'select'
+              ? `<select id="${inputId}" name="${f.n}" aria-required="${f.req ? 'true' : 'false'}" aria-label="${esc(f.l)}">${(f.o || []).map(o => `<option value="${esc(o[0])}">${esc(o[1])}</option>`).join('')}</select>`
+              : `<input id="${inputId}" name="${f.n}" type="${f.t || 'text'}" ${f.v !== undefined ? `value="${esc(f.v)}"` : ''} ${f.req ? 'required aria-required="true"' : ''} ${f.t === 'number' ? 'step="any"' : ''} placeholder="${esc(f.p || '')}" aria-label="${esc(f.l)}">`
+            }
+          </div>
+        `;
+      }).join('')}
+      <div class="form-field-group" style="justify-content: flex-end;">
+        <label aria-hidden="true" style="visibility:hidden;">Submit</label>
         <button type="submit" class="btn-primary" style="height: 38px; justify-content: center;">Save Record</button>
-      </label>
+      </div>
     </form>
   `;
 }
@@ -159,11 +202,13 @@ function showModal({ title, bodyHtml, confirmText = 'Submit', onConfirm, maxWidt
   }
 
   container.innerHTML = `
-    <div class="modal-backdrop" id="modalBackdrop">
-      <div class="modal-card" style="max-width: ${maxWidth}; width: 100%; max-height: 90vh; display: flex; flex-direction: column;">
+    <div class="modal-backdrop" id="modalBackdrop" role="presentation">
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="activeModalTitle" style="max-width: ${maxWidth}; width: 100%; max-height: 90vh; display: flex; flex-direction: column;">
         <div class="modal-header">
-          <h3>${title}</h3>
-          <button class="modal-close" onclick="closeModal()">✕</button>
+          <h3 id="activeModalTitle">${title}</h3>
+          <button class="modal-close" onclick="closeModal()" aria-label="Close dialog">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
         </div>
         <div class="modal-body" style="overflow-y: auto; flex: 1;">${bodyHtml}</div>
         ${footer}
@@ -183,9 +228,17 @@ function showModal({ title, bodyHtml, confirmText = 'Submit', onConfirm, maxWidt
   }
 }
 
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    const m = $('#modal-container');
+    if (m && m.innerHTML.trim()) closeModal();
+  }
+});
+
 function closeModal() {
   $('#modal-container').innerHTML = '';
 }
+
 
 function downloadCsv(path, filename) {
   fetch('/api/' + path, { headers: { ...(token ? { Authorization: 'Bearer ' + token } : {}) } })
@@ -277,10 +330,10 @@ function initAuthLogic() {
       const input = btn.previousElementSibling;
       if (input && input.type === 'password') {
         input.type = 'text';
-        btn.textContent = '🙈';
+        btn.innerHTML = SVG_EYE_OFF; btn.setAttribute('aria-label', 'Hide password');
       } else if (input) {
         input.type = 'password';
-        btn.textContent = '👁️';
+        btn.innerHTML = SVG_EYE; btn.setAttribute('aria-label', 'Show password');
       }
     });
   });
@@ -312,7 +365,7 @@ function initAuthLogic() {
       const password = $('#loginPasswordInput').value;
       const res = await api('/auth/login', 'POST', { email, password });
       saveSession(res);
-      showToast(`Welcome back, ${res.user.name}! ⚡`);
+      showToast(`Welcome back, ${res.user.name}.`);
       showAppControlRoom();
     });
   };
@@ -326,7 +379,7 @@ function initAuthLogic() {
       const password = $('#signupPasswordInput').value;
       const res = await api('/auth/signup', 'POST', { name, email, password });
       saveSession(res);
-      showToast(`Account created! Welcome, ${res.user.name}! 🚀`);
+      showToast(`Account created. Welcome, ${res.user.name}.`);
       showAppControlRoom();
     });
   };
@@ -353,7 +406,7 @@ function initAuthLogic() {
           name: 'Alex (Google Account)'
         });
         saveSession(res);
-        showToast(`Google Sign-In successful! Welcome, ${res.user.name}! ⚡`);
+        showToast(`Google Sign-In successful. Welcome, ${res.user.name}.`);
         showAppControlRoom();
       });
     });
@@ -403,23 +456,23 @@ function handleLogout() {
    APPLICATION SHELL & NAVIGATION
    -------------------------------------------------- */
 const STAFF_TABS = [
-  ['dash', '📊 Dashboard'],
-  ['subs', '📑 Subscriptions'],
-  ['inv', '🧾 Invoices'],
-  ['pay', '💳 Payments'],
-  ['prod', '📦 Products'],
-  ['plan', '🗓️ Plans'],
-  ['tax', '🏛️ Taxes'],
-  ['disc', '🏷️ Discounts'],
-  ['tpl', '📝 Templates']
+  ['dash', 'Dashboard'],
+  ['subs', 'Subscriptions'],
+  ['inv', 'Invoices'],
+  ['pay', 'Payments'],
+  ['prod', 'Products'],
+  ['plan', 'Plans'],
+  ['tax', 'Taxes'],
+  ['disc', 'Discounts'],
+  ['tpl', 'Templates']
 ];
 
 const NAV_PERMS = {
-  admin: [...STAFF_TABS, ['staff', '👥 Staff']],
+  admin: [...STAFF_TABS, ['staff', 'Staff']],
   staff: STAFF_TABS,
   customer: [
-    ['subs', '📑 My Subscriptions'],
-    ['inv', '🧾 My Invoices']
+    ['subs', 'My Subscriptions'],
+    ['inv', 'My Invoices']
   ]
 };
 
@@ -435,7 +488,10 @@ function renderAppShell() {
   const tabs = NAV_PERMS[user.role] || STAFF_TABS;
   const navContainer = $('#appNavTabs');
   navContainer.innerHTML = tabs.map(([k, label]) => `
-    <button class="app-tab-link" id="nav-${k}" onclick="navigateAppTab('${k}')">${label}</button>
+    <button class="app-tab-link" id="nav-${k}" onclick="navigateAppTab('${k}')" aria-label="${label}">
+      ${TAB_ICONS[k] || ''}
+      <span>${label}</span>
+    </button>
   `).join('');
 
   navigateAppTab(tabs[0][0]);
@@ -468,7 +524,7 @@ async function dash(from = '', to = '') {
         <p class="muted">Live recurring metrics, revenue recognition, and payment status.</p>
       </div>
       <div class="filters-bar">
-        <button class="btn-sec" onclick="downloadCsv('reports/export/invoices', 'invoices_summary.csv')">📥 Export CSV</button>
+        <button class="btn-sec" onclick="downloadCsv('reports/export/invoices', 'invoices_summary.csv')">${SVG_DOWNLOAD} Export CSV</button>
         <label style="display:flex; align-items:center; gap:6px; font-weight:700;">From <input type="date" id="dashFromDate" value="${from}"></label>
         <label style="display:flex; align-items:center; gap:6px; font-weight:700;">To <input type="date" id="dashToDate" value="${to}"></label>
         <button class="btn-primary" onclick="run(() => dash($('#dashFromDate').value, $('#dashToDate').value))">Filter</button>
@@ -513,7 +569,7 @@ async function dash(from = '', to = '') {
       </div>
     </div>
 
-    <h3 style="font-size: 17px; font-weight: 800; margin: 24px 0 12px 0;">🚨 Overdue Invoices Requiring Follow-up</h3>
+    <h3 style="font-size: 16px; font-weight: 700; margin: 24px 0 12px 0; display:flex; align-items:center; gap:8px;">${SVG_ALERT} <span>Overdue Invoices Requiring Follow-up</span></h3>
     ${tableHtml([
       ['Invoice', r => `<b style="font-family:monospace; color:var(--bl-violet);">${r.number}</b>`],
       ['Customer', 'customer_name'],
@@ -545,7 +601,7 @@ async function subs(page = 1, status = '', q = '') {
         <h2>${isStaff() ? 'Customer Subscriptions' : 'My Subscriptions'}</h2>
         <p class="muted">Manage contracts, pricing plans, and recurring order lifecycles.</p>
       </div>
-      <button class="btn-sec" onclick="downloadCsv('reports/export/subscriptions', 'subscriptions.csv')">📥 Export CSV</button>
+      <button class="btn-sec" onclick="downloadCsv('reports/export/subscriptions', 'subscriptions.csv')">${SVG_DOWNLOAD} Export CSV</button>
     </div>
   `;
 
@@ -596,11 +652,11 @@ async function subs(page = 1, status = '', q = '') {
     ['Plan', 'plan_name'],
     ['Start', 'start_date'],
     ['Expiry', r => r.expiry_date || '—'],
-    ['Status', x => badge(x.status) + (x.paused ? ' <span title="Paused" style="color:#f59e0b; font-weight:800;">⏸ Paused</span>' : '')],
+    ['Status', x => badge(x.status) + (x.paused ? ' <span class="b" style="background:rgba(245,158,11,0.15); color:#f59e0b;">Paused</span>' : '')],
     ['Amount / Period', x => `<span style="font-weight:700;">${money(x.amount)}</span>`],
     ['Actions', x => `
       <div style="display:flex; gap:6px; flex-wrap:wrap;">
-        <button class="btn-sec" style="padding:4px 8px; font-size:12px;" onclick="openSubscriptionModal(${x.id})" title="View Contract Details & Odoo Smart Stats">🔍 Details</button>
+        <button class="btn-sec" style="padding:4px 8px; font-size:12px;" onclick="openSubscriptionModal(${x.id})" title="View Contract Details & Odoo Smart Stats">Details</button>
         ${isStaff() ? `
           ${NEXT_SUB_STAGE[x.status] ? `<button class="btn-primary" style="padding:4px 8px; font-size:12px;" onclick="subAction(${x.id}, 'status', {status:'${NEXT_SUB_STAGE[x.status]}'})">Advance → ${NEXT_SUB_STAGE[x.status]}</button>` : ''}
           ${x.status !== 'closed' && x.closable ? `<button class="btn-danger" style="padding:4px 8px; font-size:12px;" onclick="subAction(${x.id}, 'status', {status:'closed'})">Close Early</button>` : ''}
@@ -660,7 +716,7 @@ async function openSubscriptionModal(subId) {
             </div>
           `;
         }).join('')}
-        ${s.paused ? '<span style="margin-left:auto; background:#fef3c7; color:#b45309; padding:3px 9px; border-radius:12px; font-size:11.5px; font-weight:800; border:1px solid #fde68a;">⏸ Paused</span>' : ''}
+        ${s.paused ? '<span style="margin-left:auto; background:#fef3c7; color:#b45309; padding:3px 9px; border-radius:12px; font-size:11.5px; font-weight:800; border:1px solid #fde68a;">Paused</span>' : ''}
       </div>
     `;
 
@@ -668,27 +724,27 @@ async function openSubscriptionModal(subId) {
     const smartStatsHtml = `
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:10px; margin-bottom:18px;">
         <div style="cursor:pointer; background:linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%); border:1px solid #ddd6fe; border-radius:12px; padding:12px; text-align:center; transition:transform 0.15s ease;" onclick="document.getElementById('subModalInvoicesTable')?.scrollIntoView({behavior:'smooth'})" title="Click to view related invoices">
-          <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:#6d28d9; letter-spacing:0.05em;">🧾 Invoices</div>
+          <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:#6d28d9; letter-spacing:0.05em;">Invoices</div>
           <div style="font-size:20px; font-weight:800; color:#5b21b6; margin-top:2px;">${s.invoice_count}</div>
           <div style="font-size:11px; color:#7c3aed;">Generated ▾</div>
         </div>
         <div style="background:linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border:1px solid #bfdbfe; border-radius:12px; padding:12px; text-align:center;">
-          <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:#1d4ed8; letter-spacing:0.05em;">💰 Billed</div>
+          <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:#1d4ed8; letter-spacing:0.05em;">Billed</div>
           <div style="font-size:20px; font-weight:800; color:#1e40af; margin-top:2px;">${money(s.total_billed)}</div>
           <div style="font-size:11px; color:#2563eb;">Lifetime Total</div>
         </div>
         <div style="background:linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border:1px solid #a7f3d0; border-radius:12px; padding:12px; text-align:center;">
-          <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:#047857; letter-spacing:0.05em;">💳 Collected</div>
+          <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:#047857; letter-spacing:0.05em;">Collected</div>
           <div style="font-size:20px; font-weight:800; color:#065f46; margin-top:2px;">${money(s.total_paid)}</div>
           <div style="font-size:11px; color:#059669;">Total Paid</div>
         </div>
         <div style="background:linear-gradient(135deg, ${s.outstanding_balance > 0 ? '#fff1f2 0%, #ffe4e6 100%' : '#f8fafc 0%, #f1f5f9 100%'}); border:1px solid ${s.outstanding_balance > 0 ? '#fecdd3' : '#e2e8f0'}; border-radius:12px; padding:12px; text-align:center;">
-          <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:${s.outstanding_balance > 0 ? '#be123c' : '#475569'}; letter-spacing:0.05em;">⚖️ Outstanding</div>
+          <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:${s.outstanding_balance > 0 ? "#be123c" : "#475569"}; letter-spacing:0.05em;">Outstanding</div>
           <div style="font-size:20px; font-weight:800; color:${s.outstanding_balance > 0 ? '#9f1239' : '#334155'}; margin-top:2px;">${money(s.outstanding_balance)}</div>
           <div style="font-size:11px; color:${s.outstanding_balance > 0 ? '#e11d48' : '#64748b'}; font-weight:600;">${s.outstanding_balance > 0 ? 'Due Pending' : 'Clear'}</div>
         </div>
         <div style="background:linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); border:1px solid #fde68a; border-radius:12px; padding:12px; text-align:center;">
-          <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:#b45309; letter-spacing:0.05em;">⏳ Next Billing</div>
+          <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:#b45309; letter-spacing:0.05em;">Next Billing</div>
           <div style="font-size:15px; font-weight:800; color:#92400e; margin-top:5px; font-family:monospace;">${s.next_invoice_date || 'N/A'}</div>
           <div style="font-size:11px; color:#d97706;">Auto-Clamped</div>
         </div>
@@ -702,9 +758,9 @@ async function openSubscriptionModal(subId) {
         <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px; padding:10px 14px; background:#f8fafc; border-radius:10px; border:1px solid #e2e8f0; align-items:center;">
           <span style="font-size:12px; font-weight:800; color:#475569; text-transform:uppercase;">Contract Actions:</span>
           ${NEXT_SUB_STAGE[s.status] ? `<button class="btn-primary" style="padding:5px 12px; font-size:12px;" onclick="run(async () => { await api('/subscriptions/${s.id}/status', 'POST', {status:'${NEXT_SUB_STAGE[s.status]}'}); showToast('Subscription advanced to ${NEXT_SUB_STAGE[s.status]}'); subs(window._subPage, window._subStatus, window._subQ); openSubscriptionModal(${s.id}); })">Advance → ${NEXT_SUB_STAGE[s.status]}</button>` : ''}
-          ${s.status === 'active' && s.pausable ? (s.paused ? `<button class="btn-sec" style="padding:5px 12px; font-size:12px;" onclick="run(async () => { await api('/subscriptions/${s.id}/resume', 'POST', {}); showToast('Subscription resumed'); subs(window._subPage, window._subStatus, window._subQ); openSubscriptionModal(${s.id}); })">▶️ Resume</button>` : `<button class="btn-sec" style="padding:5px 12px; font-size:12px;" onclick="run(async () => { await api('/subscriptions/${s.id}/pause', 'POST', {}); showToast('Subscription paused'); subs(window._subPage, window._subStatus, window._subQ); openSubscriptionModal(${s.id}); })">⏸ Pause</button>`) : ''}
-          ${['active', 'closed'].includes(s.status) && s.renewable ? `<button class="btn-emerald" style="padding:5px 12px; font-size:12px;" onclick="run(async () => { await api('/subscriptions/${s.id}/renew', 'POST', {}); showToast('Subscription term renewed'); subs(window._subPage, window._subStatus, window._subQ); openSubscriptionModal(${s.id}); })">🔄 Renew Term</button>` : ''}
-          ${s.status !== 'closed' && s.closable ? `<button class="btn-danger" style="padding:5px 12px; font-size:12px;" onclick="run(async () => { if (confirm('Are you sure you want to close this subscription contract early?')) { await api('/subscriptions/${s.id}/status', 'POST', {status:'closed'}); showToast('Subscription closed'); subs(window._subPage, window._subStatus, window._subQ); openSubscriptionModal(${s.id}); } })">🚫 Close Contract</button>` : ''}
+          ${s.status === 'active' && s.pausable ? (s.paused ? `<button class="btn-sec" style="padding:5px 12px; font-size:12px;" onclick="run(async () => { await api('/subscriptions/${s.id}/resume', 'POST', {}); showToast('Subscription resumed'); subs(window._subPage, window._subStatus, window._subQ); openSubscriptionModal(${s.id}); })">Resume</button>` : `<button class="btn-sec" style="padding:5px 12px; font-size:12px;" onclick="run(async () => { await api('/subscriptions/${s.id}/pause', 'POST', {}); showToast('Subscription paused'); subs(window._subPage, window._subStatus, window._subQ); openSubscriptionModal(${s.id}); })">Pause</button>`) : ''}
+          ${['active', 'closed'].includes(s.status) && s.renewable ? `<button class="btn-emerald" style="padding:5px 12px; font-size:12px;" onclick="run(async () => { await api('/subscriptions/${s.id}/renew', 'POST', {}); showToast('Subscription term renewed'); subs(window._subPage, window._subStatus, window._subQ); openSubscriptionModal(${s.id}); })">Renew Term</button>` : ''}
+          ${s.status !== 'closed' && s.closable ? `<button class="btn-danger" style="padding:5px 12px; font-size:12px;" onclick="run(async () => { if (confirm('Are you sure you want to close this subscription contract early?')) { await api('/subscriptions/${s.id}/status', 'POST', {status:'closed'}); showToast('Subscription closed'); subs(window._subPage, window._subStatus, window._subQ); openSubscriptionModal(${s.id}); } })">Close Contract</button>` : ''}
         </div>
       `;
     }
@@ -734,7 +790,7 @@ async function openSubscriptionModal(subId) {
     const linesHtml = `
       <div style="margin-bottom:18px;">
         <h4 style="font-size:13.5px; font-weight:800; color:#0f172a; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
-          <span>📦 Committed Products & Services</span>
+          <span>Committed Products & Services</span>
           <span style="font-size:12px; font-weight:600; color:#64748b;">(${s.lines.length} lines)</span>
         </h4>
         ${tableHtml([
@@ -752,7 +808,7 @@ async function openSubscriptionModal(subId) {
     const invoicesHtml = `
       <div id="subModalInvoicesTable">
         <h4 style="font-size:13.5px; font-weight:800; color:#0f172a; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
-          <span>🧾 Generated Invoices & Payment Status</span>
+          <span>Generated Invoices & Payment Status</span>
           <span style="font-size:12px; font-weight:600; color:#64748b;">(${s.invoices.length} invoices)</span>
         </h4>
         ${tableHtml([
@@ -764,8 +820,8 @@ async function openSubscriptionModal(subId) {
           ['Status', r => badge(r.status)],
           ['Actions', r => `
             <div style="display:flex; gap:6px;">
-              <button class="btn-sec" style="padding:3px 8px; font-size:11.5px;" onclick="printInvoice(${r.id})">🖨️ Print</button>
-              ${r.status === 'confirmed' && (r.total - r.paid_amount) > 0 ? `<button class="btn-emerald" style="padding:3px 8px; font-size:11.5px; font-weight:700;" onclick="openCustomerCheckoutModal(${r.id}, '${esc(r.number)}', ${(r.total - r.paid_amount).toFixed(2)})">💳 Pay</button>` : ''}
+              <button class="btn-sec" style="padding:3px 8px; font-size:11.5px;" onclick="printInvoice(${r.id})">${SVG_PRINT} Print</button>
+              ${r.status === 'confirmed' && (r.total - r.paid_amount) > 0 ? `<button class="btn-emerald" style="padding:3px 8px; font-size:11.5px; font-weight:700;" onclick="openCustomerCheckoutModal(${r.id}, '${esc(r.number)}', ${(r.total - r.paid_amount).toFixed(2)})">${SVG_CARD} Pay</button>` : ''}
             </div>
           `]
         ], s.invoices)}
@@ -814,13 +870,13 @@ async function inv(page = 1, status = '', overdue = '', q = '') {
         <p class="muted">Generate periodic billing, track balances, and record payments.</p>
       </div>
       <div style="display:flex; gap:8px;">
-        <button class="btn-sec" onclick="downloadCsv('reports/export/invoices', 'invoices.csv')">📥 Export CSV</button>
+        <button class="btn-sec" onclick="downloadCsv('reports/export/invoices', 'invoices.csv')">${SVG_DOWNLOAD} Export CSV</button>
         ${isStaff() ? `
           <button class="btn-emerald" onclick="run(async () => {
             const x = await api('/invoices/generate', 'POST', {});
             showToast(x.created + ' invoices created, ' + x.skipped + ' skipped, ' + x.auto_closed + ' auto-closed');
             inv();
-          })">⚡ Generate Due Invoices</button>
+          })">${SVG_PLAY} Generate Due Invoices</button>
         ` : ''}
       </div>
     </div>
@@ -847,9 +903,9 @@ async function inv(page = 1, status = '', overdue = '', q = '') {
     ['Status', x => badge(x.status)],
     ['Actions', x => `
       <div style="display:flex; gap:6px; flex-wrap:wrap;">
-        <button class="btn-sec" style="padding:4px 8px; font-size:12px;" onclick="printInvoice(${x.id})">🖨️ Print</button>
+        <button class="btn-sec" style="padding:4px 8px; font-size:12px;" onclick="printInvoice(${x.id})">${SVG_PRINT} Print</button>
         ${x.status === 'confirmed' && (x.total - x.paid_amount) > 0 ? `
-          <button class="btn-emerald" style="padding:4px 8px; font-size:12px; font-weight:800;" onclick="openCustomerCheckoutModal(${x.id}, '${esc(x.number)}', ${(x.total - x.paid_amount).toFixed(2)})">💳 Pay Now</button>
+          <button class="btn-emerald" style="padding:4px 8px; font-size:12px; font-weight:800;" onclick="openCustomerCheckoutModal(${x.id}, '${esc(x.number)}', ${(x.total - x.paid_amount).toFixed(2)})">${SVG_CARD} Pay Now</button>
         ` : ''}
         ${isStaff() ? `
           ${x.status === 'draft' ? `<button class="btn-primary" style="padding:4px 8px; font-size:12px;" onclick="invAction(${x.id}, 'confirm')">Confirm</button>` : ''}
@@ -950,7 +1006,7 @@ function openCustomerCheckoutModal(invoiceId, invoiceNo, balance) {
           </div>
           <div style="font-size:12.5px; color:#64748b; margin-bottom:12px;">Scan with <b>Google Pay</b>, <b>PhonePe</b>, <b>Paytm</b>, or <b>BHIM</b></div>
           <button class="btn-emerald" style="width:100%; height:44px; justify-content:center; font-size:14px; font-weight:800;" onclick="submitCheckoutPayment(${invoiceId}, 'upi', ${balance})">
-            ⚡ Simulate Instant UPI Approval
+            Simulate Instant UPI Approval
           </button>
         </div>
       `;
@@ -960,7 +1016,7 @@ function openCustomerCheckoutModal(invoiceId, invoiceNo, balance) {
           <div class="mock-credit-card">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
               <span style="font-weight:800; letter-spacing:1px; font-size:13px; color:#a5b4fc;">BRIGHTLOOP CARD</span>
-              <span style="font-size:18px;">💳</span>
+              
             </div>
             <div style="font-size:19px; font-family:monospace; letter-spacing:3px; margin-bottom:18px; font-weight:600;">
               •••• &nbsp;•••• &nbsp;•••• &nbsp;4242
@@ -990,7 +1046,7 @@ function openCustomerCheckoutModal(invoiceId, invoiceNo, balance) {
               </label>
             </div>
             <button class="btn-primary" style="width:100%; height:44px; justify-content:center; font-size:14px; font-weight:800; margin-top:6px;" onclick="submitCheckoutPayment(${invoiceId}, 'card', ${balance})">
-              🔒 Pay ₹${balance} via Secure Card
+              Pay ₹${balance} via Secure Card
             </button>
           </div>
         </div>
@@ -1008,7 +1064,7 @@ function openCustomerCheckoutModal(invoiceId, invoiceNo, balance) {
             `).join('')}
           </div>
           <button class="btn-primary" style="width:100%; height:44px; justify-content:center; font-size:14px; font-weight:800; margin-top:6px;" onclick="submitCheckoutPayment(${invoiceId}, 'bank', ${balance})">
-            🏦 Authorize Net Banking Payment
+            Authorize Net Banking Payment
           </button>
         </div>
       `;
@@ -1027,9 +1083,9 @@ function openCustomerCheckoutModal(invoiceId, invoiceNo, balance) {
       </div>
 
       <div class="checkout-method-tabs">
-        <button class="checkout-tab-btn ${activeTab === 'upi' ? 'active' : ''}" onclick="window._setCheckoutTab('upi')">📱 UPI / QR</button>
-        <button class="checkout-tab-btn ${activeTab === 'card' ? 'active' : ''}" onclick="window._setCheckoutTab('card')">💳 Credit / Debit Card</button>
-        <button class="checkout-tab-btn ${activeTab === 'bank' ? 'active' : ''}" onclick="window._setCheckoutTab('bank')">🏦 Net Banking</button>
+        <button class="checkout-tab-btn ${activeTab === 'upi' ? 'active' : ''}" onclick="window._setCheckoutTab('upi')">UPI / QR</button>
+        <button class="checkout-tab-btn ${activeTab === 'card' ? 'active' : ''}" onclick="window._setCheckoutTab('card')">Credit / Debit Card</button>
+        <button class="checkout-tab-btn ${activeTab === 'bank' ? 'active' : ''}" onclick="window._setCheckoutTab('bank')">Net Banking</button>
       </div>
 
       <div id="checkoutTabStage">${tabContent}</div>
@@ -1045,7 +1101,7 @@ function openCustomerCheckoutModal(invoiceId, invoiceNo, balance) {
   };
 
   showModal({
-    title: `⚡ Brightloop Instant Payment Portal`,
+    title: `Brightloop Instant Payment Checkout`,
     maxWidth: '520px',
     hideFooter: true,
     bodyHtml: renderContent()
@@ -1101,7 +1157,7 @@ async function submitCheckoutPayment(invoiceId, method, amount) {
 
           <div style="display:flex; gap:10px;">
             <button class="btn-sec" style="flex:1; justify-content:center; height:40px;" onclick="closeModal()">Close</button>
-            <button class="btn-primary" style="flex:1; justify-content:center; height:40px;" onclick="printInvoice(${invoiceId})">🖨️ Print Receipt</button>
+            <button class="btn-primary" style="flex:1; justify-content:center; height:40px;" onclick="printInvoice(${invoiceId})">${SVG_PRINT} Print Receipt</button>
           </div>
         `
       });
@@ -1129,7 +1185,7 @@ async function ensureAdminSession() {
 
 function startJuryTour() {
   showModal({
-    title: '🎯 Odoo Hackathon Jury Tour — Brightloop Architecture',
+    title: 'Brightloop System Architecture & Verification Tour',
     maxWidth: '720px',
     hideFooter: true,
     bodyHtml: `
@@ -1142,8 +1198,8 @@ function startJuryTour() {
       <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
         <div class="tour-step-card" style="border-left-color: #7c3aed;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <b style="font-size:14px; color:#0f172a;">1. 📜 Subscription & Quotation Engine (PRD §1 & §4)</b>
-            <button class="btn-sec" style="padding:4px 10px; font-size:12px;" onclick="run(async () => { await ensureAdminSession(); closeModal(); subs(); })">⚡ Inspect Subscriptions</button>
+            <b style="font-size:14px; color:#0f172a;">1. Subscription & Quotation Engine (PRD §1 & §4)</b>
+            <button class="btn-sec" style="padding:4px 10px; font-size:12px;" onclick="run(async () => { await ensureAdminSession(); closeModal(); subs(); })">Inspect Subscriptions</button>
           </div>
           <p style="font-size:12.5px; color:#64748b; margin-top:4px;">
             Supports plans (Daily, Weekly, Monthly, Yearly), product variants with price adders, quotation templates, and automatic multi-tier discount math.
@@ -1152,8 +1208,8 @@ function startJuryTour() {
 
         <div class="tour-step-card" style="border-left-color: #3b82f6;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <b style="font-size:14px; color:#0f172a;">2. 🔄 Odoo Life-Cycle & Smart Stat Drilldown (PRD §5)</b>
-            <button class="btn-sec" style="padding:4px 10px; font-size:12px;" onclick="run(async () => { await ensureAdminSession(); closeModal(); const r = await api('/subscriptions?limit=1'); if (r.rows && r.rows.length) openSubscriptionModal(r.rows[0].id); else subs(); });">⚡ Open Smart Stats</button>
+            <b style="font-size:14px; color:#0f172a;">2. Lifecycle State Machine & Smart Stats (PRD §5)</b>
+            <button class="btn-sec" style="padding:4px 10px; font-size:12px;" onclick="run(async () => { await ensureAdminSession(); closeModal(); const r = await api('/subscriptions?limit=1'); if (r.rows && r.rows.length) openSubscriptionModal(r.rows[0].id); else subs(); });">Open Smart Stats</button>
           </div>
           <p style="font-size:12.5px; color:#64748b; margin-top:4px;">
             Strict state machine (<code>Draft</code> ➔ <code>Quotation</code> ➔ <code>Confirmed</code> ➔ <code>Active</code> ➔ <code>Closed</code>) with Odoo-style smart stat buttons: 🧾 Invoices, 💰 Billed, 💳 Collected, ⚖️ Outstanding, and ⏳ Next Billing.
@@ -1162,8 +1218,8 @@ function startJuryTour() {
 
         <div class="tour-step-card" style="border-left-color: #f59e0b;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <b style="font-size:14px; color:#0f172a;">3. ⚡ Automated Nightly Scheduler & Leap Clamping (PRD §7)</b>
-            <button class="btn-sec" style="padding:4px 10px; font-size:12px;" onclick="run(async () => { await ensureAdminSession(); const x = await api('/invoices/generate', 'POST', {}); showToast('Generated: ' + x.created + ' invoices'); inv(); closeModal(); });">⚡ Trigger Invoices</button>
+            <b style="font-size:14px; color:#0f172a;">3. Automated Billing Scheduler & Clamping (PRD §7)</b>
+            <button class="btn-sec" style="padding:4px 10px; font-size:12px;" onclick="run(async () => { await ensureAdminSession(); const x = await api('/invoices/generate', 'POST', {}); showToast('Generated: ' + x.created + ' invoices'); inv(); closeModal(); });">Generate Invoices</button>
           </div>
           <p style="font-size:12.5px; color:#64748b; margin-top:4px;">
             Background cron worker backfills missed cycles, executes idempotent single billing, and clamps month-end dates (e.g. Jan 31 ➔ Feb 28 ➔ Mar 31).
@@ -1172,8 +1228,8 @@ function startJuryTour() {
 
         <div class="tour-step-card" style="border-left-color: #10b981;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <b style="font-size:14px; color:#0f172a;">4. 💳 Customer Self-Service Checkout & Live MRR (PRD §6 & §8)</b>
-            <button class="btn-sec" style="padding:4px 10px; font-size:12px;" onclick="run(async () => { await ensureAdminSession(); closeModal(); dash(); });">⚡ View Analytics</button>
+            <b style="font-size:14px; color:#0f172a;">4. Customer Self-Service & Analytics (PRD §6 & §8)</b>
+            <button class="btn-sec" style="padding:4px 10px; font-size:12px;" onclick="run(async () => { await ensureAdminSession(); closeModal(); dash(); });">View Analytics</button>
           </div>
           <p style="font-size:12.5px; color:#64748b; margin-top:4px;">
             Simulated instant UPI QR & Card payment checkout, printable PDF invoices/receipts, and real-time MRR, active subscription counters, and CSV export engines.
@@ -1183,10 +1239,10 @@ function startJuryTour() {
 
       <div style="display:flex; justify-content:space-between; align-items:center; background:#0f172a; padding:14px 18px; border-radius:12px; color:#ffffff;">
         <div>
-          <b style="font-size:13.5px; color:#fde68a;">🚀 Want to see it in action?</b>
+          <b style="font-size:13.5px; color:#fde68a;">Interactive Verification Showcase</b>
           <div style="font-size:12px; color:#94a3b8;">Run an automated 10-second end-to-end guided showcase.</div>
         </div>
-        <button class="btn-jury-tour" style="font-size:13px; padding:8px 16px;" onclick="runAutoShowcase()">⚡ Run Auto-Showcase</button>
+        <button class="btn-jury-tour" style="font-size:13px; padding:8px 16px;" onclick="runAutoShowcase()">Run Guided Showcase</button>
       </div>
     `
   });
@@ -1194,33 +1250,33 @@ function startJuryTour() {
 
 async function runAutoShowcase() {
   closeModal();
-  showToast('🎯 Starting 10-Second Jury Demo Tour...');
+  showToast('Starting System Verification Showcase...');
   await ensureAdminSession();
   
   await new Promise(r => setTimeout(r, 600));
-  showToast('Tour 1/4: Loading Subscriptions & Contracts...');
+  showToast('Step 1/4: Inspecting Subscriptions & Contracts...');
   await subs();
 
   await new Promise(r => setTimeout(r, 1600));
   const subRes = await api('/subscriptions?limit=1');
   if (subRes.rows && subRes.rows.length) {
-    showToast('Tour 2/4: Opening Odoo Smart Stat Buttons for ' + subRes.rows[0].number + '...');
+    showToast('Step 2/4: Verifying Odoo Smart Stat Buttons for ' + subRes.rows[0].number + '...');
     await openSubscriptionModal(subRes.rows[0].id);
   }
 
   await new Promise(r => setTimeout(r, 3200));
   closeModal();
-  showToast('Tour 3/4: Executing Automated Billing Engine...');
+  showToast('Step 3/4: Executing Automated Billing Engine...');
   const genRes = await api('/invoices/generate', 'POST', {});
   showToast(`Billing Run: ${genRes.created} invoices created, ${genRes.skipped} skipped.`);
   await inv();
 
   await new Promise(r => setTimeout(r, 2200));
-  showToast('Tour 4/4: Reconciling Live MRR & Financial Analytics...');
+  showToast('Step 4/4: Reconciling Live MRR & Financial Analytics...');
   await dash();
 
   await new Promise(r => setTimeout(r, 1500));
-  showToast('✅ Jury Tour Complete! Full System Verified 100%.');
+  showToast('System Verification Complete: All modules validated.');
 }
 
 /* --------------------------------------------------
@@ -1238,7 +1294,7 @@ async function pay() {
         <h2>Payments Ledger</h2>
         <p class="muted">All recorded collections, bank transfers, and partial settlements.</p>
       </div>
-      <button class="btn-sec" onclick="downloadCsv('reports/export/payments', 'payments_ledger.csv')">📥 Export CSV</button>
+      <button class="btn-sec" onclick="downloadCsv('reports/export/payments', 'payments_ledger.csv')">${SVG_DOWNLOAD} Export CSV</button>
     </div>
     <details open>
       <summary>+ Record New Payment</summary>

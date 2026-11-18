@@ -19,6 +19,9 @@ db.transaction = (fn) => (...args) => {
 
 db.pragma('journal_mode = WAL');
 db.pragma('foreign_keys = ON');
+db.pragma('synchronous = NORMAL');
+db.pragma('cache_size = -64000');
+db.pragma('temp_store = MEMORY');
 
 db.exec(`
 CREATE TABLE IF NOT EXISTS users(
@@ -133,13 +136,24 @@ CREATE TABLE IF NOT EXISTS billing_runs(
   skipped_count INTEGER NOT NULL DEFAULT 0,
   auto_closed_count INTEGER NOT NULL DEFAULT 0
 );
--- indexes keep every page under 2s with thousands of rows
+-- Comprehensive indexes for peak query efficiency & instant joins
 CREATE INDEX IF NOT EXISTS ix_sub_status ON subscriptions(status, next_invoice_date);
 CREATE INDEX IF NOT EXISTS ix_sub_cust ON subscriptions(customer_id);
+CREATE INDEX IF NOT EXISTS ix_sub_plan ON subscriptions(plan_id);
+CREATE INDEX IF NOT EXISTS ix_sub_lines_sub ON subscription_lines(subscription_id);
+CREATE INDEX IF NOT EXISTS ix_sub_lines_prod ON subscription_lines(product_id);
 CREATE INDEX IF NOT EXISTS ix_inv_status ON invoices(status, due_date);
 CREATE INDEX IF NOT EXISTS ix_inv_cust ON invoices(customer_id);
+CREATE INDEX IF NOT EXISTS ix_inv_sub ON invoices(subscription_id);
+CREATE INDEX IF NOT EXISTS ix_inv_lines_inv ON invoice_lines(invoice_id);
 CREATE INDEX IF NOT EXISTS ix_pay_inv ON payments(invoice_id);
 CREATE INDEX IF NOT EXISTS ix_pay_date ON payments(date);
+CREATE INDEX IF NOT EXISTS ix_discounts_lookup ON discounts(applies_to, product_id, subscription_id);
+CREATE INDEX IF NOT EXISTS ix_plans_prod ON plans(product_id);
+CREATE INDEX IF NOT EXISTS ix_tmpl_lines_tmpl ON template_lines(template_id);
+CREATE INDEX IF NOT EXISTS ix_variants_prod ON product_variants(product_id);
+CREATE INDEX IF NOT EXISTS ix_users_email ON users(email);
+CREATE INDEX IF NOT EXISTS ix_users_role ON users(role);
 CREATE INDEX IF NOT EXISTS ix_billing_runs_date ON billing_runs(triggered_at);
 `);
 

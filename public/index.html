@@ -88,6 +88,89 @@
       color: #fafafa !important;
     }
 
+    
+    /* Accessibility & Focus Rings (WCAG 2.1 AA Compliance) */
+    .skip-to-content {
+      position: absolute;
+      top: -60px;
+      left: 16px;
+      background: var(--brand);
+      color: var(--brand-foreground);
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 9999px;
+      z-index: 999999;
+      text-decoration: none;
+      transition: top 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+    .skip-to-content:focus {
+      top: 16px;
+      outline: 2px solid var(--ring);
+      outline-offset: 2px;
+    }
+
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible,
+    summary:focus-visible,
+    [tabindex="0"]:focus-visible {
+      outline: 2px solid var(--ring) !important;
+      outline-offset: 2px !important;
+    }
+
+    .nav-icon {
+      width: 14px;
+      height: 14px;
+      margin-right: 6px;
+      display: inline-block;
+      vertical-align: -2px;
+      flex-shrink: 0;
+    }
+
+    .toast-icon {
+      width: 16px;
+      height: 16px;
+      margin-right: 8px;
+      vertical-align: -3px;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .form-field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-field-group label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted-foreground);
+    }
+    .form-field-group .req-star {
+      color: var(--destructive);
+      font-weight: 700;
+      margin-left: 2px;
+    }
+
+    .lifecycle-stage-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 9999px;
+      background: var(--accent);
+      color: var(--foreground);
+      font-weight: 800;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 0.4rem auto;
+      border: 1px solid var(--border);
+    }
+
     /* Fixed Floating Glass Nav Pill */
     .app-top-header {
       position: fixed !important;
@@ -594,6 +677,7 @@
 </head>
 
 <body>
+  <a href="#appMainStage" class="skip-to-content">Skip to main content</a>
 
   <!-- ======================================================================
        1. MAIN PUBLIC MARKETING WEBSITE (16 FULL-WIDTH SECTIONS)
@@ -604,7 +688,7 @@
     <header id="mainNavbar" class="bl-navbar">
       <div class="container-full bl-navbar-inner">
         <a href="#hero" class="bl-brand-logo">
-          <div class="logo-bolt-icon">⚡</div>
+          <div class="logo-bolt-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></div>
           <span>Brightloop</span>
         </a>
 
@@ -621,7 +705,7 @@
         <div class="bl-nav-actions">
           <a href="#" class="btn-nav-login open-login-btn">Log In</a>
           <a href="#" class="btn-primary-glow open-signup-btn">Get Started Free</a>
-          <button id="mobileMenuToggle" class="mobile-menu-btn" aria-label="Toggle Navigation Menu">☰</button>
+          <button id="mobileMenuToggle" class="mobile-menu-btn" aria-label="Toggle Navigation Menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
         </div>
       </div>
     </header>
@@ -634,7 +718,7 @@
       <div class="container-full hero-grid">
         <div class="hero-content">
           <div class="hero-tag">
-            <span class="sparkle">✦</span>
+            
             <span>Intelligent Subscription Orchestration</span>
           </div>
           <h1 class="hero-title">
@@ -653,7 +737,7 @@
               <span>Explore Brightloop</span>
             </a>
             <a href="#" class="btn-hero-secondary open-app-btn" style="border-color: rgba(124, 58, 237, 0.4); background: rgba(124, 58, 237, 0.15);">
-              <span>⚡ Live Control Room</span>
+              <span>Live Control Room</span>
             </a>
           </div>
 
@@ -797,7 +881,7 @@
 
           <div class="split-card solution-side">
             <div class="split-card-header">
-              <div class="split-card-icon">⚡</div>
+              <div class="split-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></div>
               <div>
                 <h3 style="font-size: 1.5rem; color: #ffffff;">The Brightloop Way</h3>
                 <p style="font-size: 0.9rem; color: #a855f7;">Centralized, automated, and structured</p>
@@ -844,7 +928,7 @@
         <div class="features-masonry-grid">
           <!-- 1. Product Management -->
           <div class="feature-rich-card">
-            <div class="feature-top-icon" style="background: #eff6ff; color: #2563eb;">📦</div>
+            <div class="feature-top-icon" style="background: #eff6ff; color: #2563eb;" style="display:flex; align-items:center; justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg></div>
             <h3 class="feature-title">Product Management</h3>
             <p class="feature-desc">Manage product names, service types, sales prices, cost prices, and multi-tier variants with extra price points.</p>
             <div class="feature-pill-tags">
@@ -856,7 +940,7 @@
 
           <!-- 2. Subscription Plans -->
           <div class="feature-rich-card">
-            <div class="feature-top-icon" style="background: #fdf2f8; color: #db2777;">🗓️</div>
+            <div class="feature-top-icon" style="background: #fdf2f8; color: #db2777;" style="display:flex; align-items:center; justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></div>
             <h3 class="feature-title">Subscription Plans</h3>
             <p class="feature-desc">Configure billing frequencies (daily, weekly, monthly, yearly), minimum quantities, availability dates, and auto-close policies.</p>
             <div class="feature-pill-tags">
@@ -868,7 +952,7 @@
 
           <!-- 3. Customer Subscriptions -->
           <div class="feature-rich-card">
-            <div class="feature-top-icon" style="background: #ecfdf5; color: #059669;">📑</div>
+            <div class="feature-top-icon" style="background: #ecfdf5; color: #059669;" style="display:flex; align-items:center; justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg></div>
             <h3 class="feature-title">Customer Subscriptions</h3>
             <p class="feature-desc">Track active contracts, multi-line product items, custom quantities, payment terms (Immediate, Net 15, Net 30), and stage progression.</p>
             <div class="feature-pill-tags">
@@ -880,7 +964,7 @@
 
           <!-- 4. Quotation Templates -->
           <div class="feature-rich-card">
-            <div class="feature-top-icon" style="background: #fffbeb; color: #d97706;">📝</div>
+            <div class="feature-top-icon" style="background: #fffbeb; color: #d97706;" style="display:flex; align-items:center; justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg></div>
             <h3 class="feature-title">Quotation Templates</h3>
             <p class="feature-desc">Create reusable quote packages pre-linked to specific plans and products to accelerate your sales cycle.</p>
             <div class="feature-pill-tags">
@@ -891,7 +975,7 @@
 
           <!-- 5. Invoice Management -->
           <div class="feature-rich-card featured-span-2">
-            <div class="feature-top-icon" style="background: #f5f3ff; color: #7c3aed;">🧾</div>
+            <div class="feature-top-icon" style="background: #f5f3ff; color: #7c3aed;" style="display:flex; align-items:center; justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"></path><line x1="8" y1="7" x2="16" y2="7"></line><line x1="8" y1="11" x2="16" y2="11"></line></svg></div>
             <h3 class="feature-title">Recurring Invoice Engine & Status Control</h3>
             <p class="feature-desc">Generate, confirm, send, print, or cancel invoices. Every invoice automatically computes subtotal, itemized discounts, tax amounts, and remaining balances.</p>
             <div class="feature-pill-tags">
@@ -904,7 +988,7 @@
 
           <!-- 6. Payment Management -->
           <div class="feature-rich-card">
-            <div class="feature-top-icon" style="background: #eff6ff; color: #0284c7;">💳</div>
+            <div class="feature-top-icon" style="background: #eff6ff; color: #0284c7;" style="display:flex; align-items:center; justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg></div>
             <h3 class="feature-title">Payment Management</h3>
             <p class="feature-desc">Record full or partial payments via Bank Transfer, UPI, Credit Card, or Cash. Paid invoices lock automatically against overpayment.</p>
             <div class="feature-pill-tags">
@@ -916,7 +1000,7 @@
 
           <!-- 7. Tax Management -->
           <div class="feature-rich-card">
-            <div class="feature-top-icon" style="background: #fdf4ff; color: #a21caf;">🏛️</div>
+            <div class="feature-top-icon" style="background: #fdf4ff; color: #a21caf;" style="display:flex; align-items:center; justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="5" x2="5" y2="19"></line><circle cx="6.5" cy="6.5" r="2.5"></circle><circle cx="17.5" cy="17.5" r="2.5"></circle></svg></div>
             <h3 class="feature-title">Tax Management</h3>
             <p class="feature-desc">Configure tax rates (e.g. 18% GST) and default tax rules that automatically attach to recurring invoice lines.</p>
             <div class="feature-pill-tags">
@@ -927,7 +1011,7 @@
 
           <!-- 8. Discount Management -->
           <div class="feature-rich-card">
-            <div class="feature-top-icon" style="background: #fff7ed; color: #c2410c;">🏷️</div>
+            <div class="feature-top-icon" style="background: #fff7ed; color: #c2410c;" style="display:flex; align-items:center; justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg></div>
             <h3 class="feature-title">Discount Rules</h3>
             <p class="feature-desc">Define percentage or fixed discounts, minimum quantity thresholds, and rules applying to subscriptions or whole invoices.</p>
             <div class="feature-pill-tags">
@@ -938,7 +1022,7 @@
 
           <!-- 9. Finance Dashboard -->
           <div class="feature-rich-card">
-            <div class="feature-top-icon" style="background: #ecfdf5; color: #047857;">📊</div>
+            <div class="feature-top-icon" style="background: #ecfdf5; color: #047857;" style="display:flex; align-items:center; justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1"></rect><rect x="14" y="3" width="7" height="5" rx="1"></rect><rect x="14" y="12" width="7" height="9" rx="1"></rect><rect x="3" y="16" width="7" height="5" rx="1"></rect></svg></div>
             <h3 class="feature-title">Finance Dashboard</h3>
             <p class="feature-desc">View total active contracts, Monthly Recurring Revenue (MRR), total collected revenue, and overdue invoice alerts in real-time.</p>
             <div class="feature-pill-tags">
@@ -949,7 +1033,7 @@
 
           <!-- 10. Automation & Audit -->
           <div class="feature-rich-card">
-            <div class="feature-top-icon" style="background: #f1f5f9; color: #334155;">⚙️</div>
+            <div class="feature-top-icon" style="background: #f1f5f9; color: #334155;" style="display:flex; align-items:center; justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></div>
             <h3 class="feature-title">Automation & Audit</h3>
             <p class="feature-desc">Automated batch invoicing checks elapsed billing cycles and guarantees that duplicate invoices are never generated for the same period.</p>
             <div class="feature-pill-tags">
@@ -1017,31 +1101,31 @@
           <div class="lifecycle-track-line"></div>
 
           <button class="lifecycle-node-btn active" data-stage="draft">
-            <div style="font-size: 1.5rem; margin-bottom: 0.4rem;">📝</div>
+            <div style="font-size: 1.5rem; margin-bottom: 0.4rem;" style="display:flex; align-items:center; justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg></div>
             <h4 style="font-size: 1.15rem; font-weight: 800;">DRAFT</h4>
             <p style="font-size: 0.8rem; color: var(--bl-text-muted);">Initial Setup</p>
           </button>
 
           <button class="lifecycle-node-btn" data-stage="quotation">
-            <div style="font-size: 1.5rem; margin-bottom: 0.4rem;">📄</div>
+            <div class="lifecycle-stage-num">02</div>
             <h4 style="font-size: 1.15rem; font-weight: 800;">QUOTATION</h4>
             <p style="font-size: 0.8rem; color: var(--bl-text-muted);">Customer Review</p>
           </button>
 
           <button class="lifecycle-node-btn" data-stage="confirmed">
-            <div style="font-size: 1.5rem; margin-bottom: 0.4rem;">🤝</div>
+            <div class="lifecycle-stage-num">03</div>
             <h4 style="font-size: 1.15rem; font-weight: 800;">CONFIRMED</h4>
             <p style="font-size: 0.8rem; color: var(--bl-text-muted);">Agreement Locked</p>
           </button>
 
           <button class="lifecycle-node-btn" data-stage="active">
-            <div style="font-size: 1.5rem; margin-bottom: 0.4rem;">⚡</div>
+            <div class="lifecycle-stage-num">04</div>
             <h4 style="font-size: 1.15rem; font-weight: 800;">ACTIVE</h4>
             <p style="font-size: 0.8rem; color: var(--bl-text-muted);">Live Invoicing</p>
           </button>
 
           <button class="lifecycle-node-btn" data-stage="closed">
-            <div style="font-size: 1.5rem; margin-bottom: 0.4rem;">🏁</div>
+            <div class="lifecycle-stage-num">05</div>
             <h4 style="font-size: 1.15rem; font-weight: 800;">CLOSED</h4>
             <p style="font-size: 0.8rem; color: var(--bl-text-muted);">Complete / Expired</p>
           </button>
@@ -1225,7 +1309,7 @@
         <div class="experiences-grid">
           <!-- ADMIN -->
           <div class="role-persona-card role-admin">
-            <div class="role-avatar-circle">👑</div>
+            <div class="role-avatar-circle" style="font-weight:800; font-size:16px;">ADM</div>
             <h3 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem;">ADMIN</h3>
             <p style="font-size: 0.95rem; color: #cbd5e1; margin-bottom: 1.5rem;">Total administrative governance and complete fiscal oversight.</p>
             <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.925rem; color: #e2e8f0;">
@@ -1239,7 +1323,7 @@
 
           <!-- STAFF -->
           <div class="role-persona-card role-staff">
-            <div class="role-avatar-circle">🛡️</div>
+            <div class="role-avatar-circle" style="font-weight:800; font-size:16px;">STF</div>
             <h3 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem;">STAFF</h3>
             <p style="font-size: 0.95rem; color: #cbd5e1; margin-bottom: 1.5rem;">Daily operational execution and customer order management.</p>
             <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.925rem; color: #e2e8f0;">
@@ -1253,7 +1337,7 @@
 
           <!-- CUSTOMER -->
           <div class="role-persona-card role-customer">
-            <div class="role-avatar-circle">👤</div>
+            <div class="role-avatar-circle" style="font-weight:800; font-size:16px;">CST</div>
             <h3 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem;">CUSTOMER</h3>
             <p style="font-size: 0.95rem; color: #cbd5e1; margin-bottom: 1.5rem;">Dedicated self-service Customer Portal with zero friction.</p>
             <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.925rem; color: #e2e8f0;">
@@ -1364,7 +1448,7 @@
         </div>
 
         <div class="faq-search-box">
-          <span class="faq-search-icon">🔍</span>
+          <span class="faq-search-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
           <input type="text" id="faqSearchInput" class="faq-search-input" placeholder="Search across all 18 questions...">
         </div>
 
@@ -1373,7 +1457,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>1. What is Brightloop?</span>
-              <span class="faq-icon-bolt">⚡</span>
+              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
             </button>
             <div class="faq-answer-pane">
               Brightloop is a full-featured subscription management and recurring billing platform. It centralizes product catalogs, pricing variants, quotation proposals, customer contracts, automated recurring invoicing, tax and discount engines, payment ledgering, and financial telemetry in one intelligent system.
@@ -1384,7 +1468,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>2. Who can use Brightloop?</span>
-              <span class="faq-icon-bolt">⚡</span>
+              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
             </button>
             <div class="faq-answer-pane">
               Brightloop is built for three primary audiences: Administrators (who govern products, plans, taxes, discounts, and staff), Staff Members (who manage daily customer orders, quotations, and invoice payments), and Customers (who access their own self-service portal to view contracts and invoices).
@@ -1395,7 +1479,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>3. How does subscription management work?</span>
-              <span class="faq-icon-bolt">⚡</span>
+              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
             </button>
             <div class="faq-answer-pane">
               A subscription binds a customer to a recurring plan and one or more product line items with quantities and variants. Subscriptions progress through structured lifecycle stages (Draft ➜ Quotation ➜ Confirmed ➜ Active ➜ Closed), ensuring orderly contract execution.
@@ -1406,7 +1490,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>4. Can I create different subscription plans?</span>
-              <span class="faq-icon-bolt">⚡</span>
+              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
             </button>
             <div class="faq-answer-pane">
               Yes! Administrators can configure custom plans with specific billing cadences, minimum order quantities, start/end availability windows, and automated closure options.
@@ -1417,7 +1501,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>5. Which billing frequencies are supported?</span>
-              <span class="faq-icon-bolt">⚡</span>
+              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
             </button>
             <div class="faq-answer-pane">
               Brightloop natively supports four recurring billing frequencies: Daily, Weekly, Monthly, and Yearly. The automated invoice generator calculates elapsed periods precisely according to the selected frequency.
@@ -1428,7 +1512,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>6. Can products have different variants?</span>
-              <span class="faq-icon-bolt">⚡</span>
+              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
             </button>
             <div class="faq-answer-pane">
               Yes. Products support multi-tier variants (e.g., storage capacities, user seat tiers, or service levels) with customizable surcharge price deltas attached to the base product price.
@@ -1439,7 +1523,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>7. How do quotations become subscriptions?</span>
-              <span class="faq-icon-bolt">⚡</span>
+              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
             </button>
             <div class="faq-answer-pane">
               A quotation is an early stage of a subscription record. Once the customer reviews the proposal and terms, staff or administrators update its status to "Confirmed" and then "Active", which unlocks recurring billing generation.
@@ -1450,7 +1534,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>8. How are recurring invoices generated?</span>
-              <span class="faq-icon-bolt">⚡</span>
+              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
             </button>
             <div class="faq-answer-pane">
               Invoices can be generated automatically in batch runs via the recurring billing engine. The engine inspects active subscriptions, determines due billing windows, applies applicable tax and discount rules, and records draft or confirmed invoices.
@@ -1461,7 +1545,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>9. Can invoices include taxes and discounts?</span>
-              <span class="faq-icon-bolt">⚡</span>
+              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
             </button>
             <div class="faq-answer-pane">
               Yes. Brightloop computes itemized discounts (fixed amount or percentage based on eligibility and quantity) and applies configured regional tax rates (such as standard 18% GST) directly into invoice totals.
@@ -1472,7 +1556,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>10. Can I record partial payments?</span>
-              <span class="faq-icon-bolt">⚡</span>
+              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
             </button>
             <div class="faq-answer-pane">
               Yes. Payments can be recorded in partial installments or full settlements via Bank Transfer, UPI, Credit Card, or Cash. The system tracks remaining balances and marks the invoice "Paid" once the full amount is satisfied.
@@ -1483,7 +1567,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>11. Can customers access their own subscriptions?</span>
-              <span class="faq-icon-bolt">⚡</span>
+              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
             </button>
             <div class="faq-answer-pane">
               Yes! Customers log into a dedicated self-service Customer Portal where they can view their active subscriptions, inspect itemized invoices, check payment records, and review contract details.
@@ -1494,7 +1578,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>12. What can administrators control?</span>
-              <span class="faq-icon-bolt">⚡</span>
+              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
             </button>
             <div class="faq-answer-pane">
               Administrators possess complete system governance: creating products, configuring plans, setting tax rates, defining discount rules, onboarding staff accounts, and reviewing live financial reports.
@@ -1505,7 +1589,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>13. Can staff members access the system?</span>
-              <span class="faq-icon-bolt">⚡</span>
+              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
             </button>
             <div class="faq-answer-pane">
               Yes. Staff accounts are created by administrators. Staff members handle operational workflows such as preparing quotations, managing subscriptions, confirming invoices, and recording payments, while being restricted from altering tax rates or adding other staff.
@@ -1516,7 +1600,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>14. Can subscriptions be paused or renewed?</span>
-              <span class="faq-icon-bolt">⚡</span>
+              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
             </button>
             <div class="faq-answer-pane">
               Yes. Active subscriptions can be temporarily paused (which pauses invoice generation) and subsequently resumed, or renewed upon contract expiration according to plan configuration rules.
@@ -1527,7 +1611,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>15. How does duplicate invoice prevention work?</span>
-              <span class="faq-icon-bolt">⚡</span>
+              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
             </button>
             <div class="faq-answer-pane">
               Brightloop enforces a composite database uniqueness rule on (subscription_id, period_start). Even if the recurring generation batch runs multiple times, existing periods are detected and skipped with zero duplicate billing.
@@ -1538,7 +1622,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>16. Can I see outstanding and overdue invoices?</span>
-              <span class="faq-icon-bolt">⚡</span>
+              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
             </button>
             <div class="faq-answer-pane">
               Yes. The Finance Overview monitors outstanding balances and overdue invoices based on agreed payment terms (Immediate, Net 15, Net 30), providing clear visibility into cash flow.
@@ -1549,7 +1633,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>17. Can I manage multiple customers?</span>
-              <span class="faq-icon-bolt">⚡</span>
+              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
             </button>
             <div class="faq-answer-pane">
               Yes. Brightloop supports an unlimited number of customer accounts, each linked securely to their own unique subscriptions, invoices, and transaction logs.
@@ -1560,7 +1644,7 @@
           <div class="faq-item">
             <button class="faq-question-btn">
               <span>18. How do I create an account?</span>
-              <span class="faq-icon-bolt">⚡</span>
+              <span class="faq-icon-bullet" style="color:var(--brand); font-weight:800; font-size:16px;">•</span>
             </button>
             <div class="faq-answer-pane">
               Click the "Get Started" button in the navigation bar to register with your name, email, and a secure password (minimum 8 characters with uppercase, lowercase, and special character), or sign in instantly with Google!
@@ -1593,7 +1677,7 @@
         <div class="footer-top-grid">
           <div class="footer-col">
             <div class="bl-brand-logo" style="margin-bottom: 1.25rem;">
-              <div class="logo-bolt-icon">⚡</div>
+              <div class="logo-bolt-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></div>
               <span>Brightloop</span>
             </div>
             <p style="font-size: 0.9rem; line-height: 1.7; max-width: 320px; color: #94a3b8;">
@@ -1636,9 +1720,9 @@
             <ul class="footer-links-list">
               <li><a href="#" class="open-login-btn">Sign In</a></li>
               <li><a href="#" class="open-signup-btn">Create Free Account</a></li>
-              <li><a href="#" class="btn-demo-badge" data-role="admin">👑 Admin Demo</a></li>
-              <li><a href="#" class="btn-demo-badge" data-role="staff">💼 Staff Demo</a></li>
-              <li><a href="#" class="btn-demo-badge" data-role="customer">👤 Customer Demo</a></li>
+              <li><a href="#" class="btn-demo-badge" data-role="admin">Admin Demo</a></li>
+              <li><a href="#" class="btn-demo-badge" data-role="staff">Staff Demo</a></li>
+              <li><a href="#" class="btn-demo-badge" data-role="customer">Customer Demo</a></li>
             </ul>
           </div>
         </div>
@@ -1668,10 +1752,10 @@
         <div class="auth-visual-inner">
           <div class="auth-visual-top">
             <div class="auth-visual-logo">
-              <div class="logo-bolt-icon" style="width: 32px; height: 32px; font-size: 15px;">⚡</div>
+              <div class="logo-bolt-icon" style="width: 32px; height: 32px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></div>
               <span>Brightloop</span>
             </div>
-            <span class="auth-visual-pill">✦ Intelligent Billing</span>
+            <span class="auth-visual-pill">Intelligent Billing</span>
           </div>
 
           <div class="auth-illustration-container">
@@ -1683,7 +1767,7 @@
             <p class="auth-visual-subtext">Automated period invoices, zero duplicate billing protection, and real-time MRR analytics.</p>
             <div class="auth-visual-badges-row">
               <span class="auth-badge-pill">✓ 100% Duplicate Prevention</span>
-              <span class="auth-badge-pill">⚡ 18% GST Engine</span>
+              <span class="auth-badge-pill">18% GST Engine</span>
             </div>
           </div>
         </div>
@@ -1738,7 +1822,7 @@
             </div>
             <div class="input-password-wrap">
               <input type="password" id="loginPasswordInput" class="auth-input-dark" placeholder="Enter your password" required>
-              <button type="button" class="auth-pw-eye" title="Toggle password visibility">👁️</button>
+              <button type="button" class="auth-pw-eye" aria-label="Toggle password visibility"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
             </div>
           </div>
 
@@ -1761,7 +1845,7 @@
             <label for="signupPasswordInput">Password</label>
             <div class="input-password-wrap">
               <input type="password" id="signupPasswordInput" class="auth-input-dark" placeholder="Min 9 chars, upper, lower & symbol" required>
-              <button type="button" class="auth-pw-eye" title="Toggle password visibility">👁️</button>
+              <button type="button" class="auth-pw-eye" aria-label="Toggle password visibility"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
             </div>
             <small style="color: #94a3b8; font-size: 0.72rem; margin-top: 4px;">Min 9 chars with uppercase, lowercase & special symbol.</small>
           </div>
@@ -1784,11 +1868,11 @@
 
         <!-- Quick 1-click Demo Accounts -->
         <div class="auth-demo-shortcuts">
-          <small>⚡ 1-Click Role Testing (Instant Access)</small>
+          <small>1-Click Role Testing</small>
           <div class="auth-demo-buttons-row">
-            <button type="button" class="btn-demo-badge" data-role="admin">👑 Admin</button>
-            <button type="button" class="btn-demo-badge" data-role="staff">💼 Staff</button>
-            <button type="button" class="btn-demo-badge" data-role="customer">👤 Customer</button>
+            <button type="button" class="btn-demo-badge" data-role="admin">Admin</button>
+            <button type="button" class="btn-demo-badge" data-role="staff">Staff</button>
+            <button type="button" class="btn-demo-badge" data-role="customer">Customer</button>
           </div>
         </div>
       </div>
@@ -1801,7 +1885,7 @@
   <div id="appView" class="app-view-container">
     <header class="app-top-header">
       <a href="#" class="app-header-brand" onclick="navigateAppTab('dash'); return false;">
-        <div class="logo-bolt-icon" style="width: 28px; height: 28px; font-size: 14px;">⚡</div>
+        <div class="logo-bolt-icon" style="width: 28px; height: 28px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></div>
         <span>Brightloop</span>
       </a>
 
@@ -1812,9 +1896,9 @@
 
       <!-- Right actions -->
       <div class="app-user-actions-pill">
-        <button id="themeToggleBtn" class="theme-toggle-btn" onclick="toggleTheme()" title="Toggle Light/Dark Theme" aria-label="Toggle theme">🌙</button>
-        <button id="btnJuryTour" class="btn-jury-tour" onclick="startJuryTour()">🎯 1-Click Demo</button>
-        <button id="btnBackToLanding" class="btn-view-landing-site">🌐 View Website</button>
+        <button id="themeToggleBtn" class="theme-toggle-btn" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme"></button>
+        <button id="btnJuryTour" class="btn-jury-tour" onclick="startJuryTour()">Jury Tour</button>
+        <button id="btnBackToLanding" class="btn-view-landing-site">Website</button>
         <div style="display: flex; align-items: center; gap: 8px;">
           <div id="appUserAvatarLetter" class="user-avatar-circle">A</div>
           <div style="font-size: 13px; font-weight: 700;">

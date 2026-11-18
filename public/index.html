@@ -21,9 +21,9 @@
   </script>
 
   <!-- Design System & Stylesheets -->
-  <link rel="stylesheet" href="/css/design-system.css?v=8">
-  <link rel="stylesheet" href="/css/landing.css?v=8">
-  <link rel="stylesheet" href="/css/auth-app.css?v=8">
+  <link rel="stylesheet" href="/css/design-system.css?v=9">
+  <link rel="stylesheet" href="/css/landing.css?v=9">
+  <link rel="stylesheet" href="/css/auth-app.css?v=9">
 
   <style id="bl-modern-design">
     /* ==========================================================================
@@ -860,6 +860,123 @@
       display: none !important;
     }
 
+  
+    /* ==========================================================================
+       ABSOLUTE VIEW ISOLATION: body.app-mode completely toggles views
+       ========================================================================== */
+    body.app-mode #landingView,
+    body.app-mode #mainNavbar {
+      display: none !important;
+    }
+    body.app-mode #appView {
+      display: flex !important;
+    }
+    body.app-mode .app-top-header {
+      display: flex !important;
+    }
+
+    body:not(.app-mode) #appView,
+    body:not(.app-mode) .app-top-header {
+      display: none !important;
+    }
+    body:not(.app-mode) #landingView {
+      display: block !important;
+    }
+    body:not(.app-mode) #mainNavbar {
+      display: flex !important;
+    }
+
+    /* Section 10 Period Uniqueness Card high-contrast styling */
+    .uniqueness-card {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #ffffff !important;
+      border: 1px solid #e0e0e0 !important;
+      border-radius: 18px;
+      padding: 3rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+    .uniqueness-card h4 {
+      color: #1d1d1f !important;
+    }
+    .uniqueness-card p {
+      color: #515154 !important;
+    }
+    .uniqueness-card .rule-highlight-box {
+      background: #f5f5f7 !important;
+      color: #1d1d1f !important;
+      border: 1px solid #e0e0e0 !important;
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+    }
+
+    .dark .uniqueness-card {
+      background: #1c1c1e !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      box-shadow: none;
+    }
+    .dark .uniqueness-card h4 {
+      color: #ffffff !important;
+    }
+    .dark .uniqueness-card p {
+      color: #cccccc !important;
+    }
+    .dark .uniqueness-card .rule-highlight-box {
+      background: #272729 !important;
+      color: #ffffff !important;
+      border-color: rgba(255, 255, 255, 0.1) !important;
+    }
+
+    /* Section 11 Persona Cards theme styling */
+    .role-persona-card {
+      background: #ffffff !important;
+      border: 1px solid #e0e0e0 !important;
+      border-radius: 18px !important;
+      padding: 32px !important;
+      color: #1d1d1f !important;
+    }
+    .role-persona-card h3 {
+      color: #1d1d1f !important;
+    }
+    .role-persona-card p {
+      color: #515154 !important;
+    }
+    .role-persona-card li {
+      color: #333336 !important;
+    }
+    .role-persona-card .role-avatar-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(0, 102, 204, 0.1);
+      color: #0066cc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 14px;
+      margin-bottom: 1rem;
+    }
+
+    .dark .role-persona-card {
+      background: #1c1c1e !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      color: #ffffff !important;
+    }
+    .dark .role-persona-card h3 {
+      color: #ffffff !important;
+    }
+    .dark .role-persona-card p {
+      color: #a1a1a6 !important;
+    }
+    .dark .role-persona-card li {
+      color: #cccccc !important;
+    }
+    .dark .role-persona-card .role-avatar-circle {
+      background: rgba(41, 151, 255, 0.15);
+      color: #2997ff;
+    }
+
   </style>
 </head>
 
@@ -1614,7 +1731,7 @@
     </section>
 
     <!-- SECTION 10: AUTOMATED BILLING (NO DUPLICATES ENGINE) -->
-    <section id="automation" class="landing-section section-dark">
+    <section id="automation" class="landing-section">
       <div class="container-full">
         <div class="section-header-center">
           <span class="section-badge badge-coral">Zero Duplication</span>
@@ -1624,7 +1741,7 @@
           </p>
         </div>
 
-        <div style="max-width: 900px; margin: 0 auto; background: var(--card); border: 1px solid var(--border); border-radius: var(--r-xl); padding: 3rem;">
+        <div class="uniqueness-card">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
             <div style="display: flex; align-items: center; gap: 1rem;">
               <div style="width: 48px; height: 48px; border-radius: 14px; background: rgba(16, 185, 129, 0.2); color: #34d399; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></div>
@@ -1663,8 +1780,8 @@
           <div class="role-persona-card role-admin">
             <div class="role-avatar-circle" style="font-weight:800; font-size:16px;">ADM</div>
             <h3 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem;">ADMIN</h3>
-            <p style="font-size: 0.95rem; color: #cbd5e1; margin-bottom: 1.5rem;">Total administrative governance and complete fiscal oversight.</p>
-            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.925rem; color: #e2e8f0;">
+            <p style="font-size: 0.95rem; margin-bottom: 1.5rem;">Total administrative governance and complete fiscal oversight.</p>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.925rem;">
               <li>✓ Manage products, prices & variant matrices</li>
               <li>✓ Configure subscription plans & auto-close rules</li>
               <li>✓ Define regional tax rates & discount policies</li>
@@ -1677,8 +1794,8 @@
           <div class="role-persona-card role-staff">
             <div class="role-avatar-circle" style="font-weight:800; font-size:16px;">STF</div>
             <h3 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem;">STAFF</h3>
-            <p style="font-size: 0.95rem; color: #cbd5e1; margin-bottom: 1.5rem;">Daily operational execution and customer order management.</p>
-            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.925rem; color: #e2e8f0;">
+            <p style="font-size: 0.95rem; margin-bottom: 1.5rem;">Daily operational execution and customer order management.</p>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.925rem;">
               <li>✓ Prepare customer quotations & proposals</li>
               <li>✓ Transition subscriptions across lifecycle states</li>
               <li>✓ Confirm draft invoices & generate printables</li>
@@ -1691,8 +1808,8 @@
           <div class="role-persona-card role-customer">
             <div class="role-avatar-circle" style="font-weight:800; font-size:16px;">CST</div>
             <h3 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem;">CUSTOMER</h3>
-            <p style="font-size: 0.95rem; color: #cbd5e1; margin-bottom: 1.5rem;">Dedicated self-service Customer Portal with zero friction.</p>
-            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.925rem; color: #e2e8f0;">
+            <p style="font-size: 0.95rem; margin-bottom: 1.5rem;">Dedicated self-service Customer Portal with zero friction.</p>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.925rem;">
               <li>✓ View active personal subscription contracts</li>
               <li>✓ Review quotations and proposed recurring plans</li>
               <li>✓ Inspect itemized recurring invoices & tax breakdowns</li>
@@ -2243,7 +2360,7 @@
 
       <!-- Navigation tabs bar -->
       <nav id="appNavTabs" class="app-nav-tabs-bar">
-        <!-- Rendered dynamically by public/js/app.js?v=8 based on user role -->
+        <!-- Rendered dynamically by public/js/app.js?v=9 based on user role -->
       </nav>
 
       <!-- Right actions -->
@@ -2272,8 +2389,8 @@
   </div>
 
   <!-- Scripts -->
-  <script src="/js/landing.js?v=8"></script>
-  <script src="/js/app.js?v=8"></script>
+  <script src="/js/landing.js?v=9"></script>
+  <script src="/js/app.js?v=9"></script>
 </body>
 
 </html>

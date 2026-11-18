@@ -323,6 +323,7 @@ function switchAuthTab(mode) {
 }
 
 function showAppControlRoom() {
+  document.body.classList.add('app-mode');
   const landing = document.getElementById('landingView');
   if (landing) landing.style.display = 'none';
   const mainNav = document.getElementById('mainNavbar');
@@ -518,11 +519,9 @@ function renderAppShell() {
 }
 
 function navigateAppTab(tabKey) {
-  // Always ensure Control Room is displayed and landing page is hidden
+  document.body.classList.add('app-mode');
   const landing = document.getElementById('landingView');
-  if (landing && landing.style.display !== 'none') {
-    landing.style.display = 'none';
-  }
+  if (landing) landing.style.display = 'none';
   const mainNav = document.getElementById('mainNavbar');
   if (mainNav) mainNav.style.display = 'none';
   const appV = document.getElementById('appView');
@@ -530,6 +529,9 @@ function navigateAppTab(tabKey) {
     appV.style.display = 'flex';
     appV.classList.add('active');
   }
+  const appHeader = document.querySelector('.app-top-header');
+  if (appHeader) appHeader.style.display = 'flex';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 
   document.querySelectorAll('.app-tab-link').forEach(el => el.classList.remove('active'));
   const activeEl = document.getElementById('nav-' + tabKey);

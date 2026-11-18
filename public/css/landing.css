@@ -937,10 +937,17 @@ button:active {
   border: 1px solid #e0e0e0 !important;
   border-radius: 18px !important;
   padding: 32px !important;
-  box-shadow: none !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04) !important;
   color: #1d1d1f !important;
   display: flex !important;
   flex-direction: column !important;
+}
+
+.dark .role-persona-card {
+  background: #1c1c1e !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: none !important;
+  color: #ffffff !important;
 }
 
 .role-persona-card h3 {

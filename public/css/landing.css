@@ -382,23 +382,22 @@ button:active {
 }
 
 /* Dark Tiles (#272729 / #000000) */
-.landing-section.section-dark,
-.landing-section.dark-tile-1 {
-  background-color: #272729 !important;
+/* Scoped to dark mode only */
+.dark .landing-section.section-dark,
+.dark .landing-section.dark-tile-1 {
+  background-color: #18191c !important;
   color: #ffffff !important;
 }
-
-.landing-section.section-dark .section-title,
-.landing-section.section-dark h1,
-.landing-section.section-dark h2,
-.landing-section.section-dark h3,
-.landing-section.section-dark h4 {
+.dark .landing-section.section-dark .section-title,
+.dark .landing-section.section-dark h1,
+.dark .landing-section.section-dark h2,
+.dark .landing-section.section-dark h3,
+.dark .landing-section.section-dark h4 {
   color: #ffffff !important;
 }
-
-.landing-section.section-dark .section-desc,
-.landing-section.section-dark p {
-  color: #cccccc !important;
+.dark .landing-section.section-dark .section-desc,
+.dark .landing-section.section-dark p {
+  color: #a1a1a6 !important;
 }
 
 /* Hide all old glow blobs */

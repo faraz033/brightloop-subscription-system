@@ -317,10 +317,14 @@ function switchAuthTab(mode) {
 
 function showAppControlRoom() {
   $('#landingView').style.display = 'none';
-  const nav = document.getElementById('mainNavbar');
-  if (nav) nav.style.display = 'none';
+  const mainNav = document.getElementById('mainNavbar');
+  if (mainNav) mainNav.style.display = 'none';
   $('#authOverlay').classList.remove('active');
-  $('#appView').classList.add('active');
+  const appV = document.getElementById('appView');
+  if (appV) {
+    appV.style.display = 'flex';
+    appV.classList.add('active');
+  }
   renderAppShell();
 }
 

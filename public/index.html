@@ -21,9 +21,9 @@
   </script>
 
   <!-- Design System & Stylesheets -->
-  <link rel="stylesheet" href="/css/design-system.css?v=5">
-  <link rel="stylesheet" href="/css/landing.css?v=5">
-  <link rel="stylesheet" href="/css/auth-app.css?v=5">
+  <link rel="stylesheet" href="/css/design-system.css?v=6">
+  <link rel="stylesheet" href="/css/landing.css?v=6">
+  <link rel="stylesheet" href="/css/auth-app.css?v=6">
 
   <style id="bl-modern-design">
     /* ==========================================================================
@@ -794,6 +794,13 @@
       background: #f5f5f7 !important;
       border-color: #86868b !important;
       color: #0066cc !important;
+    }
+
+  
+    /* Strict Visibility: Control Room header NEVER leaks onto website */
+    .app-view-container:not(.active),
+    .app-view-container:not(.active) .app-top-header {
+      display: none !important;
     }
 
   </style>
@@ -2106,7 +2113,7 @@
 
       <!-- Navigation tabs bar -->
       <nav id="appNavTabs" class="app-nav-tabs-bar">
-        <!-- Rendered dynamically by public/js/app.js?v=5 based on user role -->
+        <!-- Rendered dynamically by public/js/app.js?v=6 based on user role -->
       </nav>
 
       <!-- Right actions -->
@@ -2135,7 +2142,7 @@
   </div>
 
   <!-- Scripts -->
-  <script src="/js/landing.js?v=5"></script>
+  <script src="/js/landing.js?v=6"></script>
   <script src="/js/app.js"></script>
 </body>
 

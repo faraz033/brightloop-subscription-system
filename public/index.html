@@ -24,9 +24,9 @@
   </script>
 
   <!-- Design System & Stylesheets -->
-  <link rel="stylesheet" href="/css/design-system.css?v=23">
-  <link rel="stylesheet" href="/css/landing.css?v=23">
-  <link rel="stylesheet" href="/css/auth-app.css?v=23">
+  <link rel="stylesheet" href="/css/design-system.css?v=24">
+  <link rel="stylesheet" href="/css/landing.css?v=24">
+  <link rel="stylesheet" href="/css/auth-app.css?v=24">
 
   <style id="bl-modern-design">
     /* ==========================================================================
@@ -2806,6 +2806,267 @@
       }
     }
 
+  
+    /* ==================================================
+       SECTION 12: FINANCIAL CLARITY GRID & STAT CARDS
+       ================================================== */
+    .finance-stats-grid {
+      display: grid !important;
+      grid-template-columns: repeat(4, 1fr) !important;
+      gap: 24px !important;
+      margin-top: 36px !important;
+    }
+    @media (max-width: 1024px) {
+      .finance-stats-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+    }
+    @media (max-width: 600px) {
+      .finance-stats-grid {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+    .metric-stat-card {
+      background: #ffffff !important;
+      border: 1px solid #e0e0e0 !important;
+      border-radius: 20px !important;
+      padding: 28px 24px !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      position: relative !important;
+      overflow: hidden !important;
+    }
+    .metric-stat-card:hover {
+      transform: translateY(-4px) !important;
+      box-shadow: 0 12px 32px rgba(0, 102, 204, 0.12) !important;
+      border-color: #0066cc !important;
+    }
+    .dark .metric-stat-card {
+      background: #18191c !important;
+      border-color: rgba(255, 255, 255, 0.12) !important;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35) !important;
+    }
+    .dark .metric-stat-card:hover {
+      border-color: #2997ff !important;
+      box-shadow: 0 12px 36px rgba(41, 151, 255, 0.22) !important;
+    }
+
+    .metric-top-bar {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      margin-bottom: 18px !important;
+    }
+    .metric-icon-box {
+      width: 42px !important;
+      height: 42px !important;
+      border-radius: 12px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    .icon-purple { background: rgba(139, 92, 246, 0.12) !important; color: #8b5cf6 !important; }
+    .icon-blue   { background: rgba(0, 113, 227, 0.12) !important; color: #0071e3 !important; }
+    .icon-green  { background: rgba(52, 199, 89, 0.12) !important; color: #248a3d !important; }
+    .icon-amber  { background: rgba(255, 149, 0, 0.12) !important; color: #ff9500 !important; }
+    .icon-red    { background: rgba(255, 59, 48, 0.12) !important; color: #ff3b30 !important; }
+    .icon-cyan   { background: rgba(6, 182, 212, 0.12) !important; color: #06b6d4 !important; }
+    .icon-yellow { background: rgba(234, 179, 8, 0.12) !important; color: #eab308 !important; }
+    .icon-indigo { background: rgba(99, 102, 241, 0.12) !important; color: #6366f1 !important; }
+
+    .metric-pill {
+      font-size: 11px !important;
+      font-weight: 700 !important;
+      padding: 4px 10px !important;
+      border-radius: 9999px !important;
+      letter-spacing: 0.02em !important;
+    }
+    .pill-purple { background: rgba(139, 92, 246, 0.1) !important; color: #8b5cf6 !important; }
+    .pill-blue   { background: rgba(0, 113, 227, 0.1) !important; color: #0071e3 !important; }
+    .pill-green  { background: rgba(52, 199, 89, 0.1) !important; color: #248a3d !important; }
+    .pill-amber  { background: rgba(255, 149, 0, 0.1) !important; color: #ff9500 !important; }
+
+    .metric-val {
+      font-family: var(--font-display) !important;
+      font-size: 28px !important;
+      font-weight: 700 !important;
+      letter-spacing: -0.03em !important;
+      line-height: 1.1 !important;
+      margin-bottom: 6px !important;
+    }
+    .metric-lbl {
+      font-size: 14px !important;
+      font-weight: 600 !important;
+      color: #1d1d1f !important;
+      margin-bottom: 8px !important;
+    }
+    .dark .metric-lbl {
+      color: #ffffff !important;
+    }
+    .metric-desc {
+      font-size: 13px !important;
+      line-height: 1.55 !important;
+      color: #555558 !important;
+      margin: 0 0 16px 0 !important;
+      flex-grow: 1 !important;
+    }
+    .dark .metric-desc {
+      color: #a1a1a6 !important;
+    }
+
+    .metric-telemetry-bar {
+      padding-top: 12px !important;
+      border-top: 1px solid rgba(0, 0, 0, 0.06) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 6px !important;
+    }
+    .dark .metric-telemetry-bar {
+      border-top-color: rgba(255, 255, 255, 0.08) !important;
+    }
+    .telemetry-track {
+      height: 4px !important;
+      background: #e5e5ea !important;
+      border-radius: 9999px !important;
+      overflow: hidden !important;
+    }
+    .dark .telemetry-track {
+      background: #252528 !important;
+    }
+    .telemetry-fill {
+      height: 100% !important;
+      border-radius: 9999px !important;
+    }
+    .fill-purple { background: linear-gradient(90deg, #8b5cf6, #a855f7) !important; }
+    .fill-blue   { background: linear-gradient(90deg, #0071e3, #2997ff) !important; }
+    .fill-green  { background: linear-gradient(90deg, #248a3d, #34c759) !important; }
+    .fill-amber  { background: linear-gradient(90deg, #ff9500, #ffb340) !important; }
+    .telemetry-text {
+      font-size: 11px !important;
+      font-weight: 600 !important;
+      color: #737373 !important;
+    }
+    .dark .telemetry-text {
+      color: #86868b !important;
+    }
+
+    /* ==================================================
+       SECTION 13: CORE ADVANTAGES (WHY BRIGHTLOOP) GRID
+       ================================================== */
+    .why-features-grid {
+      display: grid !important;
+      grid-template-columns: repeat(4, 1fr) !important;
+      gap: 22px !important;
+      margin-top: 36px !important;
+    }
+    @media (max-width: 1024px) {
+      .why-features-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+    }
+    @media (max-width: 600px) {
+      .why-features-grid {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+    .why-advantage-card {
+      background: #ffffff !important;
+      border: 1px solid #e0e0e0 !important;
+      border-radius: 20px !important;
+      padding: 26px 22px !important;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .why-advantage-card:hover {
+      transform: translateY(-4px) !important;
+      box-shadow: 0 10px 28px rgba(0, 102, 204, 0.12) !important;
+      border-color: #0066cc !important;
+    }
+    .dark .why-advantage-card {
+      background: #18191c !important;
+      border-color: rgba(255, 255, 255, 0.12) !important;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35) !important;
+    }
+    .dark .why-advantage-card:hover {
+      border-color: #2997ff !important;
+      box-shadow: 0 10px 32px rgba(41, 151, 255, 0.2) !important;
+    }
+
+    .why-card-top {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      margin-bottom: 16px !important;
+    }
+    .why-icon-squircle {
+      width: 44px !important;
+      height: 44px !important;
+      border-radius: 13px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    .why-tag {
+      font-size: 11px !important;
+      font-weight: 700 !important;
+      color: #0066cc !important;
+      background: rgba(0, 102, 204, 0.08) !important;
+      padding: 3px 10px !important;
+      border-radius: 9999px !important;
+      letter-spacing: 0.02em !important;
+    }
+    .dark .why-tag {
+      color: #2997ff !important;
+      background: rgba(41, 151, 255, 0.14) !important;
+    }
+
+    .why-card-title {
+      font-size: 17px !important;
+      font-weight: 700 !important;
+      letter-spacing: -0.02em !important;
+      color: #1d1d1f !important;
+      margin: 0 0 8px 0 !important;
+      line-height: 1.25 !important;
+    }
+    .dark .why-card-title {
+      color: #ffffff !important;
+    }
+    .why-card-desc {
+      font-size: 13.5px !important;
+      line-height: 1.6 !important;
+      color: #555558 !important;
+      margin: 0 0 16px 0 !important;
+      flex-grow: 1 !important;
+    }
+    .dark .why-card-desc {
+      color: #a1a1a6 !important;
+    }
+
+    .why-card-badge {
+      display: inline-block !important;
+      font-size: 11.5px !important;
+      font-weight: 600 !important;
+      color: #737373 !important;
+      background: #f5f5f7 !important;
+      border: 1px solid #e0e0e0 !important;
+      padding: 4px 10px !important;
+      border-radius: 8px !important;
+      width: fit-content !important;
+    }
+    .dark .why-card-badge {
+      background: rgba(255, 255, 255, 0.06) !important;
+      border-color: rgba(255, 255, 255, 0.1) !important;
+      color: #a1a1a6 !important;
+    }
+
   </style>
 </head>
 
@@ -3668,25 +3929,72 @@
         </div>
 
         <div class="finance-stats-grid">
+          <!-- Stat Card 1: Active Subscriptions -->
           <div class="metric-stat-card">
-            <div class="lbl">Active Subscriptions</div>
-            <div class="val" style="color: var(--bl-violet);">Real-Time</div>
-            <p style="font-size: 0.85rem; color: var(--bl-text-muted);">Live contracts generating recurring billing events.</p>
+            <div class="metric-top-bar">
+              <div class="metric-icon-box icon-purple">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+              </div>
+              <span class="metric-pill pill-purple">Live Engine</span>
+            </div>
+            <div class="metric-val" style="color: #8b5cf6;">43 Active</div>
+            <div class="metric-lbl">Active Subscriptions</div>
+            <p class="metric-desc">Live subscription agreements generating automated scheduled billing events.</p>
+            <div class="metric-telemetry-bar">
+              <div class="telemetry-track"><div class="telemetry-fill fill-purple" style="width: 100%;"></div></div>
+              <span class="telemetry-text">100% Automated Cadence</span>
+            </div>
           </div>
+
+          <!-- Stat Card 2: MRR -->
           <div class="metric-stat-card">
-            <div class="lbl">Monthly Recurring Revenue</div>
-            <div class="val" style="color: #0891b2;">Normalized</div>
-            <p style="font-size: 0.85rem; color: var(--bl-text-muted);">Accurate MRR computed from weekly, monthly, & annual terms.</p>
+            <div class="metric-top-bar">
+              <div class="metric-icon-box icon-blue">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+              </div>
+              <span class="metric-pill pill-blue">Normalized MRR</span>
+            </div>
+            <div class="metric-val" style="color: #0071e3;">₹89,640.00</div>
+            <div class="metric-lbl">Monthly Recurring Revenue</div>
+            <p class="metric-desc">Accurate MRR normalized across daily, weekly, monthly, and yearly terms.</p>
+            <div class="metric-telemetry-bar">
+              <div class="telemetry-track"><div class="telemetry-fill fill-blue" style="width: 82%;"></div></div>
+              <span class="telemetry-text">↑ 18.4% Net Expansion</span>
+            </div>
           </div>
+
+          <!-- Stat Card 3: Collected Revenue -->
           <div class="metric-stat-card">
-            <div class="lbl">Collected Revenue</div>
-            <div class="val" style="color: #10b981;">Reconciled</div>
-            <p style="font-size: 0.85rem; color: var(--bl-text-muted);">Verified payments deposited via Bank, UPI, Card, or Cash.</p>
+            <div class="metric-top-bar">
+              <div class="metric-icon-box icon-green">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>
+              </div>
+              <span class="metric-pill pill-green">Reconciled Cash</span>
+            </div>
+            <div class="metric-val" style="color: #248a3d;">₹76,945.44</div>
+            <div class="metric-lbl">Collected Revenue</div>
+            <p class="metric-desc">Verified settlements matched across Bank Transfer, UPI, Credit Card, and Cash.</p>
+            <div class="metric-telemetry-bar">
+              <div class="telemetry-track"><div class="telemetry-fill fill-green" style="width: 76%;"></div></div>
+              <span class="telemetry-text">76% Realization Rate</span>
+            </div>
           </div>
+
+          <!-- Stat Card 4: Outstanding & Overdue -->
           <div class="metric-stat-card">
-            <div class="lbl">Outstanding & Overdue</div>
-            <div class="val" style="color: #ef4444;">Audited</div>
-            <p style="font-size: 0.85rem; color: var(--bl-text-muted);">Instant alerts on invoices exceeding agreed payment terms.</p>
+            <div class="metric-top-bar">
+              <div class="metric-icon-box icon-amber">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              </div>
+              <span class="metric-pill pill-amber">Receivables</span>
+            </div>
+            <div class="metric-val" style="color: #ff9500;">₹24,780.00</div>
+            <div class="metric-lbl">Outstanding Balance</div>
+            <p class="metric-desc">Actionable aging ledger with automatic payment reminders and overdue alerts.</p>
+            <div class="metric-telemetry-bar">
+              <div class="telemetry-track"><div class="telemetry-fill fill-amber" style="width: 24%;"></div></div>
+              <span class="telemetry-text">Audited in Real-Time</span>
+            </div>
           </div>
         </div>
       </div>
@@ -3704,37 +4012,108 @@
         </div>
 
         <div class="why-features-grid">
-          <div class="why-feature-item">
-            <h4 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--bl-violet);">Centralized Records</h4>
-            <p style="font-size: 0.875rem; color: var(--bl-text-muted);">Every customer, contract, quote, and payment resides in one organized database.</p>
+          <!-- Advantage Card 1 -->
+          <div class="why-advantage-card">
+            <div class="why-card-top">
+              <div class="why-icon-squircle icon-blue">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+              </div>
+              <span class="why-tag">ACID Compliant</span>
+            </div>
+            <h4 class="why-card-title">Centralized Records</h4>
+            <p class="why-card-desc">Every customer, active contract, proposal, and payment transaction resides in one relational database with zero fragmentation.</p>
+            <div class="why-card-badge">Single Source of Truth</div>
           </div>
-          <div class="why-feature-item">
-            <h4 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--bl-violet);">Predictable Lifecycles</h4>
-            <p style="font-size: 0.875rem; color: var(--bl-text-muted);">Enforce valid business state transitions from Draft to Quotation to Active.</p>
+
+          <!-- Advantage Card 2 -->
+          <div class="why-advantage-card">
+            <div class="why-card-top">
+              <div class="why-icon-squircle icon-purple">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path></svg>
+              </div>
+              <span class="why-tag">Strict FSM</span>
+            </div>
+            <h4 class="why-card-title">Predictable Lifecycles</h4>
+            <p class="why-card-desc">Enforce valid state transitions (Draft ➔ Quotation ➔ Confirmed ➔ Active ➔ Closed) with atomic term renewals and closure rules.</p>
+            <div class="why-card-badge">Guaranteed Flow</div>
           </div>
-          <div class="why-feature-item">
-            <h4 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--bl-violet);">Tax & Discount Engine</h4>
-            <p style="font-size: 0.875rem; color: var(--bl-text-muted);">Accurate itemized calculations with support for GST, VAT, and custom discounts.</p>
+
+          <!-- Advantage Card 3 -->
+          <div class="why-advantage-card">
+            <div class="why-card-top">
+              <div class="why-icon-squircle icon-green">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="5" x2="5" y2="19"></line><circle cx="6.5" cy="6.5" r="2.5"></circle><circle cx="17.5" cy="17.5" r="2.5"></circle></svg>
+              </div>
+              <span class="why-tag">18% GST Engine</span>
+            </div>
+            <h4 class="why-card-title">Tax & Discount Engine</h4>
+            <p class="why-card-desc">Automated mathematical subtotaling, multi-tier product discounts, flat price allowances, and strict tax compliance.</p>
+            <div class="why-card-badge">Automated Itemization</div>
           </div>
-          <div class="why-feature-item">
-            <h4 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--bl-violet);">Partial Payments</h4>
-            <p style="font-size: 0.875rem; color: var(--bl-text-muted);">Record deposits and partial installments without losing track of remaining balances.</p>
+
+          <!-- Advantage Card 4 -->
+          <div class="why-advantage-card">
+            <div class="why-card-top">
+              <div class="why-icon-squircle icon-amber">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+              </div>
+              <span class="why-tag">Multi-Method</span>
+            </div>
+            <h4 class="why-card-title">Partial Payments</h4>
+            <p class="why-card-desc">Accept split deposits, partial settlements, and multiple transactions across UPI, Card, and Bank Transfer with balance clamping.</p>
+            <div class="why-card-badge">Zero Overpayment</div>
           </div>
-          <div class="why-feature-item">
-            <h4 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--bl-violet);">Role-Based Security</h4>
-            <p style="font-size: 0.875rem; color: var(--bl-text-muted);">Admin governance, staff operational boundaries, and secure customer isolation.</p>
+
+          <!-- Advantage Card 5 -->
+          <div class="why-advantage-card">
+            <div class="why-card-top">
+              <div class="why-icon-squircle icon-red">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              </div>
+              <span class="why-tag">JWT & RBAC</span>
+            </div>
+            <h4 class="why-card-title">Role-Based Security</h4>
+            <p class="why-card-desc">Strict authorization boundaries: Admin system governance, Staff contract operations, and customer portal data isolation.</p>
+            <div class="why-card-badge">Triple-Tier Defense</div>
           </div>
-          <div class="why-feature-item">
-            <h4 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--bl-violet);">Self-Service Portal</h4>
-            <p style="font-size: 0.875rem; color: var(--bl-text-muted);">Empower customers to view contracts and download itemized invoices on demand.</p>
+
+          <!-- Advantage Card 6 -->
+          <div class="why-advantage-card">
+            <div class="why-card-top">
+              <div class="why-icon-squircle icon-cyan">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              </div>
+              <span class="why-tag">Self-Service</span>
+            </div>
+            <h4 class="why-card-title">Customer Portal</h4>
+            <p class="why-card-desc">Empower customers to inspect recurring contracts, download printable PDF invoices, and complete instant checkout securely.</p>
+            <div class="why-card-badge">Instant Verification</div>
           </div>
-          <div class="why-feature-item">
-            <h4 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--bl-violet);">Automated Batch Runs</h4>
-            <p style="font-size: 0.875rem; color: var(--bl-text-muted);">Generate invoices for due billing cycles in a single click with zero duplicate risk.</p>
+
+          <!-- Advantage Card 7 -->
+          <div class="why-advantage-card">
+            <div class="why-card-top">
+              <div class="why-icon-squircle icon-yellow">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+              </div>
+              <span class="why-tag">Idempotent</span>
+            </div>
+            <h4 class="why-card-title">Automated Batch Runs</h4>
+            <p class="why-card-desc">Background cron scheduler triggers periodic invoice runs with database uniqueness constraints, eliminating double-billing.</p>
+            <div class="why-card-badge">Zero Duplication</div>
           </div>
-          <div class="why-feature-item">
-            <h4 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--bl-violet);">Rock-Solid Performance</h4>
-            <p style="font-size: 0.875rem; color: var(--bl-text-muted);">Lightweight architecture with ultra-fast page loads and zero unnecessary overhead.</p>
+
+          <!-- Advantage Card 8 -->
+          <div class="why-advantage-card">
+            <div class="why-card-top">
+              <div class="why-icon-squircle icon-indigo">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+              </div>
+              <span class="why-tag">Native WAL</span>
+            </div>
+            <h4 class="why-card-title">Rock-Solid Performance</h4>
+            <p class="why-card-desc">Engineered on SQLite Write-Ahead Logging with sub-millisecond local latency, minimal memory footprint, and high durability.</p>
+            <div class="why-card-badge">Sub-Millisecond</div>
           </div>
         </div>
       </div>
@@ -4310,7 +4689,7 @@
 
       <!-- Navigation tabs bar -->
       <nav id="appNavTabs" class="app-nav-tabs-bar">
-        <!-- Rendered dynamically by public/js/app.js?v=23 based on user role -->
+        <!-- Rendered dynamically by public/js/app.js?v=24 based on user role -->
       </nav>
 
       <!-- Right actions -->
@@ -4339,8 +4718,8 @@
   </div>
 
   <!-- Scripts -->
-  <script src="/js/landing.js?v=23"></script>
-  <script src="/js/app.js?v=23"></script>
+  <script src="/js/landing.js?v=24"></script>
+  <script src="/js/app.js?v=24"></script>
 </body>
 
 </html>

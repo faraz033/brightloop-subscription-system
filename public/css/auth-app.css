@@ -497,8 +497,8 @@
 
 /* Top App Header */
 .app-top-header {
-  background: #0f172a;
-  color: #ffffff;
+  background: var(--card, #0f172a);
+  color: var(--foreground, #ffffff);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -753,8 +753,8 @@
 }
 
 .dash-stat-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: var(--card, #ffffff);
+  border: 1px solid var(--border, #e2e8f0);
   border-radius: 12px;
   padding: 18px 20px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
@@ -778,8 +778,8 @@
 
 /* Metric Progress Bar */
 .metric-bar-box {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: var(--card, #ffffff);
+  border: 1px solid var(--border, #e2e8f0);
   border-radius: 12px;
   padding: 20px 24px;
   margin-bottom: 24px;
@@ -825,8 +825,8 @@
 
 /* Forms & Expandable Details */
 details {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: var(--card, #ffffff);
+  border: 1px solid var(--border, #e2e8f0);
   border-radius: 12px;
   padding: 16px 20px;
   margin-bottom: 24px;
@@ -881,8 +881,8 @@ details[open] summary {
 
 /* Tables */
 .table-scroll-wrap {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: var(--card, #ffffff);
+  border: 1px solid var(--border, #e2e8f0);
   border-radius: 12px;
   overflow-x: auto;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
@@ -957,7 +957,7 @@ table.app-table tr:hover td {
 }
 
 .modal-card {
-  background: #ffffff;
+  background: var(--card, #ffffff);
   border-radius: 16px;
   width: 100%;
   max-width: 480px;

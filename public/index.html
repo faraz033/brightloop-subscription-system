@@ -21,9 +21,9 @@
   </script>
 
   <!-- Design System & Stylesheets -->
-  <link rel="stylesheet" href="/css/design-system.css?v=12">
-  <link rel="stylesheet" href="/css/landing.css?v=12">
-  <link rel="stylesheet" href="/css/auth-app.css?v=12">
+  <link rel="stylesheet" href="/css/design-system.css?v=13">
+  <link rel="stylesheet" href="/css/landing.css?v=13">
+  <link rel="stylesheet" href="/css/auth-app.css?v=13">
 
   <style id="bl-modern-design">
     /* ==========================================================================
@@ -401,7 +401,36 @@
       margin-left: auto !important;
       display: flex !important;
       align-items: center !important;
-      gap: 8px !important;
+      gap: 10px !important;
+    }
+
+    #appUserNameDisplay {
+      color: var(--foreground) !important;
+      font-weight: 600 !important;
+      font-size: 13px !important;
+    }
+    .dark #appUserNameDisplay {
+      color: #ffffff !important;
+    }
+
+    #appUserRoleTag,
+    .user-role-badge {
+      font-size: 11px !important;
+      text-transform: uppercase !important;
+      font-weight: 700 !important;
+      padding: 2px 7px !important;
+      border-radius: 9999px !important;
+      background: rgba(0, 102, 204, 0.1) !important;
+      color: #0066cc !important;
+      border: 1px solid rgba(0, 102, 204, 0.22) !important;
+      letter-spacing: 0.05em !important;
+      display: inline-block !important;
+    }
+    .dark #appUserRoleTag,
+    .dark .user-role-badge {
+      background: rgba(41, 151, 255, 0.15) !important;
+      color: #2997ff !important;
+      border-color: rgba(41, 151, 255, 0.3) !important;
     }
 
     .btn-signout-link {
@@ -411,11 +440,6 @@
       color: #ef4444 !important;
       font-weight: 600 !important;
       font-size: 13px !important;
-    }
-
-    .dark .app-top-header {
-      background: rgba(39, 39, 41, 0.85) !important;
-      border-bottom-color: rgba(255, 255, 255, 0.12) !important;
     }
 
     .app-header-brand {
@@ -518,6 +542,37 @@
       font-size: 32px !important;
       letter-spacing: -0.025em !important;
       color: var(--foreground) !important;
+    }
+
+    details,
+    .modal-card,
+    .filters-bar {
+      background: var(--card) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: var(--radius-lg) !important;
+      color: var(--card-foreground) !important;
+    }
+    .dark .dash-stat-card,
+    .dark .card,
+    .dark .box,
+    .dark .metric-bar-box,
+    .dark .table-scroll-wrap,
+    .dark details,
+    .dark .modal-card,
+    .dark .filters-bar {
+      background: #18191c !important;
+      border-color: rgba(255, 255, 255, 0.12) !important;
+      color: #ffffff !important;
+    }
+    .dark .filters-bar input,
+    .dark .filters-bar select,
+    .dark input[type="date"],
+    .dark input[type="text"],
+    .dark input[type="email"],
+    .dark input[type="password"] {
+      background: #242528 !important;
+      border-color: rgba(255, 255, 255, 0.18) !important;
+      color: #ffffff !important;
     }
 
     /* Tables: 18px Rounded Container with Hairline Dividers */
@@ -2487,7 +2542,7 @@
 
       <!-- Navigation tabs bar -->
       <nav id="appNavTabs" class="app-nav-tabs-bar">
-        <!-- Rendered dynamically by public/js/app.js?v=12 based on user role -->
+        <!-- Rendered dynamically by public/js/app.js?v=13 based on user role -->
       </nav>
 
       <!-- Right actions -->
@@ -2516,8 +2571,8 @@
   </div>
 
   <!-- Scripts -->
-  <script src="/js/landing.js?v=12"></script>
-  <script src="/js/app.js?v=12"></script>
+  <script src="/js/landing.js?v=13"></script>
+  <script src="/js/app.js?v=13"></script>
 </body>
 
 </html>

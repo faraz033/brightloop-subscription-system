@@ -1115,6 +1115,30 @@ button:active {
   color: #737373 !important;
 }
 
+/* Dark Theme Footer */
+.dark .bl-main-footer {
+  background-color: #0b0c0e !important;
+  border-top-color: rgba(255, 255, 255, 0.1) !important;
+  color: #86868b !important;
+}
+
+.dark .footer-col h5 {
+  color: #ffffff !important;
+}
+
+.dark .footer-links-list a {
+  color: #a1a1a6 !important;
+}
+
+.dark .footer-links-list a:hover {
+  color: #2997ff !important;
+}
+
+.dark .footer-bottom-bar {
+  border-top-color: rgba(255, 255, 255, 0.1) !important;
+  color: #86868b !important;
+}
+
 
 
 /* ==========================================================================

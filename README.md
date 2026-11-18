@@ -1,5 +1,12 @@
 # ⚡ Brightloop — Subscription Management & Recurring Billing Platform
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-brightloop.onrender.com-0066cc?style=for-the-badge&logo=render&logoColor=white)](https://brightloop-subscription-system.onrender.com)
+[![Node.js](https://img.shields.io/badge/Node.js-24%20LTS-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Express](https://img.shields.io/badge/Express-4.21-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
+[![SQLite](https://img.shields.io/badge/SQLite-Native%20WAL-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://sqlite.org/)
+[![Tests](https://img.shields.io/badge/Tests-25%2F25%20Passing-brightgreen?style=for-the-badge&logo=githubactions&logoColor=white)](smoke-test.js)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
+
 > Enterprise-grade Subscription Management, Automated Recurring Billing Engine, and Financial Intelligence Platform.  
 > 🌐 **Live Deployed Application:** [https://brightloop-subscription-system.onrender.com](https://brightloop-subscription-system.onrender.com)
 
@@ -8,7 +15,7 @@
 ## 🚀 Live Demo & Quick Access
 
 - **Production URL:** [https://brightloop-subscription-system.onrender.com](https://brightloop-subscription-system.onrender.com)
-- **⚡ Interactive System Tour:** Click the **`Jury Tour`** button in the top navigation bar inside the Control Room for an automated interactive system walkthrough.
+- **⚡ Interactive System Tour:** Click the **`Guided Tour`** button in the top navigation bar inside the Control Room for an automated interactive system walkthrough.
 
 ### 👥 Test Credentials (or use the 1-Click Demo Badges on the Sign-in modal)
 | Role | Email | Password | Permissions |

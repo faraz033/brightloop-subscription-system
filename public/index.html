@@ -21,9 +21,9 @@
   </script>
 
   <!-- Design System & Stylesheets -->
-  <link rel="stylesheet" href="/css/design-system.css?v=10">
-  <link rel="stylesheet" href="/css/landing.css?v=10">
-  <link rel="stylesheet" href="/css/auth-app.css?v=10">
+  <link rel="stylesheet" href="/css/design-system.css?v=11">
+  <link rel="stylesheet" href="/css/landing.css?v=11">
+  <link rel="stylesheet" href="/css/auth-app.css?v=11">
 
   <style id="bl-modern-design">
     /* ==========================================================================
@@ -1486,36 +1486,44 @@
         </div>
 
         <div class="lifecycle-nodes-flow">
-          <div class="lifecycle-track-line"></div>
-
           <button class="lifecycle-node-btn active" data-stage="draft">
-            <div style="font-size: 1.5rem; margin-bottom: 0.4rem;" style="display:flex; align-items:center; justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg></div>
-            <h4 style="font-size: 1.15rem; font-weight: 800;">DRAFT</h4>
-            <p style="font-size: 0.8rem; color: var(--bl-text-muted);">Initial Setup</p>
+            <span class="lifecycle-stage-num">01</span>
+            <div class="lifecycle-text-wrap">
+              <span class="lifecycle-title">Draft</span>
+              <span class="lifecycle-subtitle">Initial Setup</span>
+            </div>
           </button>
 
           <button class="lifecycle-node-btn" data-stage="quotation">
-            <div class="lifecycle-stage-num">02</div>
-            <h4 style="font-size: 1.15rem; font-weight: 800;">QUOTATION</h4>
-            <p style="font-size: 0.8rem; color: var(--bl-text-muted);">Customer Review</p>
+            <span class="lifecycle-stage-num">02</span>
+            <div class="lifecycle-text-wrap">
+              <span class="lifecycle-title">Quotation</span>
+              <span class="lifecycle-subtitle">Customer Review</span>
+            </div>
           </button>
 
           <button class="lifecycle-node-btn" data-stage="confirmed">
-            <div class="lifecycle-stage-num">03</div>
-            <h4 style="font-size: 1.15rem; font-weight: 800;">CONFIRMED</h4>
-            <p style="font-size: 0.8rem; color: var(--bl-text-muted);">Agreement Locked</p>
+            <span class="lifecycle-stage-num">03</span>
+            <div class="lifecycle-text-wrap">
+              <span class="lifecycle-title">Confirmed</span>
+              <span class="lifecycle-subtitle">Agreement Locked</span>
+            </div>
           </button>
 
           <button class="lifecycle-node-btn" data-stage="active">
-            <div class="lifecycle-stage-num">04</div>
-            <h4 style="font-size: 1.15rem; font-weight: 800;">ACTIVE</h4>
-            <p style="font-size: 0.8rem; color: var(--bl-text-muted);">Live Invoicing</p>
+            <span class="lifecycle-stage-num">04</span>
+            <div class="lifecycle-text-wrap">
+              <span class="lifecycle-title">Active</span>
+              <span class="lifecycle-subtitle">Live Invoicing</span>
+            </div>
           </button>
 
           <button class="lifecycle-node-btn" data-stage="closed">
-            <div class="lifecycle-stage-num">05</div>
-            <h4 style="font-size: 1.15rem; font-weight: 800;">CLOSED</h4>
-            <p style="font-size: 0.8rem; color: var(--bl-text-muted);">Complete / Expired</p>
+            <span class="lifecycle-stage-num">05</span>
+            <div class="lifecycle-text-wrap">
+              <span class="lifecycle-title">Closed</span>
+              <span class="lifecycle-subtitle">Complete / Expired</span>
+            </div>
           </button>
         </div>
 
@@ -2352,7 +2360,7 @@
 
       <!-- Navigation tabs bar -->
       <nav id="appNavTabs" class="app-nav-tabs-bar">
-        <!-- Rendered dynamically by public/js/app.js?v=10 based on user role -->
+        <!-- Rendered dynamically by public/js/app.js?v=11 based on user role -->
       </nav>
 
       <!-- Right actions -->
@@ -2381,8 +2389,8 @@
   </div>
 
   <!-- Scripts -->
-  <script src="/js/landing.js?v=10"></script>
-  <script src="/js/app.js?v=10"></script>
+  <script src="/js/landing.js?v=11"></script>
+  <script src="/js/app.js?v=11"></script>
 </body>
 
 </html>

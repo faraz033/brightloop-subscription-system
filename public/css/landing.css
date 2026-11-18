@@ -1438,3 +1438,140 @@ button:active {
   max-height: 500px !important;
   padding: 0 24px 20px 24px !important;
 }
+
+
+
+/* ==========================================================================
+   LIFECYCLE SEGMENTED CONTROLS: ELEGANT SF PRO TYPOGRAPHY
+   ========================================================================== */
+.lifecycle-nodes-flow {
+  display: flex !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  flex-wrap: wrap !important;
+  margin-bottom: 32px !important;
+}
+
+.lifecycle-node-btn {
+  background: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 9999px !important;
+  padding: 8px 18px 8px 10px !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 9px !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", sans-serif !important;
+  text-decoration: none !important;
+}
+
+.lifecycle-node-btn:hover {
+  border-color: #86868b !important;
+  transform: translateY(-1px) !important;
+}
+
+.lifecycle-stage-num {
+  font-family: ui-monospace, SFMono-Regular, "SF Pro Text", monospace !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  background: var(--secondary) !important;
+  color: var(--muted-foreground) !important;
+  padding: 3px 8px !important;
+  border-radius: 9999px !important;
+  line-height: 1 !important;
+  letter-spacing: 0.02em !important;
+  transition: all 0.2s ease !important;
+}
+
+.lifecycle-text-wrap {
+  display: flex !important;
+  align-items: baseline !important;
+  gap: 6px !important;
+}
+
+.lifecycle-title {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", sans-serif !important;
+  font-size: 14.5px !important;
+  font-weight: 600 !important;
+  color: var(--foreground) !important;
+  letter-spacing: -0.015em !important;
+  line-height: 1 !important;
+  transition: color 0.2s ease !important;
+}
+
+.lifecycle-subtitle {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", sans-serif !important;
+  font-size: 12.5px !important;
+  font-weight: 400 !important;
+  color: var(--muted-foreground) !important;
+  letter-spacing: -0.01em !important;
+  line-height: 1 !important;
+  transition: color 0.2s ease !important;
+}
+
+/* ACTIVE STATE: Clean pure white text across all elements */
+.lifecycle-node-btn.active {
+  background: #0066cc !important;
+  border-color: #0066cc !important;
+  box-shadow: 0 4px 14px rgba(0, 102, 204, 0.35) !important;
+  transform: translateY(-1px) !important;
+}
+
+.lifecycle-node-btn.active .lifecycle-stage-num {
+  background: rgba(255, 255, 255, 0.22) !important;
+  color: #ffffff !important;
+}
+
+.lifecycle-node-btn.active .lifecycle-title {
+  color: #ffffff !important;
+}
+
+.lifecycle-node-btn.active .lifecycle-subtitle {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* DARK MODE */
+.dark .lifecycle-node-btn {
+  background: #1c1c1e !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  box-shadow: none !important;
+}
+
+.dark .lifecycle-node-btn:hover {
+  background: #272729 !important;
+  border-color: rgba(255, 255, 255, 0.28) !important;
+}
+
+.dark .lifecycle-stage-num {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #a1a1a6 !important;
+}
+
+.dark .lifecycle-title {
+  color: #ffffff !important;
+}
+
+.dark .lifecycle-subtitle {
+  color: #a1a1a6 !important;
+}
+
+.dark .lifecycle-node-btn.active {
+  background: #0066cc !important;
+  border-color: #0066cc !important;
+  box-shadow: 0 4px 16px rgba(0, 102, 204, 0.5) !important;
+}
+
+.dark .lifecycle-node-btn.active .lifecycle-stage-num {
+  background: rgba(255, 255, 255, 0.25) !important;
+  color: #ffffff !important;
+}
+
+.dark .lifecycle-node-btn.active .lifecycle-title {
+  color: #ffffff !important;
+}
+
+.dark .lifecycle-node-btn.active .lifecycle-subtitle {
+  color: rgba(255, 255, 255, 0.88) !important;
+}

@@ -417,7 +417,7 @@ function initLifecycleExplorer() {
         <!-- Right: Sleek Interactive Contract Preview Card -->
         <div>
           <div style="background:var(--card); border:1px solid var(--border); border-radius:18px; padding:28px; box-shadow:rgba(0,0,0,0.12) 0 8px 30px;">
-            <div style="display:flex; justify-content:space-between; align-items:flex-start; padding-bottom:16px; border-bottom:1px solid #e0e0e0; margin-bottom:16px;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; padding-bottom:16px; border-bottom:1px solid var(--border); margin-bottom:16px;">
               <div>
                 <span style="font-size:11px; font-weight:700; color:var(--muted-foreground); text-transform:uppercase; letter-spacing:0.05em;">Contract Agreement</span>
                 <div style="font-family:var(--font-display); font-size:20px; font-weight:600; color:var(--foreground); margin-top:2px;">${s.subId} — Cloud Pro</div>

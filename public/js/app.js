@@ -720,33 +720,33 @@ async function openSubscriptionModal(subId) {
       </div>
     `;
 
-    // Odoo Smart Stat Buttons (Top quick-insight tiles)
+    // Odoo Smart Stat Buttons (Flat Utility Cards)
     const smartStatsHtml = `
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:10px; margin-bottom:18px;">
-        <div style="cursor:pointer; background:linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%); border:1px solid #ddd6fe; border-radius:12px; padding:12px; text-align:center; transition:transform 0.15s ease;" onclick="document.getElementById('subModalInvoicesTable')?.scrollIntoView({behavior:'smooth'})" title="Click to view related invoices">
-          <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:#6d28d9; letter-spacing:0.05em;">Invoices</div>
-          <div style="font-size:20px; font-weight:800; color:#5b21b6; margin-top:2px;">${s.invoice_count}</div>
-          <div style="font-size:11px; color:#7c3aed;">Generated ▾</div>
+        <div style="cursor:pointer; background:var(--card); border:1px solid var(--border); border-radius:var(--radius-md); padding:14px; text-align:center; transition:transform 0.1s ease, border-color 0.15s ease;" onclick="document.getElementById('subModalInvoicesTable')?.scrollIntoView({behavior:'smooth'})" title="Click to view related invoices">
+          <div style="font-size:11px; font-weight:600; text-transform:uppercase; color:var(--muted-foreground); letter-spacing:0.05em;">Invoices</div>
+          <div style="font-family:var(--font-display); font-size:22px; font-weight:600; color:var(--primary); margin-top:2px;">${s.invoice_count}</div>
+          <div style="font-size:11px; color:var(--muted-foreground); margin-top:2px;">Generated ▾</div>
         </div>
-        <div style="background:linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border:1px solid #bfdbfe; border-radius:12px; padding:12px; text-align:center;">
-          <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:#1d4ed8; letter-spacing:0.05em;">Billed</div>
-          <div style="font-size:20px; font-weight:800; color:#1e40af; margin-top:2px;">${money(s.total_billed)}</div>
-          <div style="font-size:11px; color:#2563eb;">Lifetime Total</div>
+        <div style="background:var(--card); border:1px solid var(--border); border-radius:var(--radius-md); padding:14px; text-align:center;">
+          <div style="font-size:11px; font-weight:600; text-transform:uppercase; color:var(--muted-foreground); letter-spacing:0.05em;">Billed</div>
+          <div style="font-family:var(--font-display); font-size:22px; font-weight:600; color:var(--foreground); margin-top:2px;">${money(s.total_billed)}</div>
+          <div style="font-size:11px; color:var(--muted-foreground); margin-top:2px;">Lifetime Total</div>
         </div>
-        <div style="background:linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border:1px solid #a7f3d0; border-radius:12px; padding:12px; text-align:center;">
-          <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:#047857; letter-spacing:0.05em;">Collected</div>
-          <div style="font-size:20px; font-weight:800; color:#065f46; margin-top:2px;">${money(s.total_paid)}</div>
-          <div style="font-size:11px; color:#059669;">Total Paid</div>
+        <div style="background:var(--card); border:1px solid var(--border); border-radius:var(--radius-md); padding:14px; text-align:center;">
+          <div style="font-size:11px; font-weight:600; text-transform:uppercase; color:var(--muted-foreground); letter-spacing:0.05em;">Collected</div>
+          <div style="font-family:var(--font-display); font-size:22px; font-weight:600; color:var(--success); margin-top:2px;">${money(s.total_paid)}</div>
+          <div style="font-size:11px; color:var(--muted-foreground); margin-top:2px;">Total Paid</div>
         </div>
-        <div style="background:linear-gradient(135deg, ${s.outstanding_balance > 0 ? '#fff1f2 0%, #ffe4e6 100%' : '#f8fafc 0%, #f1f5f9 100%'}); border:1px solid ${s.outstanding_balance > 0 ? '#fecdd3' : '#e2e8f0'}; border-radius:12px; padding:12px; text-align:center;">
-          <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:${s.outstanding_balance > 0 ? "#be123c" : "#475569"}; letter-spacing:0.05em;">Outstanding</div>
-          <div style="font-size:20px; font-weight:800; color:${s.outstanding_balance > 0 ? '#9f1239' : '#334155'}; margin-top:2px;">${money(s.outstanding_balance)}</div>
-          <div style="font-size:11px; color:${s.outstanding_balance > 0 ? '#e11d48' : '#64748b'}; font-weight:600;">${s.outstanding_balance > 0 ? 'Due Pending' : 'Clear'}</div>
+        <div style="background:var(--card); border:1px solid var(--border); border-radius:var(--radius-md); padding:14px; text-align:center;">
+          <div style="font-size:11px; font-weight:600; text-transform:uppercase; color:var(--muted-foreground); letter-spacing:0.05em;">Outstanding</div>
+          <div style="font-family:var(--font-display); font-size:22px; font-weight:600; color:${s.outstanding_balance > 0 ? 'var(--destructive)' : 'var(--foreground)'}; margin-top:2px;">${money(s.outstanding_balance)}</div>
+          <div style="font-size:11px; color:${s.outstanding_balance > 0 ? 'var(--destructive)' : 'var(--muted-foreground)'}; font-weight:500; margin-top:2px;">${s.outstanding_balance > 0 ? 'Due Pending' : 'Clear'}</div>
         </div>
-        <div style="background:linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); border:1px solid #fde68a; border-radius:12px; padding:12px; text-align:center;">
-          <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:#b45309; letter-spacing:0.05em;">Next Billing</div>
-          <div style="font-size:15px; font-weight:800; color:#92400e; margin-top:5px; font-family:monospace;">${s.next_invoice_date || 'N/A'}</div>
-          <div style="font-size:11px; color:#d97706;">Auto-Clamped</div>
+        <div style="background:var(--card); border:1px solid var(--border); border-radius:var(--radius-md); padding:14px; text-align:center;">
+          <div style="font-size:11px; font-weight:600; text-transform:uppercase; color:var(--muted-foreground); letter-spacing:0.05em;">Next Billing</div>
+          <div style="font-family:var(--font-display); font-size:16px; font-weight:600; color:var(--foreground); margin-top:5px;">${s.next_invoice_date || 'N/A'}</div>
+          <div style="font-size:11px; color:var(--muted-foreground); margin-top:2px;">Auto-Clamped</div>
         </div>
       </div>
     `;
@@ -1212,7 +1212,7 @@ function startJuryTour() {
             <button class="btn-sec" style="padding:4px 10px; font-size:12px;" onclick="run(async () => { await ensureAdminSession(); closeModal(); const r = await api('/subscriptions?limit=1'); if (r.rows && r.rows.length) openSubscriptionModal(r.rows[0].id); else subs(); });">Open Smart Stats</button>
           </div>
           <p style="font-size:12.5px; color:#64748b; margin-top:4px;">
-            Strict state machine (<code>Draft</code> ➔ <code>Quotation</code> ➔ <code>Confirmed</code> ➔ <code>Active</code> ➔ <code>Closed</code>) with Odoo-style smart stat buttons: 🧾 Invoices, 💰 Billed, 💳 Collected, ⚖️ Outstanding, and ⏳ Next Billing.
+            Strict state machine (<code>Draft</code> &rarr; <code>Quotation</code> &rarr; <code>Confirmed</code> &rarr; <code>Active</code> &rarr; <code>Closed</code>) with Odoo-style smart stat buttons: Invoices, Billed, Collected, Outstanding, and Next Billing.
           </p>
         </div>
 

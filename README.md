@@ -4,7 +4,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-24%20LTS-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![Express](https://img.shields.io/badge/Express-4.21-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
 [![SQLite](https://img.shields.io/badge/SQLite-Native%20WAL-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://sqlite.org/)
-[![Tests](https://img.shields.io/badge/Tests-25%2F25%20Passing-brightgreen?style=for-the-badge&logo=githubactions&logoColor=white)](smoke-test.js)
+[![Tests](https://img.shields.io/badge/Tests-28%2F28%20Passing-brightgreen?style=for-the-badge&logo=githubactions&logoColor=white)](smoke-test.js)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
 
 > Enterprise-grade Subscription Management, Automated Recurring Billing Engine, and Financial Intelligence Platform.  
@@ -65,7 +65,7 @@
 - **Backend:** Express.js, JWT Authentication, bcryptjs, crypto
 - **Database:** SQLite (`brightloop.db`) with WAL mode and foreign key constraints
 - **Frontend:** Vanilla JavaScript (ES6+), Vanilla CSS (zero heavy runtime frameworks)
-- **Testing:** Comprehensive test suite (`smoke-test.js`) verifying 25/25 integration and security contracts
+- **Testing:** Comprehensive test suite (`smoke-test.js`) verifying 28/28 integration and security contracts
 
 ---
 

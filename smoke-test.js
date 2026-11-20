@@ -30,7 +30,7 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   ok(g1.created >= 2, 'invoices generated for missed periods: ' + g1.created);
   ok(g2.created === 0, 'second run creates nothing (no double billing)');
   const invs = (await call('/invoices?status=draft', 'GET', null, admin)).j.rows;
-  const inv = invs.find(r => r.customer_id === cust.user.id) || invs[0], d = (await call('/invoices/' + inv.id, 'GET', null, admin)).j;
+  const inv = invs.find(r => r.subscription_id === sub.j.id) || invs.find(r => r.customer_id === cust.user.id) || invs[0], d = (await call('/invoices/' + inv.id, 'GET', null, admin)).j;
   // 2 x (1000+560)=3120, -10% = 312, net 2808, +18% tax = 505.44 -> 3313.44
   ok(Math.abs(d.total - 3313.44) < 0.01, 'discount+tax math total=' + d.total);
   ok((await call(`/invoices/${inv.id}/confirm`, 'POST', {}, admin)).s === 200, 'invoice confirmed');
@@ -57,5 +57,12 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   const csvRes = await fetch(B + '/api/reports/export/invoices', { headers: { Authorization: 'Bearer ' + admin } });
   const csvText = await csvRes.text();
   ok(csvRes.status === 200 && csvText.includes('Invoice Number,Subscription,Customer'), 'invoices CSV export generated');
+  // Health, CORS, and 404 security checks
+  const health = (await call('/health', 'GET')).j;
+  ok(health.status === 'healthy' && health.database === 'connected', 'system health endpoint healthy');
+  const notFound = (await call('/nonexistent-route-audit', 'GET'));
+  ok(notFound.s === 404 && notFound.j.error === 'API endpoint not found', 'undefined API routes return structured 404 JSON');
+  const optRes = await fetch(B + '/api/health', { method: 'OPTIONS' });
+  ok(optRes.status === 204 && (optRes.headers.get('access-control-allow-methods') || '').includes('GET'), 'CORS preflight options configured');
   console.log(fails ? `\n${fails} FAILED` : '\nALL PASSED'); process.exit(fails ? 1 : 0);
 })();

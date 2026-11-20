@@ -7,10 +7,19 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const db = require('./db');
 
-const SECRET = process.env.JWT_SECRET || 'dev-secret-change-me';
+const SECRET = process.env.JWT_SECRET || (process.env.NODE_ENV === 'production' ? (() => { throw new Error('FATAL: JWT_SECRET required in production'); })() : 'dev-secret-change-me');
 const PORT = process.env.PORT || 3000;
 const app = express();
 app.disable('x-powered-by');
+// Explicit & Standard-Compliant CORS Configuration
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  if (req.method === 'OPTIONS') return res.sendStatus(204);
+  next();
+});
+
 
 // Enterprise HTTP Security Headers (WCAG & OWASP compliant)
 app.use((req, res, next) => {
@@ -732,5 +741,24 @@ app.get('/api/reports/export/subscriptions', auth(), (req, res) => {
     res.send(lines.join('\r\n'));
   } catch (e) { res.status(e.status || 500).json({ error: e.message }); }
 });
+
+
+// Standard JSON 404 for undefined API routes
+app.use('/api', (req, res) => {
+  res.status(404).json({ error: 'API endpoint not found', path: req.originalUrl });
+});
+
+// Centralized unhandled error handler middleware
+app.use((err, req, res, next) => {
+  const status = err.status || 500;
+  res.status(status).json({
+    error: err.message || 'Internal server error',
+    status
+  });
+});
+
+// Graceful Process Lifecycle
+process.on('SIGTERM', () => process.exit(0));
+process.on('SIGINT', () => process.exit(0));
 
 app.listen(PORT, () => console.log(`Brightloop running → http://localhost:${PORT}  (admin@brightloop.com / Admin@12345)`));

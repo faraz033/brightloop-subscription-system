@@ -1612,3 +1612,240 @@ button:active {
   padding: 18px 24px !important;
   border-radius: 14px !important;
 }
+
+
+/* ==========================================================================
+   COMPREHENSIVE MOBILE & TABLET RESPONSIVE SYSTEM (Brightloop)
+   Fluid layouts, touch-friendly touch targets & zero horizontal overflow
+   ========================================================================== */
+
+/* Universal Overflow Protection */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Animations */
+@keyframes mobileMenuSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Tablet & Mobile Breakpoints (max-width: 900px) */
+@media (max-width: 900px) {
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 36px !important;
+    text-align: center !important;
+  }
+  .hero-subtitle {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .hero-cta-group {
+    justify-content: center !important;
+  }
+  .hero-stats-row {
+    justify-content: center !important;
+  }
+  .hero-visual-stage {
+    max-width: 580px !important;
+    margin: 0 auto !important;
+  }
+}
+
+/* Mobile Breakpoint (max-width: 768px) */
+@media (max-width: 768px) {
+  /* Navigation Bar */
+  .bl-navbar {
+    height: 52px !important;
+  }
+  .bl-navbar-inner {
+    padding: 0 16px !important;
+  }
+  .bl-nav-links {
+    display: none !important;
+  }
+  .bl-nav-links.mobile-open {
+    display: flex !important;
+    position: fixed !important;
+    top: 56px !important;
+    left: 12px !important;
+    right: 12px !important;
+    flex-direction: column !important;
+    background: rgba(18, 18, 20, 0.98) !important;
+    border: 1px solid rgba(255, 255, 255, 0.16) !important;
+    border-radius: 18px !important;
+    padding: 16px 12px !important;
+    gap: 6px !important;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6) !important;
+    backdrop-filter: blur(24px) !important;
+    -webkit-backdrop-filter: blur(24px) !important;
+    z-index: 10000 !important;
+    animation: mobileMenuSlideDown 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+  .bl-nav-links.mobile-open li {
+    width: 100% !important;
+  }
+  .bl-nav-links.mobile-open .bl-nav-link {
+    display: block !important;
+    width: 100% !important;
+    padding: 11px 16px !important;
+    font-size: 14.5px !important;
+    font-weight: 500 !important;
+    color: #f1f5f9 !important;
+    border-radius: 10px !important;
+    transition: background 0.15s ease !important;
+  }
+  .bl-nav-links.mobile-open .bl-nav-link:hover,
+  .bl-nav-links.mobile-open .bl-nav-link.active {
+    background: rgba(0, 102, 204, 0.22) !important;
+    color: #2997ff !important;
+  }
+  html:not(.dark) .bl-nav-links.mobile-open {
+    background: rgba(255, 255, 255, 0.98) !important;
+    border-color: rgba(0, 0, 0, 0.12) !important;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.18) !important;
+  }
+  html:not(.dark) .bl-nav-links.mobile-open .bl-nav-link {
+    color: #1d1d1f !important;
+  }
+  html:not(.dark) .bl-nav-links.mobile-open .bl-nav-link:hover,
+  html:not(.dark) .bl-nav-links.mobile-open .bl-nav-link.active {
+    background: rgba(0, 102, 204, 0.08) !important;
+    color: #0066cc !important;
+  }
+  .mobile-menu-btn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 8px !important;
+  }
+
+  /* Section Spacing & Headings */
+  .landing-section {
+    padding: 54px 16px !important;
+  }
+  .hero-section {
+    padding-top: 80px !important;
+    padding-bottom: 54px !important;
+  }
+  .hero-title {
+    font-size: 36px !important;
+    line-height: 1.15 !important;
+  }
+  .hero-subtitle {
+    font-size: 16.5px !important;
+    line-height: 1.45 !important;
+    margin-bottom: 24px !important;
+  }
+  .section-title {
+    font-size: 28px !important;
+    line-height: 1.2 !important;
+  }
+  .section-desc {
+    font-size: 15px !important;
+    line-height: 1.45 !important;
+  }
+
+  /* Lifecycle Journey Tabs */
+  .lifecycle-nodes-flow {
+    overflow-x: auto !important;
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+    padding-bottom: 12px !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  .lifecycle-node-btn {
+    flex-shrink: 0 !important;
+    font-size: 12.5px !important;
+    padding: 7px 14px !important;
+  }
+  .stage-details-box {
+    padding: 20px 16px !important;
+    border-radius: 16px !important;
+  }
+
+  /* Browser Showcase */
+  .showcase-tabs-bar {
+    overflow-x: auto !important;
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+    padding-bottom: 8px !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  .showcase-tab-btn {
+    flex-shrink: 0 !important;
+  }
+  .browser-header-bar {
+    padding: 8px 12px !important;
+    gap: 8px !important;
+  }
+  .browser-url-pill {
+    font-size: 11px !important;
+    padding: 3px 8px !important;
+  }
+
+  /* Footer */
+  .footer-top-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 28px !important;
+  }
+  .footer-bottom-bar {
+    flex-direction: column !important;
+    gap: 12px !important;
+    text-align: center !important;
+  }
+}
+
+/* Small Smartphone Breakpoint (max-width: 520px) */
+@media (max-width: 520px) {
+  .hero-title {
+    font-size: 29px !important;
+    letter-spacing: -0.02em !important;
+  }
+  .hero-cta-group {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 10px !important;
+  }
+  .hero-cta-group a {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    justify-content: center !important;
+    text-align: center !important;
+    padding: 12px 18px !important;
+  }
+  .hero-stats-row {
+    flex-direction: column !important;
+    gap: 14px !important;
+    align-items: center !important;
+  }
+  .btn-nav-login {
+    display: none !important;
+  }
+  .btn-primary-glow {
+    padding: 6px 12px !important;
+    font-size: 12px !important;
+  }
+  .footer-top-grid {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+  .features-masonry-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .metric-stat-card,
+  .why-advantage-card {
+    padding: 20px 16px !important;
+  }
+}

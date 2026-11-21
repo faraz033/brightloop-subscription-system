@@ -1849,3 +1849,115 @@ html, body {
     padding: 20px 16px !important;
   }
 }
+
+
+/* ==========================================================================
+   PRECISION RESPONSIVE FIXES (Navbar, FAQ wrapping & Lifecycle grid)
+   ========================================================================== */
+
+/* 1. Lifecycle Panel Grid Responsive Stacking */
+.lifecycle-panel-grid {
+  display: grid !important;
+  grid-template-columns: 1.15fr 0.85fr !important;
+  gap: 36px !important;
+  align-items: center !important;
+}
+
+@media (max-width: 960px) {
+  .lifecycle-panel-grid {
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+  }
+  .lifecycle-panel-grid > div:last-child {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .lifecycle-contract-preview-card {
+    padding: 20px 16px !important;
+  }
+}
+
+/* 2. FAQ Accordion Text Wrapping & Chevron Fix */
+.faq-question-btn {
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+  gap: 12px !important;
+  align-items: flex-start !important;
+  padding: 16px 20px !important;
+}
+
+.faq-question-btn span {
+  flex: 1 1 auto !important;
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+  line-height: 1.45 !important;
+  text-align: left !important;
+}
+
+.faq-chevron {
+  flex-shrink: 0 !important;
+  margin-top: 3px !important;
+}
+
+/* 3. Mobile Navbar Header Fix (Zero Overlap) */
+@media (max-width: 768px) {
+  .bl-nav-actions .btn-primary-glow,
+  .bl-nav-actions .btn-nav-login {
+    display: none !important;
+  }
+  .bl-navbar-inner {
+    padding: 0 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+  }
+  .bl-nav-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+  .mobile-menu-actions {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    margin-top: 10px !important;
+    padding-top: 14px !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+    width: 100% !important;
+  }
+  html:not(.dark) .mobile-menu-actions {
+    border-top-color: rgba(0, 0, 0, 0.1) !important;
+  }
+  .mobile-btn-login {
+    display: block !important;
+    text-align: center !important;
+    padding: 10px !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: #ffffff !important;
+    border-radius: 9999px !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    text-decoration: none !important;
+  }
+  html:not(.dark) .mobile-btn-login {
+    background: rgba(0, 0, 0, 0.05) !important;
+    border-color: rgba(0, 0, 0, 0.12) !important;
+    color: #1d1d1f !important;
+  }
+  .mobile-btn-signup {
+    display: block !important;
+    text-align: center !important;
+    padding: 11px !important;
+    background: #0066cc !important;
+    color: #ffffff !important;
+    border-radius: 9999px !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    text-decoration: none !important;
+    box-shadow: 0 4px 15px rgba(0, 102, 204, 0.4) !important;
+  }
+}

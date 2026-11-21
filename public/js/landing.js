@@ -389,7 +389,7 @@ function initLifecycleExplorer() {
     const currentIdx = stagesList.indexOf(stageKey);
 
     panel.innerHTML = `
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:36px; align-items:center;">
+      <div class="lifecycle-panel-grid">
         <!-- Left: Stage Description & Capabilities -->
         <div>
           <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
@@ -416,7 +416,7 @@ function initLifecycleExplorer() {
 
         <!-- Right: Sleek Interactive Contract Preview Card -->
         <div>
-          <div style="background:var(--card); border:1px solid var(--border); border-radius:18px; padding:28px; box-shadow:rgba(0,0,0,0.12) 0 8px 30px;">
+          <div class="lifecycle-contract-preview-card" style="background:var(--card); border:1px solid var(--border); border-radius:18px; padding:28px; box-shadow:rgba(0,0,0,0.12) 0 8px 30px;">
             <div style="display:flex; justify-content:space-between; align-items:flex-start; padding-bottom:16px; border-bottom:1px solid var(--border); margin-bottom:16px;">
               <div>
                 <span style="font-size:11px; font-weight:700; color:var(--muted-foreground); text-transform:uppercase; letter-spacing:0.05em;">Contract Agreement</span>
